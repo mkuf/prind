@@ -1,0 +1,5 @@
+[submodule "klipper"]
+	path = klipper
+	url = https://github.com/KevinOConnor/klipper
+	ignore = dirty
+
