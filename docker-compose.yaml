@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  klipper:
+    image: klipper:latest
+    build:
+      args:
+        VERSION: 319c36df52eb016667d13ab006cae3752d0212e7
+      dockerfile: klipper.Dockerfile
+      context: .
+      target: klippy
+    container_name: klipper
+    restart: unless-stopped
+    volumes:
+      - ./config:/opt/cfg
+      - run:/opt/run
+    devices:
+      - /dev/ttymxc3:/dev/ttymxc3
+
+volumes:
+  run:
