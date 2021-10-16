@@ -24,6 +24,7 @@ services:
     build:
       dockerfile: moonraker.Dockerfile
       context: .
+      target: moonraker
     container_name: moonraker
     restart: unless-stopped
     volumes:
