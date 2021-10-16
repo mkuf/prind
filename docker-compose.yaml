@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+
   klipper:
     image: klipper:latest
     build:
@@ -14,8 +15,33 @@ services:
     volumes:
       - ./config:/opt/cfg
       - run:/opt/run
+      - gcode:/opt/gcode
     devices:
       - /dev/ttymxc3:/dev/ttymxc3
 
+  moonraker:
+    image: moonraker:latest
+    build:
+      dockerfile: moonraker.Dockerfile
+      context: .
+    container_name: moonraker
+    restart: unless-stopped
+    volumes:
+      - ./config:/opt/cfg
+      - run:/opt/run
+      - gcode:/opt/gcode
+      - db:/opt/db
+    ports:
+      - 7125:7125
+
+  fluidd:
+    image: cadriel/fluidd:latest
+    container_name: fluidd
+    restart: unless-stopped
+    ports:
+      - 80:80
+
 volumes:
   run:
+  gcode:
+  db:
