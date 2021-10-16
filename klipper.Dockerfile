@@ -12,6 +12,7 @@ RUN git clone ${REPO} klipper \
 
 RUN virtualenv -p python2 venv \
  && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
+ && venv/bin/python -m compileall klipper/klippy \
  && venv/bin/python klipper/klippy/chelper/__init__.py
 
 ## Runtime Image
