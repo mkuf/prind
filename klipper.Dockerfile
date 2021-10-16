@@ -1,39 +1,48 @@
-FROM python:2 as base
+## Get Code and Build venv
+FROM python:2 as build
 
 ARG REPO=https://github.com/Klipper3d/klipper
 ARG VERSION=master
 
 WORKDIR /opt
 
-## Download Klipper
 RUN git clone ${REPO} klipper \
  && cd klipper \
  && git checkout ${VERSION}
 
-## Install klipper requirements
-RUN pip install -r klipper/scripts/klippy-requirements.txt
+RUN virtualenv -p python2 venv \
+ && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
+ && venv/bin/python klipper/klippy/chelper/__init__.py
 
-## Compile Python code
-RUN python klipper/klippy/chelper/__init__.py
+## Runtime Image
+FROM python:2-slim as klippy
 
-## Create Directories
+WORKDIR /opt
+COPY --from=build /opt/klipper ./klipper
+COPY --from=build /opt/venv ./venv
+
 RUN mkdir run cfg gcode
-
-## User & Permissions
 RUN groupadd klipper --gid 1000 \
  && useradd klipper --uid 1000 --gid klipper \
  && usermod klipper --append --groups dialout \
- && chown -R klipper:klipper klipper run cfg gcode
+ && chown -R klipper:klipper /opt/*
 
-## --- Targets ---
-
-## Start Klippy
-FROM base as klippy
 USER klipper
-ENTRYPOINT ["python"]
+ENTRYPOINT ["/opt/venv/bin/python"]
 CMD ["klipper/klippy/klippy.py", "-I", "run/klipper.tty", "-a", "run/klipper.sock", "cfg/printer.cfg"]
 
 ## For building MCU Code
-FROM base as build
+FROM ubuntu:18.04 as mcu
+
+WORKDIR /opt
+COPY --from=build /opt/klipper ./klipper
+COPY --from=build /opt/venv ./venv
+
 RUN apt update \
- && apt install build-essential libncurses-dev libnewlib-arm-none-eabi gcc-arm-none-eabi binutils-arm-none-eabi
+ && apt install -y \
+      virtualenv python-dev libffi-dev build-essential \
+      libncurses-dev \
+      libusb-dev \
+      avrdude gcc-avr binutils-avr avr-libc \
+      stm32flash libnewlib-arm-none-eabi \
+      gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0
