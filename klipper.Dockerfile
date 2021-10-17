@@ -16,7 +16,7 @@ RUN virtualenv -p python2 venv \
  && venv/bin/python klipper/klippy/chelper/__init__.py
 
 ## Runtime Image
-FROM python:2-slim as klippy
+FROM python:2-slim as run
 
 WORKDIR /opt
 COPY --from=build /opt/klipper ./klipper
@@ -46,4 +46,5 @@ RUN apt update \
       libusb-dev \
       avrdude gcc-avr binutils-avr avr-libc \
       stm32flash libnewlib-arm-none-eabi \
-      gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0
+      gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0 \
+ && apt clean

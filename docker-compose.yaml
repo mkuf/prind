@@ -9,7 +9,7 @@ services:
         VERSION: 319c36df52eb016667d13ab006cae3752d0212e7
       dockerfile: klipper.Dockerfile
       context: .
-      target: klippy
+      target: run
     container_name: klipper
     restart: unless-stopped
     volumes:
@@ -24,7 +24,7 @@ services:
     build:
       dockerfile: moonraker.Dockerfile
       context: .
-      target: moonraker
+      target: run
     container_name: moonraker
     restart: unless-stopped
     volumes:
@@ -41,6 +41,19 @@ services:
     restart: unless-stopped
     ports:
       - 80:80
+
+  ustreamer:
+    image: ustreamer:latest
+    build:
+      dockerfile: ustreamer.Dockerfile
+      context: .
+      target: run
+    container_name: ustreamer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    devices:
+      - /dev/video0:/dev/video0
 
 volumes:
   run:
