@@ -34,13 +34,26 @@ services:
       - db:/opt/db
     ports:
       - 7125:7125
+    ## Fluidd won't connect, if moonraker runs under a subdirectory.
+    ## may be enabled in the future
+    #labels:
+    #  - 'traefik.enable=true'
+    #  - 'traefik.http.services.moonraker.loadbalancer.server.port=7125'
+    #  - 'traefik.http.routers.moonraker.rule=PathPrefix(`/moonraker`)'
+    #  - 'traefik.http.routers.moonraker.entrypoints=web'
+    #  - 'traefik.http.routers.moonraker.middlewares=moonraker-stripprefix'
+    #  - 'traefik.http.middlewares.moonraker-stripprefix.stripprefix.prefixes=/moonraker'
 
   fluidd:
     image: cadriel/fluidd:latest
     container_name: fluidd
     restart: unless-stopped
-    ports:
-      - 80:80
+    ## Fluidd needs to be the root path https://github.com/cadriel/fluidd/issues/347
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.fluidd.loadbalancer.server.port=80'
+      - 'traefik.http.routers.fluidd.rule=PathPrefix(`/`)'
+      - 'traefik.http.routers.fluidd.entrypoints=web'
 
   ustreamer:
     image: ustreamer:latest
@@ -50,10 +63,28 @@ services:
       target: run
     container_name: ustreamer
     restart: unless-stopped
-    ports:
-      - 8080:8080
     devices:
       - /dev/video0:/dev/video0
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.ustreamer.loadbalancer.server.port=8080'
+      - 'traefik.http.routers.ustreamer.rule=PathPrefix(`/stream`)'
+      - 'traefik.http.routers.ustreamer.entrypoints=web'
+
+  traefik:
+    image: 'traefik:v2.2'
+    container_name: 'traefik'
+    hostname: 'traefik'
+    command:
+      - '--accesslog'
+      - '--providers.docker=true'
+      - '--providers.docker.exposedbydefault=false'
+      - '--entrypoints.web.address=:80'
+    ports:
+      - '80:80'
+    restart: unless-stopped
+    volumes:
+        - '/var/run/docker.sock:/var/run/docker.sock:ro'
 
 volumes:
   run:
