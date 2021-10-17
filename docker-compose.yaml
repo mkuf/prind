@@ -8,7 +8,7 @@ services:
       args:
         VERSION: 319c36df52eb016667d13ab006cae3752d0212e7
       dockerfile: klipper.Dockerfile
-      context: .
+      context: dockerfiles/
       target: run
     container_name: klipper
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
     image: moonraker:latest
     build:
       dockerfile: moonraker.Dockerfile
-      context: .
+      context: dockerfiles/
       target: run
     container_name: moonraker
     restart: unless-stopped
@@ -59,7 +59,7 @@ services:
     image: ustreamer:latest
     build:
       dockerfile: ustreamer.Dockerfile
-      context: .
+      context: dockerfiles/
       target: run
     container_name: ustreamer
     restart: unless-stopped
