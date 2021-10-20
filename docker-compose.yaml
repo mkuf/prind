@@ -70,15 +70,6 @@ services:
     profiles:
       - fluidd
       - mainsail
-    ## Clients won"t connect, if moonraker runs under a subdirectory.
-    ## may be enabled in the future
-    #labels:
-    #  - "traefik.enable=true"
-    #  - "traefik.http.services.moonraker.loadbalancer.server.port=7125"
-    #  - "traefik.http.routers.moonraker.rule=PathPrefix(`/moonraker`)"
-    #  - "traefik.http.routers.moonraker.entrypoints=web"
-    #  - "traefik.http.routers.moonraker.middlewares=moonraker-stripprefix"
-    #  - "traefik.http.middlewares.moonraker-stripprefix.stripprefix.prefixes=/moonraker"
 
   ## Frontends
   ##
