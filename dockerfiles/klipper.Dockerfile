@@ -29,8 +29,9 @@ RUN groupadd klipper --gid 1000 \
  && chown -R klipper:klipper /opt/*
 
 USER klipper
-ENTRYPOINT ["/opt/venv/bin/python"]
-CMD ["klipper/klippy/klippy.py", "-I", "run/klipper.tty", "-a", "run/klipper.sock", "cfg/printer.cfg"]
+VOLUME ["/opt/run", "/opt/cfg", "/opt/gcode"]
+ENTRYPOINT ["/opt/venv/bin/python", "klipper/klippy/klippy.py"]
+CMD ["-I", "run/klipper.tty", "-a", "run/klipper.sock", "cfg/printer.cfg"]
 
 ## For building MCU Code
 FROM ubuntu:18.04 as mcu

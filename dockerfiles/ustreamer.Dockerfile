@@ -46,5 +46,9 @@ RUN groupadd ustreamer --gid 1000 \
  && usermod ustreamer --append --groups video \
  && chown -R ustreamer:ustreamer /opt/*
 
+## Start ustreamer
 USER ustreamer
-ENTRYPOINT [ "/opt/ustreamer/ustreamer", "--host=0.0.0.0", "--port=8080", "--slowdown", "--device=/dev/video0", "--resolution=1280x960", "--format=MJPEG", "--desired-fps=30"]
+EXPOSE 8080
+ENTRYPOINT [ "/opt/ustreamer/ustreamer"]
+CMD ["--host=0.0.0.0", "--port=8080"]
+

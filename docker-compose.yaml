@@ -9,9 +9,15 @@ x-klipper-svc: &klipper-svc
     target: run
   container_name: klipper
   restart: unless-stopped
+  command:
+    - "-I"
+    - "run/klipper.tty"
+    - "-a"
+    - "run/klipper.sock"
+    - "cfg/printer.cfg"
 
 ## Service Definitions
-version: '3.4'
+version: "3.4"
 services:
 
   ## Klippy Services
@@ -49,6 +55,9 @@ services:
       target: run
     container_name: moonraker
     restart: unless-stopped
+    command:
+      - "-c"
+      - "cfg/moonraker.cfg"
     depends_on:
       - klipper
     volumes:
@@ -61,15 +70,15 @@ services:
     profiles:
       - fluidd
       - mainsail
-    ## Clients won't connect, if moonraker runs under a subdirectory.
+    ## Clients won"t connect, if moonraker runs under a subdirectory.
     ## may be enabled in the future
     #labels:
-    #  - 'traefik.enable=true'
-    #  - 'traefik.http.services.moonraker.loadbalancer.server.port=7125'
-    #  - 'traefik.http.routers.moonraker.rule=PathPrefix(`/moonraker`)'
-    #  - 'traefik.http.routers.moonraker.entrypoints=web'
-    #  - 'traefik.http.routers.moonraker.middlewares=moonraker-stripprefix'
-    #  - 'traefik.http.middlewares.moonraker-stripprefix.stripprefix.prefixes=/moonraker'
+    #  - "traefik.enable=true"
+    #  - "traefik.http.services.moonraker.loadbalancer.server.port=7125"
+    #  - "traefik.http.routers.moonraker.rule=PathPrefix(`/moonraker`)"
+    #  - "traefik.http.routers.moonraker.entrypoints=web"
+    #  - "traefik.http.routers.moonraker.middlewares=moonraker-stripprefix"
+    #  - "traefik.http.middlewares.moonraker-stripprefix.stripprefix.prefixes=/moonraker"
 
   ## Frontends
   ##
@@ -91,10 +100,10 @@ services:
     profiles:
       - octoprint
     labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.services.octoprint.loadbalancer.server.port=5000'
-      - 'traefik.http.routers.octoprint.rule=PathPrefix(`/`)'
-      - 'traefik.http.routers.octoprint.entrypoints=web'
+      - "traefik.enable=true"
+      - "traefik.http.services.octoprint.loadbalancer.server.port=5000"
+      - "traefik.http.routers.octoprint.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.octoprint.entrypoints=web"
 
   fluidd:
     image: cadriel/fluidd:latest
@@ -108,10 +117,10 @@ services:
       - fluidd
     ## Fluidd needs to be the root path https://github.com/cadriel/fluidd/issues/347
     labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.services.fluidd.loadbalancer.server.port=80'
-      - 'traefik.http.routers.fluidd.rule=PathPrefix(`/`)'
-      - 'traefik.http.routers.fluidd.entrypoints=web'
+      - "traefik.enable=true"
+      - "traefik.http.services.fluidd.loadbalancer.server.port=80"
+      - "traefik.http.routers.fluidd.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.fluidd.entrypoints=web"
 
   ## Accompanying Services/Infra
   ##
@@ -125,31 +134,39 @@ services:
       target: run
     container_name: ustreamer
     restart: unless-stopped
+    command:
+      - "--host=0.0.0.0"
+      - "--port=8080"
+      - "--slowdown"
+      - "--device=/dev/video0"
+      - "--resolution=1280x960"
+      - "--format=MJPEG"
+      - "--desired-fps=30"
     depends_on:
       - traefik
     devices:
       - /dev/video0:/dev/video0
     labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.services.ustreamer.loadbalancer.server.port=8080'
-      - 'traefik.http.routers.ustreamer.rule=PathPrefix(`/stream`)'
-      - 'traefik.http.routers.ustreamer.entrypoints=web'
+      - "traefik.enable=true"
+      - "traefik.http.services.ustreamer.loadbalancer.server.port=8080"
+      - "traefik.http.routers.ustreamer.rule=PathPrefix(`/stream`)"
+      - "traefik.http.routers.ustreamer.entrypoints=web"
 
   ## Loadbalancer/Proxy
   traefik:
-    image: 'traefik:v2.2'
-    container_name: 'traefik'
-    hostname: 'traefik'
+    image: "traefik:v2.2"
+    container_name: "traefik"
+    hostname: "traefik"
     command:
-      - '--accesslog'
-      - '--providers.docker=true'
-      - '--providers.docker.exposedbydefault=false'
-      - '--entrypoints.web.address=:80'
+      - "--accesslog"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
     ports:
-      - '80:80'
+      - "80:80"
     restart: unless-stopped
     volumes:
-        - '/var/run/docker.sock:/var/run/docker.sock:ro'
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
 volumes:
   run:

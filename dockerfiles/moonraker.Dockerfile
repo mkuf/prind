@@ -38,8 +38,10 @@ RUN groupadd moonraker --gid 1000 \
  && usermod moonraker --append --groups dialout \
  && chown -R moonraker:moonraker /opt/*
 
-## Start Klippy
+## Start Moonraker
 USER moonraker
-ENTRYPOINT ["/opt/venv/bin/python"]
-CMD ["moonraker/moonraker/moonraker.py", "-c", "cfg/moonraker.cfg"]
+EXPOSE 7125
+VOLUME ["/opt/run", "/opt/cfg", "/opt/gcode", "/opt/db"]
+ENTRYPOINT ["/opt/venv/bin/python", "moonraker/moonraker/moonraker.py"]
+CMD ["-c", "cfg/moonraker.cfg"]
 
