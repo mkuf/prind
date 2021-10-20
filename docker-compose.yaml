@@ -1,30 +1,84 @@
-version: '3.4'
+## Common Template(s)
+x-klipper-svc: &klipper-svc
+  image: klipper:latest
+  build:
+    args:
+      VERSION: 319c36df52eb016667d13ab006cae3752d0212e7
+    dockerfile: klipper.Dockerfile
+    context: dockerfiles/
+    target: run
+  container_name: klipper
+  restart: unless-stopped
 
+## Service Definitions
+version: '3.4'
 services:
 
+  ## Klippy Services
+  ##
   klipper:
-    image: klipper:latest
-    build:
-      args:
-        VERSION: 319c36df52eb016667d13ab006cae3752d0212e7
-      dockerfile: klipper.Dockerfile
-      context: dockerfiles/
-      target: run
-    container_name: klipper
-    restart: unless-stopped
+    <<: *klipper-svc
+    volumes:
+      - ./config:/opt/cfg
+      - run:/opt/run
+      - gcode:/opt/gcode
+    devices:
+      - /dev/ttymxc3:/dev/ttymxc3
+    profiles:
+      - fluidd
+      - mainsail
+
+  klipper-octo:
+    <<: *klipper-svc
     privileged: true
     volumes:
       - /dev:/dev
+      - ./config:/opt/cfg
       - run:/opt/run
       - gcode:/opt/gcode
-      - ./config:/opt/cfg
+    profiles:
+      - octoprint
 
+  ## WebApi
+  ##
+  moonraker:
+    image: moonraker:latest
+    build:
+      dockerfile: moonraker.Dockerfile
+      context: dockerfiles/
+      target: run
+    container_name: moonraker
+    restart: unless-stopped
+    depends_on:
+      - klipper
+    volumes:
+      - ./config:/opt/cfg
+      - run:/opt/run
+      - gcode:/opt/gcode
+      - moonraker-db:/opt/db
+    ports:
+      - 7125:7125
+    profiles:
+      - fluidd
+      - mainsail
+    ## Clients won't connect, if moonraker runs under a subdirectory.
+    ## may be enabled in the future
+    #labels:
+    #  - 'traefik.enable=true'
+    #  - 'traefik.http.services.moonraker.loadbalancer.server.port=7125'
+    #  - 'traefik.http.routers.moonraker.rule=PathPrefix(`/moonraker`)'
+    #  - 'traefik.http.routers.moonraker.entrypoints=web'
+    #  - 'traefik.http.routers.moonraker.middlewares=moonraker-stripprefix'
+    #  - 'traefik.http.middlewares.moonraker-stripprefix.stripprefix.prefixes=/moonraker'
+
+  ## Frontends
+  ##
   octoprint:
     image: octoprint/octoprint:1-minimal
     container_name: octoprint
     restart: unless-stopped
     depends_on:
-      - klipper
+      - klipper-octo
       - ustreamer
       - traefik
     privileged: true
@@ -34,54 +88,35 @@ services:
       - /dev:/dev
       - run:/opt/run
       - octoprint:/octoprint
+    profiles:
+      - octoprint
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.services.octoprint.loadbalancer.server.port=5000'
       - 'traefik.http.routers.octoprint.rule=PathPrefix(`/`)'
       - 'traefik.http.routers.octoprint.entrypoints=web'
 
-#  moonraker:
-#    image: moonraker:latest
-#    build:
-#      dockerfile: moonraker.Dockerfile
-#      context: dockerfiles/
-#      target: run
-#    container_name: moonraker
-#    restart: unless-stopped
-#    depends_on:
-#      - klipper
-#    volumes:
-#      - ./config:/opt/cfg
-#      - run:/opt/run
-#      - gcode:/opt/gcode
-#      - db:/opt/db
-#    ports:
-#      - 7125:7125
-#    ## Fluidd won't connect, if moonraker runs under a subdirectory.
-#    ## may be enabled in the future
-#    #labels:
-#    #  - 'traefik.enable=true'
-#    #  - 'traefik.http.services.moonraker.loadbalancer.server.port=7125'
-#    #  - 'traefik.http.routers.moonraker.rule=PathPrefix(`/moonraker`)'
-#    #  - 'traefik.http.routers.moonraker.entrypoints=web'
-#    #  - 'traefik.http.routers.moonraker.middlewares=moonraker-stripprefix'
-#    #  - 'traefik.http.middlewares.moonraker-stripprefix.stripprefix.prefixes=/moonraker'
+  fluidd:
+    image: cadriel/fluidd:latest
+    container_name: fluidd
+    restart: unless-stopped
+    depends_on:
+      - moonraker
+      - ustreamer
+      - traefik
+    profiles:
+      - fluidd
+    ## Fluidd needs to be the root path https://github.com/cadriel/fluidd/issues/347
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.fluidd.loadbalancer.server.port=80'
+      - 'traefik.http.routers.fluidd.rule=PathPrefix(`/`)'
+      - 'traefik.http.routers.fluidd.entrypoints=web'
 
-#  fluidd:
-#    image: cadriel/fluidd:latest
-#    container_name: fluidd
-#    restart: unless-stopped
-#    depends_on:
-#      - moonraker
-#      - ustreamer
-#      - traefik
-#    ## Fluidd needs to be the root path https://github.com/cadriel/fluidd/issues/347
-#    labels:
-#      - 'traefik.enable=true'
-#      - 'traefik.http.services.fluidd.loadbalancer.server.port=80'
-#      - 'traefik.http.routers.fluidd.rule=PathPrefix(`/`)'
-#      - 'traefik.http.routers.fluidd.entrypoints=web'
+  ## Accompanying Services/Infra
+  ##
 
+  ## Webcam Service
   ustreamer:
     image: ustreamer:latest
     build:
@@ -100,6 +135,7 @@ services:
       - 'traefik.http.routers.ustreamer.rule=PathPrefix(`/stream`)'
       - 'traefik.http.routers.ustreamer.entrypoints=web'
 
+  ## Loadbalancer/Proxy
   traefik:
     image: 'traefik:v2.2'
     container_name: 'traefik'
@@ -116,7 +152,7 @@ services:
         - '/var/run/docker.sock:/var/run/docker.sock:ro'
 
 volumes:
-  db:
   run:
   gcode:
   octoprint:
+  moonraker-db:
