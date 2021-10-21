@@ -1,4 +1,4 @@
-## Common Template(s)
+## Common Templates
 x-klipper-svc: &klipper-svc
   image: klipper:latest
   build:
@@ -15,6 +15,24 @@ x-klipper-svc: &klipper-svc
     - "-a"
     - "run/klipper.sock"
     - "cfg/printer.cfg"
+
+x-ustreamer-svc: &ustreamer-svc
+  image: ustreamer:latest
+  build:
+    dockerfile: ustreamer.Dockerfile
+    context: dockerfiles/
+    target: run
+  restart: unless-stopped
+  command:
+    - "--host=0.0.0.0"
+    - "--port=8080"
+    - "--slowdown"
+    - "--device=/dev/webcam"
+    - "--resolution=1280x960"
+    - "--format=MJPEG"
+    - "--desired-fps=30"
+  depends_on:
+    - traefik
 
 ## Service Definitions
 version: "3.4"
@@ -60,6 +78,7 @@ services:
       - "cfg/moonraker.cfg"
     depends_on:
       - klipper
+      - traefik
     volumes:
       - ./config:/opt/cfg
       - run:/opt/run
@@ -82,7 +101,6 @@ services:
     restart: unless-stopped
     depends_on:
       - klipper-priv
-      - ustreamer
       - traefik
     privileged: true
     volumes:
@@ -103,7 +121,6 @@ services:
     restart: unless-stopped
     depends_on:
       - moonraker
-      - ustreamer
       - traefik
     profiles:
       - fluidd
@@ -119,25 +136,10 @@ services:
 
   ## Webcam Service
   ustreamer:
-    image: ustreamer:latest
-    build:
-      dockerfile: ustreamer.Dockerfile
-      context: dockerfiles/
-      target: run
+    <<: *ustreamer-svc
     container_name: ustreamer
-    restart: unless-stopped
-    command:
-      - "--host=0.0.0.0"
-      - "--port=8080"
-      - "--slowdown"
-      - "--device=/dev/video0"
-      - "--resolution=1280x960"
-      - "--format=MJPEG"
-      - "--desired-fps=30"
-    depends_on:
-      - traefik
     devices:
-      - /dev/video0:/dev/video0
+      - /dev/video0:/dev/webcam
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.ustreamer.loadbalancer.server.port=8080"
