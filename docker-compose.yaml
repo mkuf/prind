@@ -34,7 +34,7 @@ services:
       - fluidd
       - mainsail
 
-  klipper-octo:
+  klipper-priv:
     <<: *klipper-svc
     privileged: true
     volumes:
@@ -65,11 +65,14 @@ services:
       - run:/opt/run
       - gcode:/opt/gcode
       - moonraker-db:/opt/db
-    ports:
-      - 7125:7125
     profiles:
       - fluidd
       - mainsail
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.moonraker.loadbalancer.server.port=7125"
+      - "traefik.http.routers.moonraker.rule=PathPrefix(`/websocket`,`/printer`,`/api`,`/access`,`/machine`,`/server`)"
+      - "traefik.http.routers.moonraker.entrypoints=web"
 
   ## Frontends
   ##
@@ -78,12 +81,10 @@ services:
     container_name: octoprint
     restart: unless-stopped
     depends_on:
-      - klipper-octo
+      - klipper-priv
       - ustreamer
       - traefik
     privileged: true
-    ports:
-      - 5000:5000
     volumes:
       - /dev:/dev
       - run:/opt/run
