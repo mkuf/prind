@@ -128,12 +128,30 @@ services:
       - traefik
     profiles:
       - fluidd
-    ## Fluidd needs to be the root path https://github.com/cadriel/fluidd/issues/347
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.fluidd.loadbalancer.server.port=80"
       - "traefik.http.routers.fluidd.rule=PathPrefix(`/`)"
       - "traefik.http.routers.fluidd.entrypoints=web"
+
+  mainsail:
+    image: mainsail:latest
+    build:
+      dockerfile: mainsail.Dockerfile
+      context: dockerfiles/
+      target: run
+    container_name: mainsail
+    restart: unless-stopped
+    depends_on:
+      - moonraker
+      - traefik
+    profiles:
+      - mainsail
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.mainsail.loadbalancer.server.port=80"
+      - "traefik.http.routers.mainsail.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.mainsail.entrypoints=web"
 
   ## Accompanying Services/Infra
   ##
