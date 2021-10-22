@@ -96,7 +96,11 @@ services:
   ## Frontends
   ##
   octoprint:
-    image: octoprint/octoprint:1-minimal
+    image: octoprint:latest
+    build:
+      args:
+        VERSION: 1.7-minimal
+      context: dockerfiles/octoprint
     container_name: octoprint
     restart: unless-stopped
     depends_on:
