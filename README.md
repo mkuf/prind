@@ -4,9 +4,9 @@ prind allows you to run the Software for your 3D Printer in Docker containers.
 With a single Command, you can start up klipper and choose between multiple Webfrontends. 
 
 Currently supported Frontends:
-  * Octoprint (via official Image: https://hub.docker.com/r/octoprint/octoprint)
-  * Fluidd (via official Image: https://hub.docker.com/r/cadriel/fluidd)
-  * Mainsail (via selfbuilt Image: https://hub.docker.com/r/mkuf/mainsail)
+  * Octoprint (via [Dockerhub](https://hub.docker.com/r/octoprint/octoprint))
+  * Fluidd (via [Dockerhub](https://hub.docker.com/r/cadriel/fluidd))
+  * Mainsail
 
 Depending on which Frontend you've chosen, moonraker will also be deployed.
 
@@ -56,10 +56,8 @@ In this example, the Webcam is using device ``/dev/video0``. Do not edit any oth
 ### Configuring Klipper/Mainsail
 
 All Runtime Configs are stored within ``config`` of this Repo.  
-* Update config/printer.cfg with your Klipper config, make sure to not remove the existing Macros as they are required by fluidd/mainsail.
-  * See https://www.klipper3d.org/Config_Reference.html for Reference  
-* Make sure to update ``cors_domains`` and ``trusted_clients`` within ``moonraker.cfg`` to secure your moonraker api from unwanted access.
-  * See https://moonraker.readthedocs.io/en/latest/configuration/ for Reference
+* Update config/printer.cfg with your Klipper config, make sure to not remove the existing Macros as they are required by fluidd/mainsail. See [Klipper3d Docs](https://www.klipper3d.org/Config_Reference.html) for Reference
+* Make sure to update ``cors_domains`` and ``trusted_clients`` within ``moonraker.cfg`` to secure your moonraker api from unwanted access. See [Moonraker Docs](https://moonraker.readthedocs.io/en/latest/configuration/) for Reference
 
 ### Starting the stack
 
@@ -93,7 +91,7 @@ Example:
 * ``mkuf/klipper:a33d069``
 
 The ``Nightly`` Tag will point to a new Image within 24h.  
-The SHA-Tag ``a33d069`` will remain and refers to https://github.com/Klipper3d/klipper/commit/a33d0697b6438e362f0cf9d25e1e8358d331bf53
+The SHA-Tag ``a33d069`` will remain and refers to [Klipper3d/klipper:a33d069](https://github.com/Klipper3d/klipper/commit/a33d0697b6438e362f0cf9d25e1e8358d331bf53)
 
 Updating can be handled via docker-compose.  
 docker-compose.yaml uses nightly tags for all Images contained in this Repository.  
