@@ -1,12 +1,6 @@
 ## Common Templates
 x-klipper-svc: &klipper-svc
-  image: klipper:latest
-  build:
-    args:
-      VERSION: 319c36df52eb016667d13ab006cae3752d0212e7
-    dockerfile: klipper.Dockerfile
-    context: dockerfiles/
-    target: run
+  image: mkuf/klipper:nightly
   container_name: klipper
   restart: unless-stopped
   command:
@@ -17,11 +11,7 @@ x-klipper-svc: &klipper-svc
     - "cfg/printer.cfg"
 
 x-ustreamer-svc: &ustreamer-svc
-  image: ustreamer:latest
-  build:
-    dockerfile: ustreamer.Dockerfile
-    context: dockerfiles/
-    target: run
+  image: mkuf/ustreamer:nightly
   restart: unless-stopped
   command:
     - "--host=0.0.0.0"
@@ -66,11 +56,7 @@ services:
   ## WebApi
   ##
   moonraker:
-    image: moonraker:latest
-    build:
-      dockerfile: moonraker.Dockerfile
-      context: dockerfiles/
-      target: run
+    image: mkuf/moonraker:nightly
     container_name: moonraker
     restart: unless-stopped
     command:
@@ -97,10 +83,6 @@ services:
   ##
   octoprint:
     image: octoprint:latest
-    build:
-      args:
-        VERSION: 1.7-minimal
-      context: dockerfiles/octoprint
     container_name: octoprint
     restart: unless-stopped
     depends_on:
@@ -135,11 +117,7 @@ services:
       - "traefik.http.routers.fluidd.entrypoints=web"
 
   mainsail:
-    image: mainsail:latest
-    build:
-      dockerfile: mainsail.Dockerfile
-      context: dockerfiles/
-      target: run
+    image: mkuf/mainsail:nightly
     container_name: mainsail
     restart: unless-stopped
     depends_on:
