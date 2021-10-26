@@ -1,3 +1,5 @@
+[![build-images](https://github.com/mkuf/prind/actions/workflows/main.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/main.yaml)
+
 # prind
 
 prind allows you to run the Software for your 3D Printer in Docker containers.  
