@@ -82,7 +82,7 @@ services:
   ## Frontends
   ##
   octoprint:
-    image: octoprint:latest
+    image: octoprint/octoprint:minimal
     container_name: octoprint
     restart: unless-stopped
     depends_on:
