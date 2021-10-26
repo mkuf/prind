@@ -53,7 +53,7 @@ In this example, the Webcam is using device ``/dev/video0``. Do not edit any oth
 ```
 
 
-### Configuring Klipper/Mainsail
+### Configuring Klipper/Moonraker
 
 All Runtime Configs are stored within ``config`` of this Repo.  
 * Update config/printer.cfg with your Klipper config, make sure to not remove the existing Macros as they are required by fluidd/mainsail. See [Klipper3d Docs](https://www.klipper3d.org/Config_Reference.html) for Reference
