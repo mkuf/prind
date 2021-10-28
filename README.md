@@ -1,4 +1,7 @@
-[![build-images](https://github.com/mkuf/prind/actions/workflows/main.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/main.yaml)
+[![Image: Klipper](https://github.com/mkuf/prind/actions/workflows/klipper.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/klipper.yaml)
+[![Image: Moonraker](https://github.com/mkuf/prind/actions/workflows/moonraker.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/moonraker.yaml)
+[![Image: Mainsail](https://github.com/mkuf/prind/actions/workflows/mainsail.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/mainsail.yaml)
+[![Image: Ustreamer](https://github.com/mkuf/prind/actions/workflows/ustreamer.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/ustreamer.yaml)
 
 # prind
 
