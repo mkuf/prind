@@ -22,13 +22,21 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
   fi
 
   ## Nightly
-  docker manifest inspect ${registry}${app}:${shortref}${tag_extra} > /dev/null \
-  || docker buildx build --build-arg VERSION=${ref} --platform ${platform} -t ${registry}${app}:${shortref}${tag_extra} -t ${registry}${app}:nightly${tag_extra} --target ${target} --push ${context}
+  if docker manifest inspect ${registry}${app}:${shortref}${tag_extra} > /dev/null; then
+    echo -e "\033[0;36m## Image ${registry}${app}:${shortref}${tag_extra} already exists, nothing to do. \033[0m"
+  else
+    echo -e "\033[0;36m## Building nightly Image ${registry}${app}:${shortref}${tag_extra} \033[0m"
+    docker buildx build --build-arg VERSION=${ref} --platform ${platform} -t ${registry}${app}:${shortref}${tag_extra} -t ${registry}${app}:nightly${tag_extra} --target ${target} --push ${context}
+  fi
 
   ## Tags
   for tag in $(git ls-remote --tags --sort='version:refname' --refs ${source} | tail -n3 | rev | cut -f1 -d'/' | rev); do
-    docker manifest inspect ${registry}${app}:${tag}${tag_extra} > /dev/null \
-    || docker buildx build --build-arg VERSION=${tag} --platform ${platform} -t ${registry}${app}:${tag}${tag_extra} --target ${target} --push ${context}
+    if docker manifest inspect ${registry}${app}:${tag}${tag_extra} > /dev/null; then
+      echo -e "\033[0;36m## Image ${registry}${app}:${tag}${tag_extra} already exists, nothing to do. \033[0m"
+    else
+      echo -e "\033[0;36m## Building Image for tagged release ${registry}${app}:${tag}${tag_extra} \033[0m"
+      docker buildx build --build-arg VERSION=${tag} --platform ${platform} -t ${registry}${app}:${tag}${tag_extra} --target ${target} --push ${context}
+    fi
   done
 
   unset tag_extra
