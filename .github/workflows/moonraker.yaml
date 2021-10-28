@@ -1,0 +1,13 @@
+name: 'Image: Moonraker'
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'
+jobs:
+  build:
+    uses: mkuf/prind/.github/workflows/image-workflow.yaml@main
+    with:
+      app: moonraker
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

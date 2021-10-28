@@ -1,8 +1,16 @@
-name: build-images
+name: base-image-build
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 2 * * *'
+  workflow_call:
+    inputs:
+      app:
+        required: true
+        type: string
+        description: 'app image to build'
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
 
 jobs:
   build-images:
@@ -23,4 +31,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Run Build Script
-        run: bash ./scripts/build-images.sh ${{ secrets.DOCKERHUB_USERNAME }}/
+        run: bash ./scripts/build-images.sh ${{ secrets.DOCKERHUB_USERNAME }}/ ${{ inputs.app }}
