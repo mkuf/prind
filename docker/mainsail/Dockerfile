@@ -1,8 +1,8 @@
 ## Get Code and build App
-FROM node:buster as build
+FROM node:16 as build
 
 ARG REPO=https://github.com/meteyou/mainsail
-ARG VERSION=master
+ARG VERSION=develop
 
 RUN git clone ${REPO} /opt/mainsail \
  && cd /opt/mainsail \
