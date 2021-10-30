@@ -1,5 +1,5 @@
 ## Get Code and build App
-FROM node:16 as build
+FROM --platform=$BUILDPLATFORM node:16 as build
 
 ARG REPO=https://github.com/meteyou/mainsail
 ARG VERSION=develop
