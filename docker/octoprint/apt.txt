@@ -1,0 +1,5 @@
+# FilamentManager
+psycopg2
+
+# PrusaSlicerThumbnails
+libjpeg62-turbo
