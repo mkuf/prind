@@ -1,7 +1,12 @@
 #!/bin/bash
 
-## https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/
+## Setup for building multiplatform images
+##
+## apt install qemu-user-static
 ## docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+## docker buildx create --use --name cross
+## docker buildx inspect --bootstrap
+## docker buildx build --platform linux/amd64,linux/arm/v7 -t octoprint:latest --target run .
 
 set -e
 

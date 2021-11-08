@@ -1,5 +1,7 @@
+ARG PYTHON_VERSION=3.9
+
 ## Install OctoPrint and Plugins in venv
-FROM python:3 as build
+FROM python:${PYTHON_VERSION} as build
 
 ARG VERSION=1.7.2
 
@@ -10,7 +12,7 @@ RUN python -m venv venv \
  && venv/bin/pip install -r plugins.txt
 
 ## Runtime Image
-FROM python:3-slim as run
+FROM python:${PYTHON_VERSION}-slim as run
 
 WORKDIR /opt
 COPY --from=build /opt/venv venv
