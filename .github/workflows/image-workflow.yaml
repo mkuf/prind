@@ -31,4 +31,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Run Build Script
-        run: bash ./scripts/build-images.sh ${{ secrets.DOCKERHUB_USERNAME }}/ ${{ inputs.app }}
+        run: bash ./scripts/build-images.sh ${{ inputs.app }} ${{ secrets.DOCKERHUB_USERNAME }}/

@@ -10,8 +10,8 @@
 
 set -e
 
-registry=${1}
-app=${2}
+app=${1}
+registry=${2}
 
 platform="linux/amd64,linux/arm/v7"
 dockerfile=docker/${app}/Dockerfile
