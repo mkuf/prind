@@ -9,6 +9,8 @@ x-klipper-svc: &klipper-svc
     - "-a"
     - "run/klipper.sock"
     - "cfg/printer.cfg"
+    - "-l"
+    - "log/klippy.log"
 
 x-ustreamer-svc: &ustreamer-svc
   image: mkuf/ustreamer:nightly
@@ -36,6 +38,7 @@ services:
       - ./config:/opt/cfg
       - run:/opt/run
       - gcode:/opt/gcode
+      - log:/opt/log
     devices:
       - /dev/ttymxc3:/dev/ttymxc3
     profiles:
@@ -50,6 +53,7 @@ services:
       - ./config:/opt/cfg
       - run:/opt/run
       - gcode:/opt/gcode
+      - log:/opt/log
     profiles:
       - octoprint
 
@@ -62,6 +66,8 @@ services:
     command:
       - "-c"
       - "cfg/moonraker.cfg"
+      - "-l"
+      - "log/moonraker.log"
     depends_on:
       - klipper
       - traefik
@@ -69,6 +75,7 @@ services:
       - ./config:/opt/cfg
       - run:/opt/run
       - gcode:/opt/gcode
+      - log:/opt/log
       - moonraker-db:/opt/db
     profiles:
       - fluidd
@@ -167,3 +174,7 @@ volumes:
   gcode:
   octoprint:
   moonraker-db:
+  log:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
