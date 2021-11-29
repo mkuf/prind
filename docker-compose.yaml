@@ -3,6 +3,8 @@ x-klipper-svc: &klipper-svc
   image: mkuf/klipper:nightly
   container_name: klipper
   restart: unless-stopped
+  logging:
+    driver: none
   command:
     - "-I"
     - "run/klipper.tty"
@@ -63,6 +65,8 @@ services:
     image: mkuf/moonraker:nightly
     container_name: moonraker
     restart: unless-stopped
+    logging:
+      driver: none
     command:
       - "-c"
       - "cfg/moonraker.cfg"
