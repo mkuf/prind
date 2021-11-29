@@ -175,6 +175,9 @@ services:
 
 volumes:
   run:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
   gcode:
   octoprint:
   moonraker-db:
