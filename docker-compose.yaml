@@ -159,7 +159,7 @@ services:
 
   ## Loadbalancer/Proxy
   traefik:
-    image: "traefik:v2.2"
+    image: "traefik:v2.5"
     container_name: "traefik"
     hostname: "traefik"
     command:
