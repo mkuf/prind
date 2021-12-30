@@ -26,6 +26,7 @@ RUN apt update \
       liblmdb0 \
       libsodium-dev \
       zlib1g-dev \
+      iproute2 \
   && apt clean
 
 WORKDIR /opt
