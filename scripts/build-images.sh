@@ -38,7 +38,7 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
   fi
 
   ## Tags
-  for tag in $(git ls-remote --tags --sort='version:refname' --refs ${source} | tail -n3 | rev | cut -f1 -d'/' | rev); do
+  for tag in $(git -c 'versionsort.suffix=-' ls-remote --tags --sort='version:refname' --refs ${source} | tail -n3 | rev | cut -f1 -d'/' | rev); do
     if docker manifest inspect ${registry}${app}:${tag}${tag_extra} > /dev/null; then
       echo -e "\033[0;36m## Image ${registry}${app}:${tag}${tag_extra} already exists, nothing to do. \033[0m"
     else
