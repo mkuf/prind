@@ -157,7 +157,14 @@ Update the ``image:`` name and add a ``build`` config:
 ### Building MCU Code
 The multistage Image for Klipper contains a ``mcu`` target which is a Ubuntu Image with all requirements installed to compile the MCU Code for Klipper. 
 
-This example mounts an existing build config at `klipper/.config`, preserves your build config (``klipper/.config``) and creates a directory ``out`` in your current working directory, where you'll find the compiled Binaries. 
+Repace the serial port at '--device' with your MCUs Device.
+Running the following command will execute
+ * make menuconfig
+ * make
+ * make flash
+
+This example mounts an existing build config at `klipper/.config`, preserves your build config (``klipper/.config``), creates a directory ``out`` in your current working directory, and flashes the mcu code onto your device. 
+
 ```
 docker run \
   --rm \
@@ -165,6 +172,7 @@ docker run \
   --volume $(pwd)/out:/opt/klipper/out \
   --interactive \
   --tty \
+  --device /dev/ttyUSB0:/dev/ttyUSB0
   mkuf/klipper:nightly-mcu \
-    bash -c "cd /opt/klipper; make menuconfig && make"
+    bash -c "cd /opt/klipper; make menuconfig && make && make flash"
 ```
