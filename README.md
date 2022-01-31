@@ -21,7 +21,7 @@ Depending on which Frontend you've chosen, moonraker will also be deployed.
 The following Guide require ``docker`` and ``docker compose`` on your machine.  
 Follow the official Guides on how to get them up and running. 
 * https://docs.docker.com/engine/install/ubuntu/
-* https://docs.docker.com/compose/install/
+* https://docs.docker.com/compose/cli-command/#installing-compose-v2
 
 
 ### Add your Configuration to docker-compose.yaml
