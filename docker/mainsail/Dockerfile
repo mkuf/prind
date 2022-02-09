@@ -1,7 +1,7 @@
 ## Get Code and build App
 FROM --platform=$BUILDPLATFORM node:16 as build
 
-ARG REPO=https://github.com/meteyou/mainsail
+ARG REPO=https://github.com/mainsail-crew/mainsail
 ARG VERSION=develop
 
 RUN git clone ${REPO} /opt/mainsail \
@@ -10,7 +10,7 @@ RUN git clone ${REPO} /opt/mainsail \
 
 WORKDIR /opt/mainsail
 RUN npm install \
- && ./node_modules/.bin/vue-cli-service build
+ && ./node_modules/vite/bin/vite.js build
 
 ## Runtime Image
 FROM nginx:alpine as run
