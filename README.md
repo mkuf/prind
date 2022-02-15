@@ -165,7 +165,7 @@ Running the following command will execute
 
 This example mounts an existing build config at `klipper/.config`, preserves your build config (``klipper/.config``), creates a directory ``out`` in your current working directory, and flashes the mcu code onto your device. 
 
-```yaml
+```
 docker run \
   --rm \
   --volume $(pwd)/config/build.config:/opt/klipper/.config \
