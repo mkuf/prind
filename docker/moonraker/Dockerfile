@@ -33,7 +33,7 @@ WORKDIR /opt
 COPY --from=build /opt/moonraker ./moonraker
 COPY --from=build /opt/venv ./venv
 
-RUN mkdir run cfg gcode db
+RUN mkdir run cfg gcode db log
 RUN groupadd moonraker --gid 1000 \
  && useradd moonraker --uid 1000 --gid moonraker \
  && usermod moonraker --append --groups dialout \

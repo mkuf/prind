@@ -22,7 +22,7 @@ WORKDIR /opt
 COPY --from=build /opt/klipper ./klipper
 COPY --from=build /opt/venv ./venv
 
-RUN mkdir run cfg gcode
+RUN mkdir run cfg gcode log
 RUN groupadd klipper --gid 1000 \
  && useradd klipper --uid 1000 --gid klipper \
  && usermod klipper --append --groups dialout \
