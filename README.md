@@ -28,7 +28,7 @@ Follow the official Guides on how to get them up and running.
 
 Locate the ``klipper`` Service within ``docker-compose.yaml`` and update the ``device`` Section with the Serial Port of your Printer.  
 In this example, the Printer is using device ``/dev/ttymxc3``. Do not edit any other lines.
-```
+```yaml
   klipper:
     <<: *klipper-svc
     volumes:
@@ -44,7 +44,7 @@ In this example, the Printer is using device ``/dev/ttymxc3``. Do not edit any o
 
 Locate the ``ustreamer`` Service within ``docker-compose.yaml`` and update the ``device`` Section with the Device Name of your Webcam.  
 In this example, the Webcam is using device ``/dev/video0``. Do not edit any other lines.
-```
+```yaml
   ustreamer:
     <<: *ustreamer-svc
     container_name: ustreamer
@@ -113,7 +113,7 @@ The Entrypoint for all Docker Images within this Repo are the actual Application
 This makes it possible to set command line Arguments for the Apps as Docker Command.  
 Within docker-compose.yaml commands are already set, you may update them to fit your needs. 
 Example from service Klipper:
-```
+```yaml
   command:
     - "-I"
     - "run/klipper.tty"
@@ -127,7 +127,7 @@ The Ustreamer Service is already templated to be easily reused for multi-webcam 
 To add a new Ustreamer Service, simply add the following snippet to ``docker-compose.yaml``.  
 Notice, that all service names, container names and traefik labels need to be unique. 
 Hence replace webcam2 with webcam3 and so on for every webcam you add and update the physical device that gets passed to the container.
-```
+```yaml
   webcam2:
     <<: *ustreamer-svc
     container_name: webcam2
@@ -146,7 +146,7 @@ Images are build in multiple stages, the final stage is called ``run``. Based on
 
 Example: Build Moonraker  
 Update the ``image:`` name and add a ``build`` config:
-```
+```yaml
   moonraker:
     image: moonraker:latest
     build:
@@ -175,4 +175,20 @@ docker run \
   --device /dev/ttyUSB0:/dev/ttyUSB0
   mkuf/klipper:nightly-mcu \
     bash -c "cd /opt/klipper; make menuconfig && make && make flash"
+```
+
+### Enable Mainsail remoteMode
+In case Moonraker is not situated on the same Host as Mainsail, you'll have to enable remoteMode in Mainsail to set up a remote Printer. This mirrors the behaviour of https://my.mainsail.xyz.
+
+1. Create `config/mainsail.json` with the following Contents
+```json
+{
+    "remoteMode":true
+}
+```
+2. Add the newly created File as a Volume to the mainsail Service
+```yaml
+  mainsail:
+    volumes:
+      - ./config/mainsail.json:/usr/share/nginx/html/config.json
 ```
