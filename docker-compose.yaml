@@ -6,7 +6,8 @@ x-klipper-svc: &klipper-svc
   logging:
     driver: none
   depends_on:
-    - init
+    init:
+      condition: service_completed_successfully
   command:
     - "-I"
     - "run/klipper.tty"
@@ -27,21 +28,16 @@ x-ustreamer-svc: &ustreamer-svc
     - "--resolution=1280x960"
     - "--format=MJPEG"
     - "--desired-fps=30"
-  depends_on:
-    - traefik
 
 ## Service Definitions
-version: "3.4"
 services:
 
   ## Config dir needs to be writable by uid/gid 1000
-  ## This container sets the right uid/gid and then sleeps indefinitely
+  ## This container sets the right permissions and exits
   init:
     image: busybox:latest
     container_name: init
-    command: >
-      sh -c "chown -R 1000:1000 /prind/config &&
-             sleep infinity"
+    command: chown -R 1000:1000 /prind/config
     volumes:
       - .:/prind
 
@@ -86,9 +82,10 @@ services:
       - "-l"
       - "log/moonraker.log"
     depends_on:
-      - init
-      - klipper
-      - traefik
+      init:
+        condition: service_completed_successfully
+      klipper:
+        condition: service_started
     volumes:
       - ./config:/opt/cfg
       - run:/opt/run
@@ -111,8 +108,8 @@ services:
     container_name: octoprint
     restart: unless-stopped
     depends_on:
-      - klipper-priv
-      - traefik
+      klipper-priv:
+        condition: service_started
     privileged: true
     volumes:
       - /dev:/dev
@@ -130,9 +127,6 @@ services:
     image: cadriel/fluidd:latest
     container_name: fluidd
     restart: unless-stopped
-    depends_on:
-      - moonraker
-      - traefik
     profiles:
       - fluidd
     labels:
@@ -145,9 +139,6 @@ services:
     image: mkuf/mainsail:nightly
     container_name: mainsail
     restart: unless-stopped
-    depends_on:
-      - moonraker
-      - traefik
     profiles:
       - mainsail
     labels:
