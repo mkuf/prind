@@ -49,3 +49,35 @@ RUN apt update \
       stm32flash libnewlib-arm-none-eabi \
       gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0 \
  && apt clean
+
+## Build klipper.elf for Simulavr and Simulavr itself
+FROM mcu as build-simulavr
+
+RUN apt update \
+ && apt install -y \
+      git cmake swig \
+      python3-dev \
+ && apt clean
+
+WORKDIR /opt/klipper
+COPY config.simulavr .config
+RUN make 
+
+WORKDIR /opt
+RUN git clone git://git.savannah.nongnu.org/simulavr.git \
+ && cd simulavr \
+ && git checkout release-1.1.0 \
+ && make python \
+ && make build
+
+RUN mkdir run
+RUN groupadd simulavr --gid 1000 \
+ && useradd simulavr --uid 1000 --gid simulavr \
+ && usermod simulavr --append --groups dialout \
+ && chown -R simulavr:simulavr /opt/*
+
+USER simulavr
+ENV PYTHONPATH=/opt/simulavr/build/pysimulavr/
+VOLUME ["/opt/run"]
+ENTRYPOINT ["klipper/scripts/avrsim.py"]
+CMD ["-p", "/opt/run/simulavr.tty", "/opt/klipper/out/klipper.elf"]
