@@ -1,0 +1,19 @@
+services:
+  klipper:
+    command:
+      - "-I"
+      - "run/klipper.tty"
+      - "-a"
+      - "run/klipper.sock"
+      - "/opt/cfg/generic-simulavr.cfg"
+
+  ## simulavr
+  simulavr:
+    image: simulavr
+    build:
+      context: docker/klipper
+      target: build-simulavr
+      args: 
+        VERSION: master # Set 
+    volumes:
+      - run:/opt/run
