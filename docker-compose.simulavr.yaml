@@ -1,5 +1,10 @@
 services:
   klipper:
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      simulavr:
+        condition: service_started
     command:
       - "-I"
       - "run/klipper.tty"
@@ -10,10 +15,11 @@ services:
   ## simulavr
   simulavr:
     image: simulavr
+    container_name: simulavr
     build:
       context: docker/klipper
       target: build-simulavr
       args: 
-        VERSION: master # Set 
+        VERSION: master
     volumes:
       - run:/opt/run
