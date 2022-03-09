@@ -1,4 +1,19 @@
 services:
+  ## simulavr
+  simulavr:
+    image: simulavr
+    container_name: simulavr
+    build:
+      context: docker/klipper
+      target: build-simulavr
+      args: 
+        VERSION: master
+    privileged: true
+    volumes:
+      - /dev:/dev
+      - run:/opt/run
+  
+  ## Reconfigure Klipper service for simulavr
   klipper:
     depends_on:
       init:
@@ -20,17 +35,3 @@ services:
       - "cfg/printer-simulavr.cfg"
       - "-l"
       - "log/klippy.log"
-
-  ## simulavr
-  simulavr:
-    image: simulavr
-    container_name: simulavr
-    build:
-      context: docker/klipper
-      target: build-simulavr
-      args: 
-        VERSION: master
-    privileged: true
-    volumes:
-      - /dev:/dev
-      - run:/opt/run
