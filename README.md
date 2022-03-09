@@ -24,25 +24,17 @@ Follow the official Guides on how to get them up and running.
 * https://docs.docker.com/compose/cli-command/#installing-compose-v2
 
 
-### Add your Configuration to docker-compose.yaml
+### Add your Configuration to docker-compose.override.yaml
 
-Locate the ``klipper`` Service within ``docker-compose.yaml`` and update the ``device`` Section with the Serial Port of your Printer.  
-In this example, the Printer is using device ``/dev/ttymxc3``. Do not edit any other lines.
+Locate the ``klipper`` Service within ``docker-compose.override.yaml`` and update the ``device`` Section with the Serial Port of your Printer.  
+In this example, the Printer is using device ``/dev/ttymxc3``.
 ```yaml
   klipper:
-    <<: *klipper-svc
-    volumes:
-      - ./config:/opt/cfg
-      - run:/opt/run
-      - gcode:/opt/gcode
     devices:
       - /dev/ttymxc3:/dev/ttymxc3
-    profiles:
-      - fluidd
-      - mainsail
 ```
 
-Locate the ``ustreamer`` Service within ``docker-compose.yaml`` and update the ``device`` Section with the Device Name of your Webcam.  
+Locate the ``ustreamer`` Service within ``docker-compose.override.yaml`` and update the ``device`` Section with the Device Name of your Webcam.  
 In this example, the Webcam is using device ``/dev/video0``. Do not edit any other lines.
 ```yaml
   ustreamer:
@@ -111,7 +103,7 @@ docker compose --profile <profile> up -d
 ### Change Execution Options
 The Entrypoint for all Docker Images within this Repo are the actual Applications, which are run at container execution time.  
 This makes it possible to set command line Arguments for the Apps as Docker Command.  
-Within docker-compose.yaml commands are already set, you may update them to fit your needs. 
+Within docker-compose.yaml commands are already set, you may override them within `docker-compose.override.yaml` to fit your needs. 
 Example from service Klipper:
 ```yaml
   command:
@@ -124,7 +116,7 @@ Example from service Klipper:
 
 ### Multiple Webcams
 The Ustreamer Service is already templated to be easily reused for multi-webcam Setups.  
-To add a new Ustreamer Service, simply add the following snippet to ``docker-compose.yaml``.  
+To add a new Ustreamer Service, simply add the following snippet to ``docker-compose.override.yaml``.  
 Notice, that all service names, container names and traefik labels need to be unique. 
 Hence replace webcam2 with webcam3 and so on for every webcam you add and update the physical device that gets passed to the container.
 ```yaml
@@ -142,7 +134,7 @@ Hence replace webcam2 with webcam3 and so on for every webcam you add and update
 
 ### Building Docker images locally
 If you'd like to customize the provided Docker Images, you may edit the Dockerfiles within the ``docker/<service>`` Directory.  
-Images are build in multiple stages, the final stage is called ``run``. Based on this, you can update Service definitions within ``docker-compose.yaml`` to build Images locally.
+Images are build in multiple stages, the final stage is called ``run``. Based on this, you can update Service definitions within ``docker-compose.override.yaml`` to build Images locally.
 
 Example: Build Moonraker  
 Update the ``image:`` name and add a ``build`` config:
@@ -191,4 +183,30 @@ In case Moonraker is not situated on the same Host as Mainsail, you'll have to e
   mainsail:
     volumes:
       - ./config/mainsail.json:/usr/share/nginx/html/config.json
+```
+
+### Debugging the Stack
+Debugging the Stack without printer hardware is challenging, as klipper requires a mcu to operate.  
+For this purpose, you can build a service that emulates a mcu with simulavr, as suggested by the [Klipper Docs](https://github.com/Klipper3d/klipper/blob/master/docs/Debugging.md).  
+
+The simulavr Image is part of the Dockerfile for Klipper but is not pushed to any registry, so it needs to be built when needed.  
+
+Locate the `docker-compose.simulavr.yaml` in the repository and set the `VERSION` Build-Arg to any Git Reference from [Klipper3d/klipper](https://github.com/Klipper3d) that you would like the mcu code to be compatible with. 
+
+This example builds the mcu code from [Klipper3d/klipper:d75154d](d75154d695efb1338cbfff061d226c4f384d127b)
+```yaml
+    build:
+      context: docker/klipper
+      target: build-simulavr
+      args: 
+        VERSION: d75154d695efb1338cbfff061d226c4f384d127b
+```
+
+Then start the Stack
+```
+docker compose \
+  --profile mainsail \
+  -f docker-compose.yaml \
+  -f docker-compose.simulavr.yaml \
+  up -d
 ```

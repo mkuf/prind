@@ -17,29 +17,8 @@ x-klipper-svc: &klipper-svc
     - "-l"
     - "log/klippy.log"
 
-x-ustreamer-svc: &ustreamer-svc
-  image: mkuf/ustreamer:nightly
-  restart: unless-stopped
-  command:
-    - "--host=0.0.0.0"
-    - "--port=8080"
-    - "--slowdown"
-    - "--device=/dev/webcam"
-    - "--resolution=1280x960"
-    - "--format=MJPEG"
-    - "--desired-fps=30"
-
 ## Service Definitions
 services:
-
-  ## Config dir needs to be writable by uid/gid 1000
-  ## This container sets the right permissions and exits
-  init:
-    image: busybox:latest
-    container_name: init
-    command: chown -R 1000:1000 /prind/config
-    volumes:
-      - .:/prind
 
   ## Klippy Services
   ##
@@ -50,8 +29,6 @@ services:
       - run:/opt/run
       - gcode:/opt/gcode
       - log:/opt/log
-    devices:
-      - /dev/ttymxc3:/dev/ttymxc3
     profiles:
       - fluidd
       - mainsail
@@ -150,17 +127,14 @@ services:
   ## Accompanying Services/Infra
   ##
 
-  ## Webcam Service
-  ustreamer:
-    <<: *ustreamer-svc
-    container_name: ustreamer
-    devices:
-      - /dev/video0:/dev/webcam
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.ustreamer.loadbalancer.server.port=8080"
-      - "traefik.http.routers.ustreamer.rule=PathPrefix(`/stream`)"
-      - "traefik.http.routers.ustreamer.entrypoints=web"
+  ## Config dir needs to be writable by uid/gid 1000
+  ## This container sets the right permissions and exits
+  init:
+    image: busybox:latest
+    container_name: init
+    command: chown -R 1000:1000 /prind/config
+    volumes:
+      - .:/prind
 
   ## Loadbalancer/Proxy
   traefik:

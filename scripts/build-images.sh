@@ -21,6 +21,10 @@ source=$(grep "ARG REPO" ${dockerfile} | sed -r 's/.*REPO=(.*)$/\1/g')
 ref=$(git ls-remote ${source} HEAD | cut -f1)
 shortref=$(echo -n ${ref} | cut -c 1-7)
 
+function log {
+  echo -e "\033[0;36m## ${1} \033[0m"
+}
+
 ## Explicitly build Targets, except 'build'
 for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g' | grep -v build); do
 
@@ -31,19 +35,32 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
 
   ## Nightly
   if docker manifest inspect ${registry}${app}:${shortref}${tag_extra} > /dev/null; then
-    echo -e "\033[0;36m## Image ${registry}${app}:${shortref}${tag_extra} already exists, nothing to do. \033[0m"
+    log "## Image ${registry}${app}:${shortref}${tag_extra} already exists, nothing to do."
   else
-    echo -e "\033[0;36m## Building nightly Image ${registry}${app}:${shortref}${tag_extra} \033[0m"
-    docker buildx build --build-arg VERSION=${ref} --platform ${platform} -t ${registry}${app}:${shortref}${tag_extra} -t ${registry}${app}:nightly${tag_extra} --target ${target} --push ${context}
+    log "## Building nightly Image ${registry}${app}:${shortref}${tag_extra}"
+    docker buildx build \
+      --build-arg VERSION=${ref} \
+      --platform ${platform} \
+      --tag ${registry}${app}:${shortref}${tag_extra} \
+      --tag ${registry}${app}:nightly${tag_extra} \
+      --target ${target} \
+      --push \
+      ${context}
   fi
 
   ## Tags
   for tag in $(git -c 'versionsort.suffix=-' ls-remote --tags --sort='version:refname' --refs ${source} | tail -n3 | rev | cut -f1 -d'/' | rev); do
     if docker manifest inspect ${registry}${app}:${tag}${tag_extra} > /dev/null; then
-      echo -e "\033[0;36m## Image ${registry}${app}:${tag}${tag_extra} already exists, nothing to do. \033[0m"
+      log "## Image ${registry}${app}:${tag}${tag_extra} already exists, nothing to do."
     else
-      echo -e "\033[0;36m## Building Image for tagged release ${registry}${app}:${tag}${tag_extra} \033[0m"
-      docker buildx build --build-arg VERSION=${tag} --platform ${platform} -t ${registry}${app}:${tag}${tag_extra} --target ${target} --push ${context}
+      log "## Building Image for tagged release ${registry}${app}:${tag}${tag_extra}"
+      docker buildx build \
+        --build-arg VERSION=${tag} \
+        --platform ${platform} \
+        --tag ${registry}${app}:${tag}${tag_extra} \
+        --target ${target} \
+        --push \
+        ${context}
     fi
   done
 
