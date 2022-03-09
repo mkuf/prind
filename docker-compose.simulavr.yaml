@@ -12,6 +12,14 @@ services:
       - gcode:/opt/gcode
       - log:/opt/log
       - /dev:/dev
+    command:
+      - "-I"
+      - "run/klipper.tty"
+      - "-a"
+      - "run/klipper.sock"
+      - "cfg/printer-simulavr.cfg"
+      - "-l"
+      - "log/klippy.log"
 
   ## simulavr
   simulavr:
