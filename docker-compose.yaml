@@ -124,6 +124,24 @@ services:
       - "traefik.http.routers.mainsail.rule=PathPrefix(`/`)"
       - "traefik.http.routers.mainsail.entrypoints=web"
 
+  klipperscreen:
+    image: mkuf/klipperscreen:nightly
+    container_name: klipperscreen
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      moonraker:
+        condition: service_started
+    profiles:
+      - klipperscreen
+    command:
+      - "-c"
+      - "cfg/klipperscreen.conf"
+    volumes:
+      - ./config:/opt/cfg
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /home/kiosk/.Xauthority:/tmp/.Xauthority
+
   ## Accompanying Services/Infra
   ##
 
