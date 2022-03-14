@@ -140,7 +140,6 @@ services:
     volumes:
       - ./config:/opt/cfg
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - /home/kiosk/.Xauthority:/tmp/.Xauthority
 
   ## Accompanying Services/Infra
   ##
