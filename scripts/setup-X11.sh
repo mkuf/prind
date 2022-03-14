@@ -10,7 +10,7 @@ set -xe
 USER=screen
 
 ## Create User
-adduser --system --disabled-password --no-create-home --gecos '' --shell /bin/bash ${USER}
+adduser --system --disabled-password --no-create-home --shell /bin/bash ${USER}
 usermod -a -G tty ${USER}
 
 ## Install Packages
