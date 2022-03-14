@@ -20,22 +20,23 @@ FROM python:3-slim as run
 
 RUN apt update \
  && apt install -y \
+      git \
+      xdotool \
+      x11-xserver-utils \
       libglib2.0-0 \
       libgirepository-1.0-1 \
       gir1.2-gtk-3.0 \
+      libopenjp2-7 \
+      fonts-freefont-ttf \
+      libcairo2 \
+      libatlas3-base \
  && apt clean
 
 WORKDIR /opt
 COPY --from=build /opt/klipperscreen ./klipperscreen
 COPY --from=build /opt/venv ./venv
 
-RUN mkdir cfg
-RUN groupadd klipperscreen --gid 1000 \
- && useradd klipperscreen --uid 1000 --gid klipperscreen \
- && chown -R klipperscreen:klipperscreen /opt/*
-
 ## Start klipperscreen
-USER klipperscreen
 ENV XAUTHORITY=/tmp/.Xauthority
 ENV DISPLAY=:0
 VOLUME ["/opt/cfg"]
