@@ -1,10 +1,10 @@
 [![Image: Klipper](https://github.com/mkuf/prind/actions/workflows/klipper.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/klipper.yaml)
 [![Image: Moonraker](https://github.com/mkuf/prind/actions/workflows/moonraker.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/moonraker.yaml)
 [![Image: Mainsail](https://github.com/mkuf/prind/actions/workflows/mainsail.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/mainsail.yaml)
+[![Image: Klipperscreen](https://github.com/mkuf/prind/actions/workflows/klipperscreen.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/klipperscreen.yaml)
 [![Image: Ustreamer](https://github.com/mkuf/prind/actions/workflows/ustreamer.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/ustreamer.yaml)
 
 # prind
-
 prind allows you to run the Software for your 3D Printer in Docker containers.  
 With a single Command, you can start up klipper and choose between multiple Webfrontends. 
 
@@ -15,17 +15,14 @@ Currently supported Frontends:
 
 Depending on which Frontend you've chosen, moonraker will also be deployed.
 
-
 ## Getting started
-
-The following Guide require ``docker`` and ``docker compose`` on your machine.  
+The following Guide requires ``docker`` and ``docker compose`` on your machine.  
 Follow the official Guides on how to get them up and running. 
 * https://docs.docker.com/engine/install/ubuntu/
 * https://docs.docker.com/compose/cli-command/#installing-compose-v2
 
 
 ### Add your Configuration to docker-compose.override.yaml
-
 Locate the ``klipper`` Service within ``docker-compose.override.yaml`` and update the ``device`` Section with the Serial Port of your Printer.  
 In this example, the Printer is using device ``/dev/ttymxc3``.
 ```yaml
@@ -51,13 +48,11 @@ In this example, the Webcam is using device ``/dev/video0``. Do not edit any oth
 
 
 ### Configuring Klipper/Moonraker
-
 All Runtime Configs are stored within ``config`` of this Repo.  
 * Update config/printer.cfg with your Klipper config, make sure to not remove the existing Macros as they are required by fluidd/mainsail. See [Klipper3d Docs](https://www.klipper3d.org/Config_Reference.html) for Reference
 * Make sure to update ``cors_domains`` and ``trusted_clients`` within ``moonraker.cfg`` to secure your moonraker api from unwanted access. See [Moonraker Docs](https://moonraker.readthedocs.io/en/latest/configuration/) for Reference
 
 ### Starting the stack
-
 Currently, there are 3 Profiles to choose from, depending on the Web Frontend you'd like to use.
 * fluidd
 * mainsail
@@ -80,6 +75,24 @@ docker compose --profile fluidd down
 docker compose --profile mainsail up -d
 ```
 
+### KlipperScreen
+KlipperScreen can be run from within a Docker Container.  
+It requires you to set up a X11 Server on your machine that the Container can connect to.  
+
+Locate the setup Script for X11 within `scripts/` and run it as root.
+It creates a User, installs and configures X11 and creates a Systemd Service for xinit.
+```
+./scripts/setup-X11.sh
+```
+
+Xterm should now be displayed on your screen.  
+If this is not the case, check the scripts output for errors.  
+Otherwise, proceed to start/update the Stack.
+
+```
+docker compose --profile fluidd --profile klipperscreen up -d
+```
+
 ## Updating
 Images are built daily and tagged with nightly and the first seven chars of the commit-sha of the remote repo. 
 Example: 
@@ -97,7 +110,6 @@ Compose will download all current Images and replace them when starting the stac
 docker compose pull
 docker compose --profile <profile> up -d
 ``` 
-
 
 ## Advanced Topics
 ### Change Execution Options
