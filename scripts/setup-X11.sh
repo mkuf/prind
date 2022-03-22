@@ -15,7 +15,7 @@ usermod -a -G tty ${USER}
 
 ## Install Packages
 apt update
-apt install -y xterm xinit xinput xserver-xorg x11-xserver-utils xserver-xorg-video-fbdev
+apt install -y feh xterm xinit xinput xserver-xorg x11-xserver-utils xserver-xorg-video-fbdev
 
 ## Allow any User to start X
 sed -i 's/allowed_users=console/allowed_users=anybody/g' /etc/X11/Xwrapper.config || true
@@ -28,7 +28,7 @@ After=systemd-user-sessions.service
 
 [Service]
 User=${USER}
-ExecStart=/usr/bin/xinit /usr/bin/xterm -maximized
+ExecStart=/usr/bin/xinit /usr/bin/feh -FZY $(pwd)/img/splashscreen-1080p-dark.png
 
 [Install]
 WantedBy=multi-user.target

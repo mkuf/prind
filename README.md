@@ -81,13 +81,14 @@ docker compose --profile mainsail up -d
 KlipperScreen can be run from within a Docker Container.  
 It requires you to set up a X11 Server on your machine that the Container can connect to.  
 
-Locate the setup Script for X11 within `scripts/` and run it as root.
+Locate the setup Script for X11 within `scripts/` and run it from the root directory of this repository as user root.
 It creates a User, installs and configures X11 and creates a Systemd Service for xinit.
 ```
+cd prind/
 ./scripts/setup-X11.sh
 ```
 
-Xterm should now be displayed on your screen.  
+The Prid Logo should now be displayed on your screen.  
 If this is not the case, check the scripts output for errors.  
 Otherwise, proceed to start/update the Stack.
 
