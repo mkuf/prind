@@ -21,13 +21,15 @@ RUN apt update \
       libopenjp2-7 \
       python3-libgpiod \
       curl \
-      libcurl4-openssl-dev \
-      libssl-dev \
+      libcurl4 \
+      libssl1.1 \
       liblmdb0 \
-      libsodium-dev \
-      zlib1g-dev \
+      libsodium23 \
+      zlib1g \
       iproute2 \
-  && apt clean
+      systemd \
+      sudo \
+ && apt clean
 
 WORKDIR /opt
 COPY --from=build /opt/moonraker ./moonraker
@@ -38,6 +40,10 @@ RUN groupadd moonraker --gid 1000 \
  && useradd moonraker --uid 1000 --gid moonraker \
  && usermod moonraker --append --groups dialout \
  && chown -R moonraker:moonraker /opt/*
+
+RUN ln -s /bin/systemctl /sbin/shutdown \
+ && ln -s /bin/systemctl /sbin/reboot \
+ && echo -n "moonraker ALL = NOPASSWD: /bin/systemctl, /sbin/shutdown, /sbin/reboot" > /etc/sudoers.d/moonraker
 
 ## Start Moonraker
 USER moonraker

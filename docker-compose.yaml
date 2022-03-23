@@ -51,6 +51,7 @@ services:
     image: mkuf/moonraker:nightly
     container_name: moonraker
     restart: unless-stopped
+    pid: host
     logging:
       driver: none
     command:
@@ -64,11 +65,13 @@ services:
       klipper:
         condition: service_started
     volumes:
-      - ./config:/opt/cfg
+      - /run/dbus:/run/dbus
+      - /run/systemd:/run/systemd
       - run:/opt/run
       - gcode:/opt/gcode
       - log:/opt/log
       - moonraker-db:/opt/db
+      - ./config:/opt/cfg
     profiles:
       - fluidd
       - mainsail
