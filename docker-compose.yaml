@@ -132,9 +132,6 @@ services:
     container_name: klipperscreen
     restart: unless-stopped
     network_mode: host
-    depends_on:
-      moonraker:
-        condition: service_started
     profiles:
       - klipperscreen
     command:
