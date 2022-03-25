@@ -25,6 +25,9 @@ RUN apt update \
       libssl1.1 \
       liblmdb0 \
       libsodium23 \
+      libjpeg62-turbo \
+      libtiff5 \
+      libxcb1 \
       zlib1g \
       iproute2 \
       systemd \
