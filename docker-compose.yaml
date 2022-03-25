@@ -141,8 +141,9 @@ services:
       - "-c"
       - "cfg/klipperscreen.conf"
     volumes:
-      - ./config:/opt/cfg
+      - /etc/localtime:/etc/localtime:ro
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./config:/opt/cfg
 
   ## Accompanying Services/Infra
   ##
