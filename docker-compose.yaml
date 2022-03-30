@@ -65,6 +65,8 @@ services:
       klipper:
         condition: service_started
     volumes:
+      - /dev/null:/opt/klipper/config/null
+      - /dev/null:/opt/klipper/docs/null
       - /run/dbus:/run/dbus
       - /run/systemd:/run/systemd
       - run:/opt/run
