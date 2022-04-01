@@ -8,12 +8,13 @@
 [![Image: Ustreamer](https://github.com/mkuf/prind/actions/workflows/ustreamer.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/ustreamer.yaml)
 
 prind allows you to run the Software for your 3D Printer in Docker containers.  
-With a single Command, you can start up klipper and choose between multiple Webfrontends. 
+With a single Command, you can start up klipper and choose between multiple Frontends. 
 
 Currently supported Frontends:
   * Octoprint (via [Dockerhub](https://hub.docker.com/r/octoprint/octoprint))
   * Fluidd (via [Dockerhub](https://hub.docker.com/r/cadriel/fluidd))
   * Mainsail
+  * KlipperScreen
 
 Depending on which Frontend you've chosen, moonraker will also be deployed.
 
