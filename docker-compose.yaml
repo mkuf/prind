@@ -32,6 +32,7 @@ services:
     profiles:
       - fluidd
       - mainsail
+      - klipperscreen
 
   klipper-priv:
     <<: *klipper-svc
@@ -77,6 +78,7 @@ services:
     profiles:
       - fluidd
       - mainsail
+      - klipperscreen
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.moonraker.loadbalancer.server.port=7125"
