@@ -133,7 +133,7 @@ Example from service Klipper:
 ### Multiple Webcams
 The Ustreamer Service is already templated to be easily reused for multi-webcam Setups.  
 To add a new Ustreamer Service, simply add the following snippet to ``docker-compose.override.yaml``.  
-Notice, that all service names, container names and traefik labels need to be unique. 
+Notice, that all service names, container names and traefik labels need to be unique while the right side of the passed Device (`:/dev/webcam`) always stays the same.
 Hence replace webcam2 with webcam3 and so on for every webcam you add and update the physical device that gets passed to the container.
 ```yaml
   webcam2:
@@ -146,6 +146,8 @@ Hence replace webcam2 with webcam3 and so on for every webcam you add and update
       - "traefik.http.services.webcam2.loadbalancer.server.port=8080"
       - "traefik.http.routers.webcam2.rule=PathPrefix(`/webcam2`)"
       - "traefik.http.routers.webcam2.entrypoints=web"
+      - "traefik.http.middlewares.webcam2.stripprefix.prefixes=/webcam2"
+      - "traefik.http.routers.webcam2.middlewares=webcam2"
 ```
 
 ### Building Docker images locally
