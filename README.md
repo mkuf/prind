@@ -34,19 +34,21 @@ In this example, the Printer is using device ``/dev/ttymxc3``.
       - /dev/ttymxc3:/dev/ttymxc3
 ```
 
-Locate the ``ustreamer`` Service within ``docker-compose.override.yaml`` and update the ``device`` Section with the Device Name of your Webcam.  
+Locate the ``webcam`` Service within ``docker-compose.override.yaml`` and update the ``device`` Section with the Device Name of your Webcam.  
 In this example, the Webcam is using device ``/dev/video0``. Do not edit any other lines.
 ```yaml
-  ustreamer:
+  webcam:
     <<: *ustreamer-svc
-    container_name: ustreamer
+    container_name: webcam
     devices:
       - /dev/video0:/dev/webcam
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.ustreamer.loadbalancer.server.port=8080"
-      - "traefik.http.routers.ustreamer.rule=PathPrefix(`/stream`)"
-      - "traefik.http.routers.ustreamer.entrypoints=web"
+      - "traefik.http.services.webcam.loadbalancer.server.port=8080"
+      - "traefik.http.routers.webcam.rule=PathPrefix(`/webcam`)"
+      - "traefik.http.routers.webcam.entrypoints=web"
+      - "traefik.http.middlewares.webcam.stripprefix.prefixes=/webcam"
+      - "traefik.http.routers.webcam.middlewares=webcam"
 ```
 
 
