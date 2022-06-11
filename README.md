@@ -188,7 +188,7 @@ docker run \
   mkuf/klipper:nightly-mcu \
     bash -c "cd /opt/klipper; make menuconfig && make && make flash"
 ```
-If you are trying to flash a Creality/SKR board with an SD card slot, you may find it easier to just flash a .bin file. In order to do this, remove `make flash` from bash line of the docker run command. It would look like: `bash -c "cd /opt/klipper; make menuconfig && make && make flash` You will be able to retrieve the .bin file from the `out` directory. (e.g. If you have the Ender 3 V2, you would wipe an SD card and format as FAT or FAT32, copy the .bin file to the SD card, and power the board waiting 30sec each time.)
+If you are trying to flash a Creality/SKR board with an SD card slot, you may find it easier to just flash a .bin file. In order to do this, remove `make flash` from bash line of the docker run command. It would look like: `bash -c "cd /opt/klipper; make menuconfig && make && make flash` You will be able to retrieve the .bin file from the `out` directory. (e.g. If you have the Ender 3 V2, you would wipe an SD card and format as FAT or FAT32, copy the .bin file to the SD card, and power the board waiting 30sec each time. You can remove the SD card after you have power cycled.) If you mess up while in the menuconfig, delete the out directory and try again.
 
 ### Enable Mainsail remoteMode
 In case Moonraker is not situated on the same Host as Mainsail, you'll have to enable remoteMode in Mainsail to set up a remote Printer. This mirrors the behaviour of https://my.mainsail.xyz.
