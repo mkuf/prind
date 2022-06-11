@@ -184,7 +184,7 @@ docker run \
   --volume $(pwd)/out:/opt/klipper/out \
   --interactive \
   --tty \
-  --device /dev/ttyUSB0:/dev/ttyUSB0
+  --device /dev/ttyUSB0:/dev/ttyUSB0 \
   mkuf/klipper:nightly-mcu \
     bash -c "cd /opt/klipper; make menuconfig && make && make flash"
 ```
