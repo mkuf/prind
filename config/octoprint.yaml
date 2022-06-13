@@ -1,0 +1,10 @@
+serial:
+  additionalPorts:
+  - /opt/run/klipper.tty
+  autoconnect: true
+  port: /opt/run/klipper.tty
+webcam:
+  snapshot: http://webcam:8080/snapshot
+  stream: /webcam/stream
+accessControl:
+  userfile: /octoprint/octoprint/users.yaml

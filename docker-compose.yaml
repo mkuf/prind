@@ -99,6 +99,7 @@ services:
       - /dev:/dev
       - run:/opt/run
       - octoprint:/octoprint
+      - ./config/octoprint.yaml:/octoprint/octoprint/config.yaml
     profiles:
       - octoprint
     labels:
