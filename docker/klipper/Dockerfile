@@ -13,7 +13,8 @@ RUN git clone ${REPO} klipper \
 RUN virtualenv -p python2 venv \
  && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
  && venv/bin/python -m compileall klipper/klippy \
- && venv/bin/python klipper/klippy/chelper/__init__.py
+ && venv/bin/python klipper/klippy/chelper/__init__.py \
+ && venv/bin/pip install -v numpy
 
 ## Runtime Image
 FROM python:2-slim as run
@@ -21,6 +22,9 @@ FROM python:2-slim as run
 WORKDIR /opt
 COPY --from=build /opt/klipper ./klipper
 COPY --from=build /opt/venv ./venv
+
+RUN apt update \
+ && apt install -y python3-numpy python3-matplotlib
 
 RUN mkdir run cfg gcode log
 RUN groupadd klipper --gid 1000 \
