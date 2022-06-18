@@ -24,6 +24,20 @@ Follow the official Guides on how to get them up and running.
 * https://docs.docker.com/engine/install/ubuntu/
 * https://docs.docker.com/compose/cli-command/#installing-compose-v2
 
+### Build the MCU Code
+Before using Klipper, you'll have to build and flash the microcontroller-code for your printers mainboard.  
+The `scripts` directory contains a wrapper that can be used as an alias for `make`. After setting this alias, follow the Instructions on finding your printer, building and flashing the microcontroller found in the [Klipper Docs](https://www.klipper3d.org/Installation.html#building-and-flashing-the-micro-controller).  
+
+Adapted from the official Docs, a generic Build would look like this.
+```
+alias make="./scripts/build-mcu.sh"
+
+make menuconfig
+make
+make flash FLASH_DEVICE=/dev/serial/by-id/<my printer>
+```
+
+If your Board can be flashed via SD-Card, you may want to omit `make flash` and retrieve the `klipper.bin` from the `out` directory that is created by `make`. Follow your boards instructions on how to proceed with flashing via SD-Card.
 
 ### Add your Configuration to docker-compose.override.yaml
 Locate the ``klipper`` Service within ``docker-compose.override.yaml`` and update the ``device`` Section with the Serial Port of your Printer.  
@@ -91,7 +105,7 @@ cd prind/
 ./scripts/setup-X11.sh
 ```
 
-The Prid Logo should now be displayed on your screen.  
+The Prind Logo should now be displayed on your screen.  
 If this is not the case, check the scripts output for errors.  
 Otherwise, proceed to start/update the Stack.
 
@@ -164,29 +178,6 @@ Update the ``image:`` name and add a ``build`` config:
     build:
       context: docker/moonraker
       target: run
-```
-
-### Building MCU Code
-The multistage Image for Klipper contains a ``mcu`` target which is a Ubuntu Image with all requirements installed to compile the MCU Code for Klipper. 
-
-Repace the serial port at '--device' with your MCUs Device.
-Running the following command will execute
- * make menuconfig
- * make
- * make flash
-
-This example mounts an existing build config at `klipper/.config`, preserves your build config (``klipper/.config``), creates a directory ``out`` in your current working directory, and flashes the mcu code onto your device. 
-
-```
-docker run \
-  --rm \
-  --volume $(pwd)/config/build.config:/opt/klipper/.config \
-  --volume $(pwd)/out:/opt/klipper/out \
-  --interactive \
-  --tty \
-  --device /dev/ttyUSB0:/dev/ttyUSB0 \
-  mkuf/klipper:nightly-mcu \
-    bash -c "cd /opt/klipper; make menuconfig && make && make flash"
 ```
 
 ### Enable Mainsail remoteMode
