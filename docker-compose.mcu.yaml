@@ -1,6 +1,6 @@
 services:
   make:
-    image: mkuf/klipper:nightly-mcu
+    image: mkuf/klipper:${TAG:-nightly}-mcu
     tty: true
     privileged: true
     entrypoint: make
