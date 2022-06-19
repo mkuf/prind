@@ -23,9 +23,6 @@ WORKDIR /opt
 COPY --from=build /opt/klipper ./klipper
 COPY --from=build /opt/venv ./venv
 
-RUN apt update \
- && apt install -y python3-numpy python3-matplotlib
-
 RUN mkdir run cfg gcode log
 RUN groupadd klipper --gid 1000 \
  && useradd klipper --uid 1000 --gid klipper \

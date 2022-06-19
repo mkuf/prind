@@ -230,3 +230,18 @@ docker compose \
   -f docker-compose.simulavr.yaml \
   up -d
 ```
+
+### Klipper Input Shaper
+Klipper input shaper via the use of the `SHAPER_CALIBRATE` command is supported, but only via the discreet MCU. The configuration for a BigTreeTech octopus might be as such:
+```
+[adxl345]
+cs_pin: PA15
+spi_bus: spi3
+
+[resonance_tester]
+accel_chip: adxl345
+probe_points:
+    150, 150, 20
+```
+
+Visualisation packages are not included in the Klipper image, and additional configuration is required to extract the test result CSVs from Klipper.
