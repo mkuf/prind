@@ -1,5 +1,0 @@
-# PrusaSlicerThumbnails
-libopenjp2-7
-libjpeg62-turbo
-libtiff5
-libxcb1
