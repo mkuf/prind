@@ -33,16 +33,17 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
     tag_extra="-${target}"
   fi
 
-  ## Nightly
+  ## latest
   if docker manifest inspect ${registry}${app}:${shortref}${tag_extra} > /dev/null; then
     log "## Image ${registry}${app}:${shortref}${tag_extra} already exists, nothing to do."
   else
-    log "## Building nightly Image ${registry}${app}:${shortref}${tag_extra}"
+    log "## Building latest Image ${registry}${app}:${shortref}${tag_extra}"
     docker buildx build \
       --build-arg VERSION=${ref} \
       --platform ${platform} \
       --tag ${registry}${app}:${shortref}${tag_extra} \
       --tag ${registry}${app}:nightly${tag_extra} \
+      --tag ${registry}${app}:latest${tag_extra} \
       --target ${target} \
       --push \
       ${context}

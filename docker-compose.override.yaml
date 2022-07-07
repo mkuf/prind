@@ -1,6 +1,6 @@
 ## Ustreamer base Service
 x-ustreamer-svc: &ustreamer-svc
-  image: mkuf/ustreamer:nightly
+  image: mkuf/ustreamer:latest
   restart: unless-stopped
   command:
     - "--host=0.0.0.0"

@@ -1,6 +1,6 @@
 ## Common Templates
 x-klipper-svc: &klipper-svc
-  image: mkuf/klipper:nightly
+  image: mkuf/klipper:latest
   container_name: klipper
   restart: unless-stopped
   logging:
@@ -49,7 +49,7 @@ services:
   ## WebApi
   ##
   moonraker:
-    image: mkuf/moonraker:nightly
+    image: mkuf/moonraker:latest
     container_name: moonraker
     restart: unless-stopped
     pid: host
@@ -121,7 +121,7 @@ services:
       - "traefik.http.routers.fluidd.entrypoints=web"
 
   mainsail:
-    image: mkuf/mainsail:nightly
+    image: mkuf/mainsail:latest
     container_name: mainsail
     restart: unless-stopped
     profiles:
@@ -133,7 +133,7 @@ services:
       - "traefik.http.routers.mainsail.entrypoints=web"
 
   klipperscreen:
-    image: mkuf/klipperscreen:nightly
+    image: mkuf/klipperscreen:latest
     container_name: klipperscreen
     restart: unless-stopped
     network_mode: host

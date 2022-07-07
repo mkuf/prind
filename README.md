@@ -114,17 +114,17 @@ docker compose --profile fluidd --profile klipperscreen up -d
 ```
 
 ## Updating
-Images are built daily and tagged with nightly and the first seven chars of the commit-sha of the remote repo. 
+Images are built daily and tagged with latest and the first seven chars of the commit-sha of the remote repo. 
 Example: 
 
-* ``mkuf/klipper:nightly``
+* ``mkuf/klipper:latest``
 * ``mkuf/klipper:a33d069``
 
-The ``Nightly`` Tag will point to a new Image within 24h.  
+The ``latest`` Tag will point to a new Image within 24h.  
 The SHA-Tag ``a33d069`` will remain and refers to [Klipper3d/klipper:a33d069](https://github.com/Klipper3d/klipper/commit/a33d0697b6438e362f0cf9d25e1e8358d331bf53)
 
 Updating can be handled via docker-compose.  
-docker-compose.yaml uses nightly tags for all Images contained in this Repository.  
+docker-compose.yaml uses latest tags for all Images contained in this Repository.  
 Compose will download all current Images and replace them when starting the stack again. 
 ```
 docker compose pull
