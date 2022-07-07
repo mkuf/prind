@@ -204,7 +204,7 @@ The simulavr Image is part of the Dockerfile for Klipper but is not pushed to an
 
 Locate the `docker-compose.simulavr.yaml` in the repository and set the `VERSION` Build-Arg to any Git Reference from [Klipper3d/klipper](https://github.com/Klipper3d) that you would like the mcu code to be compatible with. 
 
-This example builds the mcu code from [Klipper3d/klipper:d75154d](d75154d695efb1338cbfff061d226c4f384d127b)
+This example builds the mcu code from [Klipper3d/klipper:d75154d](https://github.com/Klipper3d/klipper/commit/d75154d695efb1338cbfff061d226c4f384d127b)
 ```yaml
     build:
       context: docker/klipper
