@@ -19,7 +19,6 @@ services:
 
   webcam:
     <<: *ustreamer-svc
-    container_name: webcam
     devices:
       - /dev/video0:/dev/webcam
     labels:

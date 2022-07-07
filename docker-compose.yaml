@@ -1,7 +1,6 @@
 ## Common Templates
 x-klipper-svc: &klipper-svc
   image: mkuf/klipper:latest
-  container_name: klipper
   restart: unless-stopped
   logging:
     driver: none
@@ -50,7 +49,6 @@ services:
   ##
   moonraker:
     image: mkuf/moonraker:latest
-    container_name: moonraker
     restart: unless-stopped
     pid: host
     logging:
@@ -89,7 +87,6 @@ services:
   ##
   octoprint:
     image: octoprint/octoprint:minimal
-    container_name: octoprint
     restart: unless-stopped
     depends_on:
       klipper-priv:
@@ -110,7 +107,6 @@ services:
 
   fluidd:
     image: cadriel/fluidd:latest
-    container_name: fluidd
     restart: unless-stopped
     profiles:
       - fluidd
@@ -122,7 +118,6 @@ services:
 
   mainsail:
     image: mkuf/mainsail:latest
-    container_name: mainsail
     restart: unless-stopped
     profiles:
       - mainsail
@@ -134,7 +129,6 @@ services:
 
   klipperscreen:
     image: mkuf/klipperscreen:latest
-    container_name: klipperscreen
     restart: unless-stopped
     network_mode: host
     profiles:
@@ -154,16 +148,13 @@ services:
   ## This container sets the right permissions and exits
   init:
     image: busybox:latest
-    container_name: init
     command: chown -R 1000:1000 /prind/config
     volumes:
       - .:/prind
 
   ## Loadbalancer/Proxy
   traefik:
-    image: "traefik:v2.5"
-    container_name: "traefik"
-    hostname: "traefik"
+    image: traefik:v2.5
     command:
       - "--accesslog"
       - "--providers.docker=true"

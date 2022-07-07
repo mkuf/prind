@@ -53,7 +53,6 @@ In this example, the Webcam is using device ``/dev/video0``. Do not edit any oth
 ```yaml
   webcam:
     <<: *ustreamer-svc
-    container_name: webcam
     devices:
       - /dev/video0:/dev/webcam
     labels:
@@ -154,7 +153,6 @@ Hence replace webcam2 with webcam3 and so on for every webcam you add and update
 ```yaml
   webcam2:
     <<: *ustreamer-svc
-    container_name: webcam2
     devices:
       - /dev/video1:/dev/webcam
     labels:

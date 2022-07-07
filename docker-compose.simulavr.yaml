@@ -24,7 +24,6 @@ services:
   ## simulavr
   simulavr:
     image: simulavr
-    container_name: simulavr
     build:
       context: docker/klipper
       target: build-simulavr
