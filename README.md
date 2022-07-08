@@ -29,7 +29,7 @@ As this can be accomplished via docker, we can create an alias that replaces `ma
 
 Adapted from the official Docs, a generic Build would look like this.
 ```
-alias make="docker compose -f docker-compose.mcu.yaml run --rm make"
+alias make="docker compose -f docker-compose.extra.mcu.yaml run --rm make"
 
 make menuconfig
 make
@@ -147,10 +147,10 @@ docker compose cp klipper:/tmp/resonances_x_20220708_124515.csv ./resonances/
 docker compose cp klipper:/tmp/resonances_y_20220708_125150.csv ./resonances/
 ```
 
-`docker-compose.calibrate-shaper.yaml` is set up to run `calibrate_shaper.py`, so any options supported by the script can also be used with the container. 
+`docker-compose.extra.calibrate-shaper.yaml` is set up to run `calibrate_shaper.py`, so any options supported by the script can also be used with the container. 
 Set an alias to save yourself from typing the the docker compose command multiple times. The generated Images are located besides the csv files in `./resonances`
 ```
-alias calibrate_shaper="docker compose -f docker-compose.calibrate-shaper.yaml run --rm calibrate_shaper"
+alias calibrate_shaper="docker compose -f docker-compose.extra.calibrate-shaper.yaml run --rm calibrate_shaper"
 
 calibrate_shaper resonances_x_20220708_124515.csv -o cal_x.png
   [...]
@@ -230,7 +230,7 @@ For this purpose, you can build a service that emulates a mcu with simulavr, as 
 
 The simulavr Image is part of the Dockerfile for Klipper but is not pushed to any registry, so it needs to be built when needed.  
 
-Locate the `docker-compose.simulavr.yaml` in the repository and set the `VERSION` Build-Arg to any Git Reference from [Klipper3d/klipper](https://github.com/Klipper3d) that you would like the mcu code to be compatible with. 
+Locate the `docker-compose.extra.simulavr.yaml` in the repository and set the `VERSION` Build-Arg to any Git Reference from [Klipper3d/klipper](https://github.com/Klipper3d) that you would like the mcu code to be compatible with. 
 
 This example builds the mcu code from [Klipper3d/klipper:d75154d](https://github.com/Klipper3d/klipper/commit/d75154d695efb1338cbfff061d226c4f384d127b)
 ```yaml
@@ -246,6 +246,6 @@ Then start the Stack
 docker compose \
   --profile mainsail \
   -f docker-compose.yaml \
-  -f docker-compose.simulavr.yaml \
+  -f docker-compose.extra.simulavr.yaml \
   up -d
 ```
