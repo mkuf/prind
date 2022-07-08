@@ -29,7 +29,7 @@ As this can be accomplished via docker, we can create an alias that replaces `ma
 
 Adapted from the official Docs, a generic Build would look like this.
 ```
-alias make="docker compose -f extra/docker-compose.mcu.yaml run --rm make"
+alias make="docker compose -f docker-compose.mcu.yaml run --rm make"
 
 make menuconfig
 make
@@ -150,7 +150,7 @@ docker compose cp klipper:/tmp/resonances_y_20220708_125150.csv ./resonances/
 `docker-compose.calibrate-shaper.yaml` is set up to run `calibrate_shaper.py`, so any options supported by the script can also be used with the container. 
 Set an alias to save yourself from typing the the docker compose command multiple times. The generated Images are located besides the csv files in `./resonances`
 ```
-alias calibrate_shaper="docker compose -f extra/docker-compose.calibrate-shaper.yaml run --rm calibrate_shaper"
+alias calibrate_shaper="docker compose -f docker-compose.calibrate-shaper.yaml run --rm calibrate_shaper"
 
 calibrate_shaper resonances_x_20220708_124515.csv -o cal_x.png
   [...]
@@ -246,6 +246,6 @@ Then start the Stack
 docker compose \
   --profile mainsail \
   -f docker-compose.yaml \
-  -f extra/docker-compose.simulavr.yaml \
+  -f docker-compose.simulavr.yaml \
   up -d
 ```
