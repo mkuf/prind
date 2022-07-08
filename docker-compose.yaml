@@ -106,7 +106,7 @@ services:
       - "traefik.http.routers.fluidd.entrypoints=web"
 
   mainsail:
-    image: mkuf/mainsail:latest
+    image: ghcr.io/mainsail-crew/mainsail:edge
     restart: unless-stopped
     profiles:
       - mainsail
