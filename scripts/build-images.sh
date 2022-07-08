@@ -13,14 +13,31 @@ set -e
 app=${1}
 registry=${2}
 
+# Set build parameters
 platform="linux/amd64,linux/arm/v7,linux/arm64/v8"
 dockerfile=docker/${app}/Dockerfile
 context=$(echo -n ${dockerfile} | rev | cut -f2- -d'/' | rev)
 
+# Get latest commitref from upstream repo
 source=$(grep "ARG REPO" ${dockerfile} | sed -r 's/.*REPO=(.*)$/\1/g')
 ref=$(git ls-remote ${source} HEAD | cut -f1)
 shortref=$(echo -n ${ref} | cut -c 1-7)
 
+# Set label Values
+label_date=$(date --rfc-3339=seconds)
+if [ "${CI}" == "true" ]; then
+  label_author="${GITHUB_REPOSITORY_OWNER}"
+  label_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+  label_doc="${label_url}/blob/main/docker/${app}/README.md"
+  label_src="${label_url}/blob/main/docker/${app}"
+else
+  label_author="$(whoami)"
+  label_url="local"
+  label_doc="local"
+  label_src="local"
+fi
+
+# Colorful output
 function log {
   echo -e "\033[0;36m## ${1} \033[0m"
 }
@@ -44,6 +61,12 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
       --tag ${registry}${app}:${shortref}${tag_extra} \
       --tag ${registry}${app}:nightly${tag_extra} \
       --tag ${registry}${app}:latest${tag_extra} \
+      --label org.prind.image.created="${label_date}" \
+      --label org.prind.image.authors="${label_author}" \
+      --label org.prind.image.url="${label_url}" \
+      --label org.prind.image.documentation="${label_doc}" \
+      --label org.prind.image.source="${label_src}" \
+      --label org.prind.image.version="${ref}" \
       --target ${target} \
       --push \
       ${context}
@@ -59,6 +82,12 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
         --build-arg VERSION=${tag} \
         --platform ${platform} \
         --tag ${registry}${app}:${tag}${tag_extra} \
+        --label org.prind.image.created="${label_date}" \
+        --label org.prind.image.authors="${label_author}" \
+        --label org.prind.image.url="${label_url}" \
+        --label org.prind.image.documentation="${label_doc}" \
+        --label org.prind.image.source="${label_src}" \
+        --label org.prind.image.version="${tag}" \
         --target ${target} \
         --push \
         ${context}
