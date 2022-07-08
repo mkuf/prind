@@ -129,6 +129,38 @@ docker compose --profile <profile> up -d
 ``` 
 
 ## Advanced Topics
+### Input Shaper Calibration
+Note:
+>Running a host_mcu process on a RaspberryPi to access its GPIO pins is currently not possible when running in Docker.
+Feel free to contribute if you have a Solution for this.
+
+Using input shaper requires an accelerometer that is directly connected to your printers mainboard. Follow the Docs on [Measuring Resonances](https://www.klipper3d.org/Measuring_Resonances.html), to set up your Printer accordingly.  
+
+After running `TEST_RESONANCES` or `SHAPER_CALIBRATE`, Klipper generates csv output in /tmp. To further analyze this data, it has to be extracted from the running klipper container.
+```
+mkdir ./resonances
+
+docker compose exec klipper ls /tmp
+  resonances_x_20220708_124515.csv  resonances_y_20220708_125150.csv
+
+docker compose cp klipper:/tmp/resonances_x_20220708_124515.csv ./resonances/
+docker compose cp klipper:/tmp/resonances_y_20220708_125150.csv ./resonances/
+```
+
+`docker-compose.calibrate-shaper.yaml` is set up to run `calibrate_shaper.py`, so any options supported by the script can also be used with the container. 
+Set an alias to save yourself from typing the the docker compose command multiple times. The generated Images are located besides the csv files in `./resonances`
+```
+alias calibrate_shaper="docker compose -f docker-compose.calibrate-shaper.yaml run --rm calibrate_shaper"
+
+calibrate_shaper resonances_x_20220708_124515.csv -o cal_x.png
+  [...]
+  Recommended shaper is ei @ 90.2 Hz
+
+calibrate_shaper resonances_y_20220708_125150.csv -o cal_y.png
+  [...]
+  Recommended shaper is mzv @ 48.2 Hz
+```
+
 ### Change Execution Options
 The Entrypoint for all Docker Images within this Repo are the actual Applications, which are run at container execution time.  
 This makes it possible to set command line Arguments for the Apps as Docker Command.  
