@@ -7,14 +7,7 @@ x-klipper-svc: &klipper-svc
   depends_on:
     init:
       condition: service_completed_successfully
-  command:
-    - "-I"
-    - "run/klipper.tty"
-    - "-a"
-    - "run/klipper.sock"
-    - "cfg/printer.cfg"
-    - "-l"
-    - "log/klippy.log"
+  command: -I run/klipper.tty -a run/klipper.sock cfg/printer.cfg -l log/klippy.log
 
 ## Service Definitions
 services:
@@ -53,11 +46,7 @@ services:
     pid: host
     logging:
       driver: none
-    command:
-      - "-c"
-      - "cfg/moonraker.cfg"
-      - "-l"
-      - "log/moonraker.log"
+    command: -c cfg/moonraker.cfg -l log/moonraker.log
     depends_on:
       init:
         condition: service_completed_successfully
@@ -133,9 +122,6 @@ services:
     network_mode: host
     profiles:
       - klipperscreen
-    command:
-      - "-c"
-      - "cfg/klipperscreen.conf"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /tmp/.X11-unix:/tmp/.X11-unix

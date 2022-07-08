@@ -5,20 +5,13 @@ x-klipper-simulavr: &klipper-simulavr
     simulavr:
       condition: service_started
   privileged: true
+  command: -I run/klipper.tty -a run/klipper.sock cfg/printer-simulavr.cfg -l log/klippy.log
   volumes:
     - ./config:/opt/cfg
     - run:/opt/run
     - gcode:/opt/gcode
     - log:/opt/log
     - /dev:/dev
-  command:
-    - "-I"
-    - "run/klipper.tty"
-    - "-a"
-    - "run/klipper.sock"
-    - "cfg/printer-simulavr.cfg"
-    - "-l"
-    - "log/klippy.log"
 
 services:
   ## simulavr
