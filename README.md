@@ -25,11 +25,11 @@ Follow the official Guides on how to get them up and running.
 
 ### Build the MCU Code
 Before using Klipper, you'll have to build and flash the microcontroller-code for your printers mainboard.  
-The `scripts` directory contains a wrapper that can be used as an alias for `make`. After setting this alias, follow the Instructions on finding your printer, building and flashing the microcontroller found in the [Klipper Docs](https://www.klipper3d.org/Installation.html#building-and-flashing-the-micro-controller).  
+As this can be accomplished via docker, we can create an alias that replaces `make` with the appropriate docker compose command. After setting this alias, follow the Instructions on finding your printer, building and flashing the microcontroller found in the [Klipper Docs](https://www.klipper3d.org/Installation.html#building-and-flashing-the-micro-controller).  
 
 Adapted from the official Docs, a generic Build would look like this.
 ```
-alias make="./scripts/build-mcu.sh"
+alias make="docker compose -f docker-compose.mcu.yaml run --rm make"
 
 make menuconfig
 make
