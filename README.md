@@ -3,7 +3,6 @@
 # prind
 [![Image: Klipper](https://github.com/mkuf/prind/actions/workflows/klipper.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/klipper.yaml)
 [![Image: Moonraker](https://github.com/mkuf/prind/actions/workflows/moonraker.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/moonraker.yaml)
-[![Image: Mainsail](https://github.com/mkuf/prind/actions/workflows/mainsail.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/mainsail.yaml)
 [![Image: Klipperscreen](https://github.com/mkuf/prind/actions/workflows/klipperscreen.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/klipperscreen.yaml)
 [![Image: Ustreamer](https://github.com/mkuf/prind/actions/workflows/ustreamer.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/ustreamer.yaml)
 
@@ -13,7 +12,7 @@ With a single Command, you can start up klipper and choose between multiple Fron
 Currently supported Frontends:
   * Octoprint (via [Dockerhub](https://hub.docker.com/r/octoprint/octoprint))
   * Fluidd (via [Dockerhub](https://hub.docker.com/r/cadriel/fluidd))
-  * Mainsail
+  * Mainsail (via [GHCR](https://github.com/mainsail-crew/mainsail/pkgs/container/mainsail))
   * KlipperScreen
 
 Depending on which Frontend you've chosen, moonraker will also be deployed.
@@ -63,7 +62,6 @@ In this example, the Webcam is using device ``/dev/video0``. Do not edit any oth
       - "traefik.http.middlewares.webcam.stripprefix.prefixes=/webcam"
       - "traefik.http.routers.webcam.middlewares=webcam"
 ```
-
 
 ### Configuring Klipper/Moonraker
 All Runtime Configs are stored within ``config`` of this Repo.  
