@@ -29,7 +29,7 @@ As this can be accomplished via docker, we can create an alias that replaces `ma
 
 Adapted from the official Docs, a generic Build would look like this.
 ```
-alias make="docker compose -f docker-compose.extra.mcu.yaml run --rm make"
+alias make="docker compose -f docker-compose.extra.make.yaml run --rm make"
 
 make menuconfig
 make
