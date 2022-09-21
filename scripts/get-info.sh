@@ -1,10 +1,26 @@
 #!/bin/bash
 
+if ! [ -f "docker-compose.yaml" ]; then
+  echo -e "
+  \033[1;31mMissing docker-compose.yaml\033[0m
+
+  You are currently in \033[0;36m$(pwd)\033[0m
+  Run this script from the root of prind to gather all necessary data.
+  >  cd prind
+  >  ./scripts/get-info.sh
+  "
+  exit 1
+fi
+
 echo -e "
 This Script will generate an archive containing the following data:
   - docker system info
   - docker compose version
-  - Currently running containers of this stack
+  - docker system storage metrics
+  - docker images available
+  - host storage usage metrics
+  - list of currently connected devices
+  - Containers of this stack
   - Image Names and versions of currently running containers of this stack
   - klippy.log and moonraker.log
   - a full copy of this directory
@@ -29,14 +45,26 @@ function log {
   log "Compose Version"
   docker compose version
 
+  log "System df"
+  docker system df
+
+  log "Docker Images"
+  docker image ls
+
+  log "Disk Space"
+  df -h
+
+  log "Connected devices"
+  ls -l /dev
+
   log "Image Versions of running containers"
   for i in $(docker compose ps --services); do
-    container=$(docker compose ps -q ${i})
+    container=$(docker compose ps -aq ${i})
     echo "${i}: $(docker inspect --format '{{ index .Config.Image }}' ${container}) $(docker inspect --format '{{ index .Config.Labels "org.prind.image.version"}}' ${container})"
   done
 
-  log "Running Containers"
-  docker compose ps
+  log "All Containers"
+  docker compose ps -a
 ) | tee ${tmpdir}/runtime-info.txt
 
 log "Retrieving Klipper/Moonraker Logfiles"
