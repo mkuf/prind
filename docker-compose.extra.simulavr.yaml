@@ -17,6 +17,7 @@ services:
   ## simulavr
   simulavr:
     image: simulavr
+    restart: unless-stopped
     build:
       context: docker/klipper
       target: build-simulavr
