@@ -1,8 +1,8 @@
 serial:
   additionalPorts:
-  - /opt/run/klipper.tty
+  - /opt/printer_data/run/klipper.tty
   autoconnect: true
-  port: /opt/run/klipper.tty
+  port: /opt/printer_data/run/klipper.tty
 webcam:
   snapshot: http://webcam:8080/snapshot
   stream: /webcam/stream

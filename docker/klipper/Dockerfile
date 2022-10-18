@@ -23,16 +23,16 @@ WORKDIR /opt
 COPY --from=build /opt/klipper ./klipper
 COPY --from=build /opt/venv ./venv
 
-RUN mkdir run cfg gcode log
+RUN mkdir printer_data
 RUN groupadd klipper --gid 1000 \
  && useradd klipper --uid 1000 --gid klipper \
  && usermod klipper --append --groups dialout \
  && chown -R klipper:klipper /opt/*
 
 USER klipper
-VOLUME ["/opt/run", "/opt/cfg", "/opt/gcode"]
+VOLUME ["/opt/printer_data"]
 ENTRYPOINT ["/opt/venv/bin/python", "klipper/klippy/klippy.py"]
-CMD ["-I", "run/klipper.tty", "-a", "run/klipper.sock", "cfg/printer.cfg"]
+CMD ["-I", "printer_data/run/klipper.tty", "-a", "printer_data/run/klipper.sock", "printer_data/config/printer.cfg"]
 
 ## For building MCU Code
 FROM ubuntu:18.04 as mcu
@@ -83,4 +83,4 @@ USER simulavr
 ENV PYTHONPATH=/opt/simulavr/build/pysimulavr/
 VOLUME ["/opt/run"]
 ENTRYPOINT ["klipper/scripts/avrsim.py"]
-CMD ["-p", "/opt/run/simulavr.tty", "/opt/klipper/out/klipper.elf"]
+CMD ["-p", "/opt/printer_data/run/simulavr.tty", "/opt/klipper/out/klipper.elf"]

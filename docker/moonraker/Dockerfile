@@ -38,7 +38,7 @@ WORKDIR /opt
 COPY --from=build /opt/moonraker ./moonraker
 COPY --from=build /opt/venv ./venv
 
-RUN mkdir run cfg gcode db log
+RUN mkdir printer_data
 RUN groupadd moonraker --gid 1000 \
  && useradd moonraker --uid 1000 --gid moonraker \
  && usermod moonraker --append --groups dialout \
@@ -51,7 +51,7 @@ RUN ln -s /bin/systemctl /sbin/shutdown \
 ## Start Moonraker
 USER moonraker
 EXPOSE 7125
-VOLUME ["/opt/run", "/opt/cfg", "/opt/gcode", "/opt/db"]
+VOLUME ["/opt/printer_data"]
 ENTRYPOINT ["/opt/venv/bin/python", "moonraker/moonraker/moonraker.py"]
-CMD ["-c", "cfg/moonraker.cfg"]
+CMD ["-d", "/opt/printer_data"]
 

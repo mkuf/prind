@@ -5,12 +5,12 @@ x-klipper-simulavr: &klipper-simulavr
     simulavr:
       condition: service_started
   privileged: true
-  command: -I run/klipper.tty -a run/klipper.sock cfg/printer-simulavr.cfg -l log/klippy.log
+  command: -I printer_data/run/klipper.tty -a printer_data/run/klipper.sock printer_data/config/printer-simulavr.cfg -l printer_data/logs/klippy.log
   volumes:
-    - ./config:/opt/cfg
-    - run:/opt/run
-    - gcode:/opt/gcode
-    - log:/opt/log
+    - ./config:/opt/printer_data/config
+    - run:/opt/printer_data/run
+    - gcode:/opt/printer_data/gcodes
+    - log:/opt/printer_data/logs
     - /dev:/dev
 
 services:
@@ -26,7 +26,7 @@ services:
     privileged: true
     volumes:
       - /dev:/dev
-      - run:/opt/run
+      - run:/opt/printer_data/run
   
   ## Reconfigure Klipper service for simulavr
   klipper:
