@@ -23,14 +23,14 @@ WORKDIR /opt
 COPY --from=build /opt/klipper ./klipper
 COPY --from=build /opt/venv ./venv
 
-RUN mkdir printer_data
+RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data/config
 RUN groupadd klipper --gid 1000 \
  && useradd klipper --uid 1000 --gid klipper \
  && usermod klipper --append --groups dialout \
  && chown -R klipper:klipper /opt/*
 
 USER klipper
-VOLUME ["/opt/printer_data"]
+VOLUME ["/opt/printer_data/run", "/opt/printer_data/gcodes", "/opt/printer_data/logs", "/opt/printer_data/config"]
 ENTRYPOINT ["/opt/venv/bin/python", "klipper/klippy/klippy.py"]
 CMD ["-I", "printer_data/run/klipper.tty", "-a", "printer_data/run/klipper.sock", "printer_data/config/printer.cfg"]
 
@@ -81,6 +81,6 @@ RUN groupadd simulavr --gid 1000 \
 
 USER simulavr
 ENV PYTHONPATH=/opt/simulavr/build/pysimulavr/
-VOLUME ["/opt/run"]
+VOLUME ["/opt/printer_data/run"]
 ENTRYPOINT ["klipper/scripts/avrsim.py"]
 CMD ["-p", "/opt/printer_data/run/simulavr.tty", "/opt/klipper/out/klipper.elf"]
