@@ -1,12 +1,22 @@
 ## Usecase: Minimal Configuration to be used with Portainer
 ## Issue: https://github.com/mkuf/prind/issues/39
 ##
+## Assumptions:
+## * I want to manage my printers software via portainer
+## * I have shell access to the host running portainer
+## * My printers Serial port is /dev/ttyUSB0
+## * My printers Webcam device is /dev/video0
+##
+## About this setup:
+## * traefik is used as proxy for the web frontend, moonraker and the webcam service
+## * fluidd is used as frontend
+##
 ## Setup:
 ## 1. Check out prind to a permanent directory
 ##      > git clone https://github.com/mkuf/prind/ /data/prind
 ## 2. Change permissions for the prind directory
 ##      > chown -R 1000:1000 /data/prind
-## 3. Set the device for klipper to your printers serial port
+## 3. Update the Devices used for klipper and the webcam service
 ## 4. Upload this file to portainer
 
 services:
@@ -53,6 +63,20 @@ services:
       - "traefik.http.services.moonraker.loadbalancer.server.port=7125"
       - "traefik.http.routers.moonraker.rule=PathPrefix(`/websocket`,`/printer`,`/api`,`/access`,`/machine`,`/server`)"
       - "traefik.http.routers.moonraker.entrypoints=web"
+
+  webcam:
+    image: mkuf/ustreamer:latest
+    restart: unless-stopped
+    command: --host=0.0.0.0 --port=8080 --slowdown --device=/dev/webcam --resolution=1280x960 --format=MJPEG --desired-fps=30
+    devices:
+      - /dev/video0:/dev/webcam
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.webcam.loadbalancer.server.port=8080"
+      - "traefik.http.routers.webcam.rule=PathPrefix(`/webcam`)"
+      - "traefik.http.routers.webcam.entrypoints=web"
+      - "traefik.http.middlewares.webcam.stripprefix.prefixes=/webcam"
+      - "traefik.http.routers.webcam.middlewares=webcam"
 
   fluidd:
     image: cadriel/fluidd:latest
