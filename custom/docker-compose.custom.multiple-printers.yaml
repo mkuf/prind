@@ -9,7 +9,7 @@
 ## About this setup:
 ## * Moonraker services for each printer are available via their unique port (8101 and 8201 in this example).
 ## * Webcam services for each printer are available via their unique port (8102 and 8202 in this example)
-## * Fluidd is accessible via 80
+## * Fluidd is used as Web frontend and is accessible via 80
 ## * You'll have to add your printers manually to fluidd via their moonraker ports eg. http://dockerhost:8101 and http://dockerhost:8201
 ##
 ## Setup:
