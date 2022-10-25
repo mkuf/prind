@@ -17,7 +17,7 @@
 ##      > git clone https://github.com/mkuf/prind/
 ##      > cd prind
 ## 2. Create config files for each printer and set permissions
-##      > for i in printer1 printer2; do cp config/printer.cfg config/${i}.cfg; cp config/moonraker.conf config/${i}.moonraker.conf
+##      > for i in printer1 printer2; do cp config/printer.cfg config/${i}.cfg; cp config/moonraker.conf config/${i}.moonraker.conf; done
 ##      > chown -R 1000:1000 config
 ## 3. Copy this file to the root of the repository, overwriting the original docker-compose.yaml
 ##      > cp custom/docker-compose.custom.multiple-printers.yaml docker-compose.yaml
