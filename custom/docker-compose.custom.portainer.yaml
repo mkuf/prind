@@ -81,8 +81,6 @@ services:
   fluidd:
     image: cadriel/fluidd:latest
     restart: unless-stopped
-    profiles:
-      - fluidd
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.fluidd.loadbalancer.server.port=80"
