@@ -1,4 +1,4 @@
-FROM python:3 as build
+FROM python:3.10 as build
 
 ARG REPO=https://github.com/jordanruthe/KlipperScreen
 ARG VERSION=master
