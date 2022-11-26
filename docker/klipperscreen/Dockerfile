@@ -6,6 +6,8 @@ ARG VERSION=master
 RUN apt update \
  && apt install -y \
       libgirepository1.0-dev \
+      libdbus-glib-1-dev \
+      cmake \
  && apt clean
 
 WORKDIR /opt
@@ -30,6 +32,7 @@ RUN apt update \
       fonts-freefont-ttf \
       libcairo2 \
       libatlas3-base \
+      libdbus-glib-1-2 \
  && apt clean
 
 WORKDIR /opt
