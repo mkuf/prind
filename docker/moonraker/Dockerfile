@@ -8,7 +8,8 @@ WORKDIR /opt
 
 RUN git clone ${REPO} moonraker \
  && cd moonraker \
- && git checkout ${VERSION}
+ && git checkout ${VERSION} \
+ && rm -rf .git
 
 RUN python -m venv venv \
  && venv/bin/pip install -r moonraker/scripts/moonraker-requirements.txt
@@ -35,14 +36,14 @@ RUN apt update \
  && apt clean
 
 WORKDIR /opt
-COPY --from=build /opt/moonraker ./moonraker
-COPY --from=build /opt/venv ./venv
-
-RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data/database printer_data/config
 RUN groupadd moonraker --gid 1000 \
  && useradd moonraker --uid 1000 --gid moonraker \
- && usermod moonraker --append --groups dialout \
+ && usermod moonraker --append --groups dialout
+RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data/database printer_data/config \
  && chown -R moonraker:moonraker /opt/*
+
+COPY --chown=moonraker:moonraker --from=build /opt/moonraker ./moonraker
+COPY --chown=moonraker:moonraker --from=build /opt/venv ./venv
 
 RUN ln -s /bin/systemctl /sbin/shutdown \
  && ln -s /bin/systemctl /sbin/reboot \

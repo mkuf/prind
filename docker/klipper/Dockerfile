@@ -8,7 +8,8 @@ WORKDIR /opt
 
 RUN git clone ${REPO} klipper \
  && cd klipper \
- && git checkout ${VERSION}
+ && git checkout ${VERSION} \
+ && rm -rf .git
 
 RUN virtualenv -p python2 venv \
  && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
@@ -20,14 +21,14 @@ RUN virtualenv -p python2 venv \
 FROM python:2-slim as run
 
 WORKDIR /opt
-COPY --from=build /opt/klipper ./klipper
-COPY --from=build /opt/venv ./venv
-
-RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data/config
 RUN groupadd klipper --gid 1000 \
  && useradd klipper --uid 1000 --gid klipper \
- && usermod klipper --append --groups dialout \
+ && usermod klipper --append --groups dialout
+RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data/config \
  && chown -R klipper:klipper /opt/*
+
+COPY --chown=klipper:klipper --from=build /opt/klipper ./klipper
+COPY --chown=klipper:klipper --from=build /opt/venv ./venv
 
 USER klipper
 VOLUME ["/opt/printer_data/run", "/opt/printer_data/gcodes", "/opt/printer_data/logs", "/opt/printer_data/config"]
@@ -38,9 +39,6 @@ CMD ["-I", "printer_data/run/klipper.tty", "-a", "printer_data/run/klipper.sock"
 FROM ubuntu:18.04 as mcu
 
 WORKDIR /opt
-COPY --from=build /opt/klipper ./klipper
-COPY --from=build /opt/venv ./venv
-
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update \
  && apt install -y \
@@ -52,6 +50,9 @@ RUN apt update \
       gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0 \
       python3-numpy python3-matplotlib \
  && apt clean
+
+COPY --chown=klipper:klipper --from=build /opt/klipper ./klipper
+COPY --chown=klipper:klipper --from=build /opt/venv ./venv
 
 ## Build klipper.elf for Simulavr and Simulavr itself
 FROM mcu as build-simulavr
@@ -67,17 +68,17 @@ COPY config.simulavr .config
 RUN make 
 
 WORKDIR /opt
+RUN mkdir run
+RUN groupadd simulavr --gid 1000 \
+ && useradd simulavr --uid 1000 --gid simulavr \
+ && usermod simulavr --append --groups dialout
+
 RUN git clone git://git.savannah.nongnu.org/simulavr.git \
  && cd simulavr \
  && git checkout release-1.1.0 \
  && make python \
- && make build
-
-RUN mkdir run
-RUN groupadd simulavr --gid 1000 \
- && useradd simulavr --uid 1000 --gid simulavr \
- && usermod simulavr --append --groups dialout \
- && chown -R simulavr:simulavr /opt/*
+ && make build \
+ && chown -R simulavr:simulavr /opt/simulavr
 
 USER simulavr
 ENV PYTHONPATH=/opt/simulavr/build/pysimulavr/

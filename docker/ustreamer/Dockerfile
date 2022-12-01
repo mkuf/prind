@@ -20,7 +20,8 @@ RUN apt update \
 
 RUN git clone ${REPO} ustreamer \
  && cd ustreamer \
- && git checkout ${VERSION}
+ && git checkout ${VERSION} \
+ && rm -rf .git
 
 RUN cd ustreamer \
  && make
@@ -39,12 +40,11 @@ RUN apt update \
  && apt clean
 
 WORKDIR /opt
-COPY --from=build /opt/ustreamer ./ustreamer
-
 RUN groupadd ustreamer --gid 1000 \
  && useradd ustreamer --uid 1000 --gid ustreamer \
- && usermod ustreamer --append --groups video \
- && chown -R ustreamer:ustreamer /opt/*
+ && usermod ustreamer --append --groups video
+
+COPY --chown=ustreamer:ustreamer --from=build /opt/ustreamer ./ustreamer
 
 ## Start ustreamer
 USER ustreamer
