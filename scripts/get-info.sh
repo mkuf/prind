@@ -68,7 +68,7 @@ function log {
 ) | tee ${tmpdir}/runtime-info.txt
 
 log "Retrieving Klipper/Moonraker Logfiles"
-docker compose cp klipper:/opt/log ${tmpdir}
+docker compose cp klipper:/opt/printer_data/logs ${tmpdir}
 
 log "Copying current configs"
 cp -a $(pwd) $tmpdir
