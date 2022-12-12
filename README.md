@@ -91,10 +91,11 @@ docker compose --profile fluidd down
 docker compose --profile mainsail up -d
 ```
 
-### KlipperScreen
-KlipperScreen can be run from within a Docker Container.  
-It requires you to set up a X11 Server on your machine that the Container can connect to.  
+### Additional Profiles
+#### KlipperScreen
+[KlipperScreen by jordanruthe](https://github.com/jordanruthe/KlipperScreen) can be enabled via the `klipperscreen` Profile.  
 
+It requires a X11 Server on your machine that the Container can connect to.  
 Locate the setup Script for X11 within `scripts/` and run it from the root directory of this repository as user root.
 It creates a User, installs and configures X11 and creates a Systemd Service for xinit.
 ```
@@ -108,6 +109,16 @@ Otherwise, proceed to start/update the Stack.
 
 ```
 docker compose --profile fluidd --profile klipperscreen up -d
+```
+
+#### Moonraker-Telegram-Bot
+[moonraker-telegram-bot by nlef](https://github.com/nlef/moonraker-telegram-bot) can be enabled via the `moonraker-telegram-bot` Profile  
+
+Add your `bot_token` and `chat_id` to `config/telegram.conf`.  
+See the [configuration reference](https://github.com/nlef/moonraker-telegram-bot/wiki/Sample-config) for further configuration Options.
+
+```
+docker compose --profile mainsail --profile moonraker-telegram-bot up -d
 ```
 
 ## Updating
