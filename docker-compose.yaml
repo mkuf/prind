@@ -27,6 +27,7 @@ services:
       - fluidd
       - mainsail
       - klipperscreen
+      - moonraker-telegram-bot
 
   klipper-priv:
     <<: *klipper-svc
@@ -67,6 +68,7 @@ services:
       - fluidd
       - mainsail
       - klipperscreen
+      - moonraker-telegram-bot
     labels:
       org.prind.service: moonraker
       traefik.enable: true
@@ -121,6 +123,8 @@ services:
       traefik.http.routers.mainsail.rule: PathPrefix(`/`)
       traefik.http.routers.mainsail.entrypoints: web
 
+  ## additional Services
+  ##
   klipperscreen:
     image: mkuf/klipperscreen:latest
     restart: unless-stopped
@@ -133,6 +137,18 @@ services:
       - ./config:/opt/cfg
     labels:
       org.prind.service: klipperscreen
+
+  moonraker-telegram-bot:
+    image: lefskiy/moonraker-telegram-bot:development
+    restart: unless-stopped
+    logging:
+      driver: none
+    profiles:
+      - moonraker-telegram-bot
+    volumes:
+      - gcode:/opt/printer_data/gcodes
+      - log:/opt/printer_data/logs
+      - ./config:/opt/printer_data/config
 
   ## Accompanying Services/Infra
   ##
