@@ -65,17 +65,26 @@ services:
     command: -I printer_data/run/printer1.klipper.tty -a printer_data/run/printer1.klipper.sock printer_data/config/printer1.cfg -l printer_data/logs/printer1.klippy.log
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
+    labels:
+      org.prind.service: klipper
+      org.prind.printer: printer1
   printer1-moonraker:
     <<: *moonraker-svc
     command: -d printer_data -c printer_data/config/printer1.moonraker.conf -l printer_data/logs/printer1.moonraker.log
     ports:
       - 8101:7125
+    labels:
+      org.prind.service: moonraker
+      org.prind.printer: printer1
   printer1-webcam:
     <<: *ustreamer-svc
     devices:
       - /dev/video0:/dev/webcam
     ports:
       - 8102:8080
+    labels:
+      org.prind.service: webcam
+      org.prind.printer: printer1
 
   ## Printer2
   ## Access api via port 8201/tcp and webcam via 8202/tcp
@@ -84,17 +93,26 @@ services:
     command: -I printer_data/run/printer2.klipper.tty -a printer_data/run/printer2.klipper.sock printer_data/config/printer2.cfg -l printer_data/logs/printer2.klippy.log
     devices:
       - /dev/ttyUSB1:/dev/ttyUSB1
+    labels:
+      org.prind.service: klipper
+      org.prind.printer: printer2
   printer2-moonraker:
     <<: *moonraker-svc
     command: -d printer_data -c printer_data/config/printer2.moonraker.conf -l printer_data/logs/printer2.moonraker.log
     ports:
       - 8201:7125
+    labels:
+      org.prind.service: moonraker
+      org.prind.printer: printer2
   printer2-webcam:
     <<: *ustreamer-svc
     devices:
       - /dev/video1:/dev/webcam
     ports:
       - 8202:8080
+    labels:
+      org.prind.service: webcam
+      org.prind.printer: printer2
 
   ## Use Fluidd as Frontend
   fluidd:
@@ -102,6 +120,8 @@ services:
     restart: unless-stopped
     ports:
       - 80:80
+    labels:
+      org.prind.service: fluidd
 
 volumes:
   run:

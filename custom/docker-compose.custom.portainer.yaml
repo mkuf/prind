@@ -36,6 +36,8 @@ services:
       - run:/opt/printer_data/run
       - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
+    labels:
+      org.prind.service: klipper
 
   moonraker:
     image: mkuf/moonraker:latest
@@ -59,10 +61,11 @@ services:
       - moonraker-db:/opt/printer_data/database
       - /data/prind/config:/opt/printer_data/config
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.moonraker.loadbalancer.server.port=7125"
-      - "traefik.http.routers.moonraker.rule=PathPrefix(`/websocket`,`/printer`,`/api`,`/access`,`/machine`,`/server`)"
-      - "traefik.http.routers.moonraker.entrypoints=web"
+      org.prind.service: moonraker
+      traefik.enable: true
+      traefik.http.services.moonraker.loadbalancer.server.port: 7125
+      traefik.http.routers.moonraker.rule: PathPrefix(`/websocket`,`/printer`,`/api`,`/access`,`/machine`,`/server`)
+      traefik.http.routers.moonraker.entrypoints: web
 
   webcam:
     image: mkuf/ustreamer:latest
@@ -71,27 +74,31 @@ services:
     devices:
       - /dev/video0:/dev/webcam
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.webcam.loadbalancer.server.port=8080"
-      - "traefik.http.routers.webcam.rule=PathPrefix(`/webcam`)"
-      - "traefik.http.routers.webcam.entrypoints=web"
-      - "traefik.http.middlewares.webcam.stripprefix.prefixes=/webcam"
-      - "traefik.http.routers.webcam.middlewares=webcam"
+      org.prind.service: webcam
+      traefik.enable: true
+      traefik.http.services.webcam.loadbalancer.server.port: 8080
+      traefik.http.routers.webcam.rule: PathPrefix(`/webcam`)
+      traefik.http.routers.webcam.entrypoints: web
+      traefik.http.middlewares.webcam.stripprefix.prefixes: /webcam
+      traefik.http.routers.webcam.middlewares: webcam
 
   fluidd:
     image: cadriel/fluidd:latest
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.fluidd.loadbalancer.server.port=80"
-      - "traefik.http.routers.fluidd.rule=PathPrefix(`/`)"
-      - "traefik.http.routers.fluidd.entrypoints=web"
+      org.prind.service: fluidd
+      traefik.enable: true
+      traefik.http.services.fluidd.loadbalancer.server.port: 80
+      traefik.http.routers.fluidd.rule: PathPrefix(`/`)
+      traefik.http.routers.fluidd.entrypoints: web
 
   init:
     image: busybox:latest
     command: chown -R 1000:1000 /prind/config
     volumes:
       - /data/prind:/prind
+    labels:
+      org.prind.service: init
 
   traefik:
     image: traefik:v2.5
@@ -105,6 +112,8 @@ services:
     restart: unless-stopped
     volumes:
         - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      org.prind.service: traefik
 
 volumes:
   run:
