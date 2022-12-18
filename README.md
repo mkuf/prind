@@ -186,12 +186,13 @@ Hence replace webcam2 with webcam3 and so on for every webcam you add and update
     devices:
       - /dev/video1:/dev/webcam
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.webcam2.loadbalancer.server.port=8080"
-      - "traefik.http.routers.webcam2.rule=PathPrefix(`/webcam2`)"
-      - "traefik.http.routers.webcam2.entrypoints=web"
-      - "traefik.http.middlewares.webcam2.stripprefix.prefixes=/webcam2"
-      - "traefik.http.routers.webcam2.middlewares=webcam2"
+      org.prind.service: webcam2
+      traefik.enable: true
+      traefik.http.services.webcam2.loadbalancer.server.port: 8080
+      traefik.http.routers.webcam2.rule: PathPrefix(`/webcam2`)
+      traefik.http.routers.webcam2.entrypoints: web
+      traefik.http.middlewares.webcam2.stripprefix.prefixes: /webcam2
+      traefik.http.routers.webcam2.middlewares: webcam2
 ```
 
 ### Building Docker images locally
