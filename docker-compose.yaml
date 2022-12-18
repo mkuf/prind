@@ -149,6 +149,8 @@ services:
       - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
       - ./config:/opt/printer_data/config
+    labels:
+      org.prind.service: moonraker-telegram-bot
 
   ## Accompanying Services/Infra
   ##
