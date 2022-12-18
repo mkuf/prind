@@ -27,6 +27,8 @@ services:
     volumes:
       - /dev:/dev
       - run:/opt/printer_data/run
+    labels:
+      org.prind.service: simulavr
   
   ## Reconfigure Klipper service for simulavr
   klipper:

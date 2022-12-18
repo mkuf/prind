@@ -8,6 +8,8 @@ x-klipper-svc: &klipper-svc
     init:
       condition: service_completed_successfully
   command: -I printer_data/run/klipper.tty -a printer_data/run/klipper.sock printer_data/config/printer.cfg -l printer_data/logs/klippy.log
+  labels:
+    org.prind.service: klipper
 
 ## Service Definitions
 services:
@@ -66,10 +68,11 @@ services:
       - mainsail
       - klipperscreen
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.moonraker.loadbalancer.server.port=7125"
-      - "traefik.http.routers.moonraker.rule=PathPrefix(`/websocket`,`/printer`,`/api`,`/access`,`/machine`,`/server`)"
-      - "traefik.http.routers.moonraker.entrypoints=web"
+      org.prind.service: moonraker
+      traefik.enable: true
+      traefik.http.services.moonraker.loadbalancer.server.port: 7125
+      traefik.http.routers.moonraker.rule: PathPrefix(`/websocket`,`/printer`,`/api`,`/access`,`/machine`,`/server`)
+      traefik.http.routers.moonraker.entrypoints: web
 
   ## Frontends
   ##
@@ -88,10 +91,11 @@ services:
     profiles:
       - octoprint
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.octoprint.loadbalancer.server.port=5000"
-      - "traefik.http.routers.octoprint.rule=PathPrefix(`/`)"
-      - "traefik.http.routers.octoprint.entrypoints=web"
+      org.prind.service: octoprint
+      traefik.enable: true
+      traefik.http.services.octoprint.loadbalancer.server.port: 5000
+      traefik.http.routers.octoprint.rule: PathPrefix(`/`)
+      traefik.http.routers.octoprint.entrypoints: web
 
   fluidd:
     image: cadriel/fluidd:latest
@@ -99,10 +103,11 @@ services:
     profiles:
       - fluidd
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.fluidd.loadbalancer.server.port=80"
-      - "traefik.http.routers.fluidd.rule=PathPrefix(`/`)"
-      - "traefik.http.routers.fluidd.entrypoints=web"
+      org.prind.service: fluidd
+      traefik.enable: true
+      traefik.http.services.fluidd.loadbalancer.server.port: 80
+      traefik.http.routers.fluidd.rule: PathPrefix(`/`)
+      traefik.http.routers.fluidd.entrypoints: web
 
   mainsail:
     image: ghcr.io/mainsail-crew/mainsail:edge
@@ -110,10 +115,11 @@ services:
     profiles:
       - mainsail
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.mainsail.loadbalancer.server.port=80"
-      - "traefik.http.routers.mainsail.rule=PathPrefix(`/`)"
-      - "traefik.http.routers.mainsail.entrypoints=web"
+      org.prind.service: mainsail
+      traefik.enable: true
+      traefik.http.services.mainsail.loadbalancer.server.port: 80
+      traefik.http.routers.mainsail.rule: PathPrefix(`/`)
+      traefik.http.routers.mainsail.entrypoints: web
 
   klipperscreen:
     image: mkuf/klipperscreen:latest
@@ -125,6 +131,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ./config:/opt/cfg
+    labels:
+      org.prind.service: klipperscreen
 
   ## Accompanying Services/Infra
   ##
@@ -136,6 +144,8 @@ services:
     command: chown -R 1000:1000 /prind/config
     volumes:
       - .:/prind
+    labels:
+      org.prind.service: init
 
   ## Loadbalancer/Proxy
   traefik:
@@ -150,6 +160,8 @@ services:
     restart: unless-stopped
     volumes:
         - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      org.prind.service: traefik
 
 volumes:
   run:

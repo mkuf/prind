@@ -15,9 +15,10 @@ services:
     devices:
       - /dev/video0:/dev/webcam
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.webcam.loadbalancer.server.port=8080"
-      - "traefik.http.routers.webcam.rule=PathPrefix(`/webcam`)"
-      - "traefik.http.routers.webcam.entrypoints=web"
-      - "traefik.http.middlewares.webcam.stripprefix.prefixes=/webcam"
-      - "traefik.http.routers.webcam.middlewares=webcam"
+      org.prind.service: webcam
+      traefik.enable: true
+      traefik.http.services.webcam.loadbalancer.server.port: 8080
+      traefik.http.routers.webcam.rule: PathPrefix(`/webcam`)
+      traefik.http.routers.webcam.entrypoints: web
+      traefik.http.middlewares.webcam.stripprefix.prefixes: /webcam
+      traefik.http.routers.webcam.middlewares: webcam
