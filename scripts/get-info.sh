@@ -58,17 +58,16 @@ function log {
   ls -l /dev
 
   log "Image Versions of running containers"
-  for i in $(docker compose ps --services); do
-    container=$(docker compose ps -aq ${i})
-    echo "${i}: $(docker inspect --format '{{ index .Config.Image }}' ${container}) $(docker inspect --format '{{ index .Config.Labels "org.prind.image.version"}}' ${container})"
+  for container in $(docker ps -aqf "label=org.prind.service"); do
+    echo "$(docker inspect --format '{{ index .Config.Labels "org.prind.service" }}' ${container}): $(docker inspect --format '{{ index .Config.Image }}' ${container}) $(docker inspect --format '{{ index .Config.Labels "org.prind.image.version"}}' ${container})"
   done
 
   log "All Containers"
-  docker compose ps -a
+  docker ps -af "label=org.prind.service"
 ) | tee ${tmpdir}/runtime-info.txt
 
 log "Retrieving Klipper/Moonraker Logfiles"
-docker compose cp klipper:/opt/printer_data/logs ${tmpdir}
+docker cp $(docker ps -aqf "label=org.prind.service=klipper"):/opt/printer_data/logs ${tmpdir}
 
 log "Copying current configs"
 cp -a $(pwd) $tmpdir
