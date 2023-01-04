@@ -1,6 +1,6 @@
 services:
   make:
-    image: mkuf/klipper:${TAG:-latest}-mcu
+    image: ghcr.io/mkuf/prind/klipper:${TAG:-latest}-mcu
     tty: true
     privileged: true
     entrypoint: make

@@ -1,6 +1,6 @@
 services:
   calibrate_shaper:
-    image: mkuf/klipper:${TAG:-latest}-mcu
+    image: ghcr.io/mkuf/prind/klipper:${TAG:-latest}-mcu
     entrypoint: python3 /opt/klipper/scripts/calibrate_shaper.py
     working_dir: /opt/resonances
     volumes:

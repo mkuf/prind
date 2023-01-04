@@ -1,6 +1,6 @@
 ## Common Templates
 x-klipper-svc: &klipper-svc
-  image: mkuf/klipper:latest
+  image: ghcr.io/mkuf/prind/klipper:latest
   restart: unless-stopped
   logging:
     driver: none
@@ -44,7 +44,7 @@ services:
   ## WebApi
   ##
   moonraker:
-    image: mkuf/moonraker:latest
+    image: ghcr.io/mkuf/prind/moonraker:latest
     restart: unless-stopped
     pid: host
     logging:
@@ -126,7 +126,7 @@ services:
   ## additional Services
   ##
   klipperscreen:
-    image: mkuf/klipperscreen:latest
+    image: ghcr.io/mkuf/prind/klipperscreen:latest
     restart: unless-stopped
     network_mode: host
     profiles:
