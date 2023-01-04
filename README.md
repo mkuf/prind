@@ -125,8 +125,8 @@ docker compose --profile mainsail --profile moonraker-telegram-bot up -d
 Images are built daily and tagged with latest and the first seven chars of the commit-sha of the remote repo. 
 Example: 
 
-* ``mkuf/klipper:latest``
-* ``mkuf/klipper:a33d069``
+* ``ghcr.io/mkuf/prind/klipper:latest``
+* ``ghcr.io/mkuf/prind/klipper:a33d069``
 
 The ``latest`` Tag will point to a new Image within 24h.  
 The SHA-Tag ``a33d069`` will remain and refers to [Klipper3d/klipper:a33d069](https://github.com/Klipper3d/klipper/commit/a33d0697b6438e362f0cf9d25e1e8358d331bf53)

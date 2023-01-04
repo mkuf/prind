@@ -18,21 +18,21 @@ docker run \
   -v $(pwd)/run:/printer_data/run \
   -v $(pwd)/gcode:/opt/printer_data/gcodes \
   -v $(pwd)/printer.cfg:/opt/printer_data/config/printer.cfg \
-  mkuf/klipper:latest
+  ghcr.io/mkuf/prind/klipper:latest
 
 docker run \
   -v $(pwd)/run:/printer_data/run \
   -v $(pwd)/gcode:/opt/printer_data/gcodes \
   -v $(pwd)/moonraker.conf:/opt/printer_data/config/moonraker.conf \
   -p 7125:7125 \
-  mkuf/moonraker:latest
+  ghcr.io/mkuf/prind/moonraker:latest
 ```
 
 #### Compose
 ```yaml
 services:
   klipper:
-    image: mkuf/klipper:latest
+    image: ghcr.io/mkuf/prind/klipper:latest
     devices:
       - /dev/ttymxc3:/dev/ttymxc3
     volumes:
@@ -41,7 +41,7 @@ services:
       - ./gcode:/opt/printer_data/gcodes
 
   moonraker:
-    image: mkuf/moonraker:latest
+    image: ghcr.io/mkuf/prind/moonraker:latest
     ports:
       - "7125:7125"
     volumes:

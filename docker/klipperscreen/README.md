@@ -16,13 +16,13 @@ docker run \
   --network host \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v $(pwd)/klipperscreen.conf:/opt/cfg/klipperscreen.conf \
-  mkuf/klipperscreen:latest
+  ghcr.io/mkuf/prind/klipperscreen:latest
 ```
 #### Compose
 ```yaml
 services:
   klipperscreen:
-    image: mkuf/klipperscreen:latest
+    image: ghcr.io/mkuf/prind/klipperscreen:latest
     network_mode: host
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix

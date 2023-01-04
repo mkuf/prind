@@ -10,13 +10,13 @@ By default, ustreamer is looking for device `/dev/video0`. A docker device bindi
 
 #### Run
 ```bash
-docker run -p 8080:8080 --device /dev/video0:/dev/video0 mkuf/ustreamer:latest
+docker run -p 8080:8080 --device /dev/video0:/dev/video0 ghcr.io/mkuf/prind/ustreamer:latest
 ```
 #### Compose
 ```yaml
 services:
   ustreamer:
-    image: mkuf/ustreamer:latest
+    image: ghcr.io/mkuf/prind/ustreamer:latest
     ports:
       - "8080:8080"
     devices:
