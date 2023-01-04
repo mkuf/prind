@@ -5,9 +5,6 @@ on:
     - cron: '0 2 * * *'
 jobs:
   build:
-    uses: mkuf/prind/.github/workflows/image-workflow.yaml@main
+    uses: ./.github/workflows/image-workflow.yaml
     with:
       app: ustreamer
-    secrets:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
