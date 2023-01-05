@@ -25,6 +25,8 @@ shortref=$(echo -n ${ref} | cut -c 1-7)
 
 # Set label Values
 label_date=$(date --rfc-3339=seconds)
+label_license="GPL-3.0"
+label_description="Docker image for ${source}/tree/${ref}"
 if [ "${CI}" == "true" ]; then
   label_prind_version="${GITHUB_SHA}"
   label_author="${GITHUB_REPOSITORY_OWNER}"
@@ -63,6 +65,9 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
       --tag ${registry}${app}:${shortref}${tag_extra} \
       --tag ${registry}${app}:nightly${tag_extra} \
       --tag ${registry}${app}:latest${tag_extra} \
+      --label org.opencontainers.image.source="${label_url}" \
+      --label org.opencontainers.image.description="${label_description}" \
+      --label org.opencontainers.image.licenses="${label_license}" \
       --label org.prind.version=${label_prind_version} \
       --label org.prind.image.created="${label_date}" \
       --label org.prind.image.authors="${label_author}" \
@@ -85,6 +90,9 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
         --build-arg VERSION=${tag} \
         --platform ${platform} \
         --tag ${registry}${app}:${tag}${tag_extra} \
+        --label org.opencontainers.image.source="${label_url}" \
+        --label org.opencontainers.image.description="${label_description}" \
+        --label org.opencontainers.image.licenses="${label_license}" \
         --label org.prind.version=${label_prind_version} \
         --label org.prind.image.created="${label_date}" \
         --label org.prind.image.authors="${label_author}" \
