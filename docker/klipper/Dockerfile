@@ -42,6 +42,7 @@ WORKDIR /opt
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update \
  && apt install -y \
+      sudo \
       virtualenv python-dev libffi-dev build-essential \
       libncurses-dev \
       libusb-dev \
