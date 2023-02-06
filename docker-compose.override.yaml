@@ -1,24 +1,35 @@
 ## Ustreamer base Service
-x-ustreamer-svc: &ustreamer-svc
-  image: mkuf/ustreamer:latest
-  restart: unless-stopped
-  command: --host=0.0.0.0 --port=8080 --slowdown --device=/dev/webcam --resolution=1280x960 --format=MJPEG --desired-fps=30
+#x-ustreamer-svc: &ustreamer-svc
+#  image: mkuf/ustreamer:latest
+#  restart: unless-stopped
+#  command: --host=0.0.0.0 --port=8080 --slowdown --device=/dev/webcam --resolution=1280x960 --format=MJPEG --desired-fps=30
 
 ## Add your personal config here
 services:
   klipper:
+#    privileged: true
+#    volumes:
+#      - /dev:/dev
+#      - ./config:/opt/printer_data/config
+#      - run:/opt/printer_data/run
+#      - gcode:/opt/printer_data/gcodes
+#      - log:/opt/printer_data/logs
     devices:
-      - /dev/ttymxc3:/dev/ttymxc3
+      - /dev/ttyACM0:/dev/ttyACM0
 
-  webcam:
-    <<: *ustreamer-svc
-    devices:
-      - /dev/video0:/dev/webcam
-    labels:
-      org.prind.service: webcam
-      traefik.enable: true
-      traefik.http.services.webcam.loadbalancer.server.port: 8080
-      traefik.http.routers.webcam.rule: PathPrefix(`/webcam`)
-      traefik.http.routers.webcam.entrypoints: web
-      traefik.http.middlewares.webcam.stripprefix.prefixes: /webcam
-      traefik.http.routers.webcam.middlewares: webcam
+#  webcam:
+#    <<: *ustreamer-svc
+#    devices:
+#      - /dev/video1:/dev/webcam
+#    labels:
+#      org.prind.service: webcam
+#      traefik.enable: true
+#      traefik.http.services.webcam.loadbalancer.server.port: 8080
+#      traefik.http.routers.webcam.rule: PathPrefix(`/webcam`)
+#      traefik.http.routers.webcam.entrypoints: web
+#      traefik.http.middlewares.webcam.stripprefix.prefixes: /webcam
+#      traefik.http.routers.webcam.middlewares: webcam
+
+  traefik:
+    volumes:
+      - "/data/docker/run/docker.sock:/var/run/docker.sock:ro"
