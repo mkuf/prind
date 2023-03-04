@@ -52,6 +52,9 @@ RUN apt update \
       python3-numpy python3-matplotlib \
  && apt clean
 
+RUN groupadd klipper --gid 1000 \
+ && useradd klipper --uid 1000 --gid klipper
+
 COPY --chown=klipper:klipper --from=build /opt/klipper ./klipper
 COPY --chown=klipper:klipper --from=build /opt/venv ./venv
 
@@ -69,19 +72,15 @@ COPY config.simulavr .config
 RUN make 
 
 WORKDIR /opt
-RUN mkdir run
-RUN groupadd simulavr --gid 1000 \
- && useradd simulavr --uid 1000 --gid simulavr \
- && usermod simulavr --append --groups dialout
 
 RUN git clone git://git.savannah.nongnu.org/simulavr.git \
  && cd simulavr \
  && git checkout release-1.1.0 \
  && make python \
  && make build \
- && chown -R simulavr:simulavr /opt/simulavr
+ && chown -R klipper:klipper /opt/simulavr
 
-USER simulavr
+USER klipper
 ENV PYTHONPATH=/opt/simulavr/build/pysimulavr/
 VOLUME ["/opt/printer_data/run"]
 ENTRYPOINT ["klipper/scripts/avrsim.py"]
