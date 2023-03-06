@@ -14,7 +14,7 @@ app=${1}
 registry=${2}
 
 # Set build parameters
-platform="linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8"
+platform="linux/amd64,linux/arm/v7,linux/arm64/v8"
 dockerfile=docker/${app}/Dockerfile
 context=$(echo -n ${dockerfile} | rev | cut -f2- -d'/' | rev)
 
