@@ -52,8 +52,8 @@ RUN apt update \
       python3-numpy python3-matplotlib \
  && apt clean
 
-COPY --chown=klipper:klipper --from=build /opt/klipper ./klipper
-COPY --chown=klipper:klipper --from=build /opt/venv ./venv
+COPY --from=build /opt/klipper ./klipper
+COPY --from=build /opt/venv ./venv
 
 ## Build klipper.elf for Simulavr and Simulavr itself
 FROM mcu as build-simulavr
