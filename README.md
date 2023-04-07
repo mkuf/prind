@@ -140,6 +140,20 @@ docker compose --profile <profile> up -d
 ``` 
 
 ## Advanced Topics
+### Serial device permissions
+It may be necessary to change the permissions of your printers serial device.  
+This is usually the case when you're on a non debian based distro which uses a different numerical groupid for the `dialout` group.  
+
+Serial devices passed into the klipper container should be assigned to groupid `20` for the permissions to work within it.
+
+This may be done by creating a udev rule on your host machine for your specific device, read up on how to do this on your specific OS.  
+Usually you'll have to create a `*.rules` file in `/etc/udev/rules.d` and add a single line like this to it.  
+Be sure to use your devices specific `idVendor` and `idProduct`, which can be found via `lsusb`.
+
+```
+ACTION=="add",SUBSYSTEM=="tty",ATTRS{idVendor}=="0000",ATTRS{idProduct}=="0000",GROUP="20"
+```
+
 ### Input Shaper Calibration
 Note:
 >Running a host_mcu process on a RaspberryPi to access its GPIO pins is currently not possible when running in Docker.
