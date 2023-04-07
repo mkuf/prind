@@ -1,5 +1,5 @@
 ## Get Code and make
-FROM debian:buster-slim as build
+FROM debian:bullseye-slim as build
 
 ARG REPO=https://github.com/pikvm/ustreamer
 ARG VERSION=master
@@ -27,13 +27,13 @@ RUN cd ustreamer \
  && make
 
 ## Runtime Image
-FROM debian:buster-slim as run
+FROM debian:bullseye-slim as run
 
 RUN apt update \
  && apt install -y \
       ca-certificates \
-      libevent-2.1 \
-      libevent-pthreads-2.1-6 \
+      libevent-2.1-7 \
+      libevent-pthreads-2.1-7 \
       libjpeg62-turbo \
       libbsd0 \
       libgpiod2 \

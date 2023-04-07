@@ -36,7 +36,7 @@ ENTRYPOINT ["/opt/venv/bin/python", "klipper/klippy/klippy.py"]
 CMD ["-I", "printer_data/run/klipper.tty", "-a", "printer_data/run/klipper.sock", "printer_data/config/printer.cfg"]
 
 ## For building MCU Code
-FROM ubuntu:18.04 as mcu
+FROM debian:bullseye as mcu
 
 WORKDIR /opt
 ARG DEBIAN_FRONTEND=noninteractive
@@ -48,7 +48,7 @@ RUN apt update \
       libusb-dev \
       avrdude gcc-avr binutils-avr avr-libc \
       stm32flash dfu-util libnewlib-arm-none-eabi \
-      gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0 \
+      gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0-0 \
       python3-numpy python3-matplotlib \
  && apt clean
 
