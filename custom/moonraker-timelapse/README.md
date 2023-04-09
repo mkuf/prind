@@ -1,6 +1,6 @@
 # Moonraker Timelapse in Docker
 
->  **Usecase**: Create timelapses via moonraker plugin
+>  **Usecase**: Create timelapses via moonraker plugin  
 >  **Issue**: https://github.com/mkuf/prind/issues/46
 > 
 >  **Assumptions**:

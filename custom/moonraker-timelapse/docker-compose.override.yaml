@@ -14,7 +14,7 @@ services:
     image: moonraker:ffmpeg
     build:
       context: docker/moonraker
-      dockerfile: Dockerfile.ffmpeg
+      dockerfile: Dockerfile.moonraker.ffmpeg
     volumes:
       - /opt/moonraker-timelapse/component/timelapse.py:/opt/moonraker/moonraker/components/timelapse.py
       - /opt/timelapse:/opt/timelapse
