@@ -129,9 +129,11 @@ services:
     image: mkuf/klipperscreen:latest
     restart: unless-stopped
     network_mode: host
+    pid: host
     profiles:
       - klipperscreen
     volumes:
+      - /run/systemd:/run/systemd
       - /etc/localtime:/etc/localtime:ro
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ./config:/opt/cfg
