@@ -116,7 +116,7 @@ services:
 
   ## Use Fluidd as Frontend
   fluidd:
-    image: cadriel/fluidd:latest
+    image: ghcr.io/fluidd-core/fluidd:latest
     restart: unless-stopped
     ports:
       - 80:80

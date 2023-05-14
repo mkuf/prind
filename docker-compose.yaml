@@ -100,7 +100,7 @@ services:
       traefik.http.routers.octoprint.entrypoints: web
 
   fluidd:
-    image: cadriel/fluidd:latest
+    image: ghcr.io/fluidd-core/fluidd:latest
     restart: unless-stopped
     profiles:
       - fluidd

@@ -11,7 +11,7 @@ With a single Command, you can start up klipper and choose between multiple Fron
 
 Currently supported Frontends:
   * Octoprint (via [Dockerhub](https://hub.docker.com/r/octoprint/octoprint))
-  * Fluidd (via [Dockerhub](https://hub.docker.com/r/cadriel/fluidd))
+  * Fluidd (via [GHCR](https://github.com/fluidd-core/fluidd/pkgs/container/fluidd))
   * Mainsail (via [GHCR](https://github.com/mainsail-crew/mainsail/pkgs/container/mainsail))
   * KlipperScreen
 

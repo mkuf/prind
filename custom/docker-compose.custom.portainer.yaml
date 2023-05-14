@@ -83,7 +83,7 @@ services:
       traefik.http.routers.webcam.middlewares: webcam
 
   fluidd:
-    image: cadriel/fluidd:latest
+    image: ghcr.io/fluidd-core/fluidd:latest
     restart: unless-stopped
     labels:
       org.prind.service: fluidd
