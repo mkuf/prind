@@ -10,15 +10,22 @@ set -xe
 USER=screen
 
 ## Create User
-adduser --system --disabled-password --no-create-home --shell /bin/bash ${USER}
+adduser --system --disabled-password --shell /bin/bash ${USER}
 usermod -a -G tty ${USER}
 
 ## Install Packages
 apt update
-apt install -y feh xterm xinit xinput xserver-xorg x11-xserver-utils xserver-xorg-video-fbdev
+apt install -y feh xterm xinit xinput xserver-xorg xserver-xorg-legacy x11-xserver-utils xserver-xorg-video-fbdev
 
 ## Allow any User to start X
-sed -i 's/allowed_users=console/allowed_users=anybody/g' /etc/X11/Xwrapper.config || true
+if [ -f /etc/X11/Xwrapper.config ]; then
+  sed -i 's/allowed_users=console/allowed_users=anybody/g' /etc/X11/Xwrapper.config
+else
+  cat <<EOF > /etc/X11/Xwrapper.config
+needs_root_rights=yes
+allowed_users=anybody
+EOF
+fi
 
 ## Create the xinit systemd service
 cat <<EOF > /etc/systemd/system/xinit.service
