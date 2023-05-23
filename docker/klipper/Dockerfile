@@ -55,6 +55,26 @@ RUN apt update \
 COPY --from=build /opt/klipper ./klipper
 COPY --from=build /opt/venv ./venv
 
+## For using your SBC as Klipper Microcontroller
+## https://www.klipper3d.org/RPi_microcontroller.html
+FROM mcu as mcuprocess
+
+WORKDIR /opt
+RUN groupadd klipper --gid 1000 \
+ && useradd klipper --uid 1000 --gid klipper \
+ && usermod klipper --append --groups dialout
+RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data/config \
+ && chown -R klipper:klipper /opt/printer_data
+
+COPY config.mcuprocess klipper/.config
+RUN cd klipper \
+ && make flash
+
+USER klipper
+VOLUME ["/opt/printer_data/run"]
+ENTRYPOINT ["/usr/local/bin/klipper_mcu"]
+CMD ["-I", "/opt/printer_data/run/klipper_mcu.tty"]
+
 ## Build klipper.elf for Simulavr and Simulavr itself
 FROM mcu as build-simulavr
 

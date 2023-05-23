@@ -1,0 +1,36 @@
+x-klipper-mcuprocess: &klipper-mcuprocess
+  depends_on:
+    init:
+      condition: service_completed_successfully
+    mcu:
+      condition: service_started
+  privileged: true
+  volumes:
+    - ./config:/opt/printer_data/config
+    - run:/opt/printer_data/run
+    - gcode:/opt/printer_data/gcodes
+    - log:/opt/printer_data/logs
+    - /dev:/dev
+
+services:
+  mcu:
+    image: klipper_mcu
+    restart: unless-stopped
+    build:
+      context: docker/klipper
+      target: mcuprocess
+      args:
+        VERSION: master
+    privileged: true
+    volumes:
+      - /dev:/dev
+      - run:/opt/printer_data/run
+    labels:
+      org.prind.service: mcuprocess
+
+  ## Reconfigure Klipper service for klipper_mcu
+  klipper:
+    <<: *klipper-mcuprocess
+
+  klipper-priv:
+    <<: *klipper-mcuprocess
