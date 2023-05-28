@@ -69,6 +69,7 @@ services:
       - mainsail
       - klipperscreen
       - moonraker-telegram-bot
+      - mobileraker_companion
     labels:
       org.prind.service: moonraker
       traefik.enable: true
@@ -153,6 +154,16 @@ services:
       - ./config:/opt/printer_data/config
     labels:
       org.prind.service: moonraker-telegram-bot
+
+  mobileraker_companion:
+    image: ghcr.io/clon1998/mobileraker_companion:latest
+    restart: unless-stopped
+    profiles:
+      - mobileraker_companion
+    volumes:
+      - ./config:/opt/printer_data/config
+    labels:
+      org.prind.service: mobileraker_companion
 
   ## Accompanying Services/Infra
   ##

@@ -121,6 +121,15 @@ See the [configuration reference](https://github.com/nlef/moonraker-telegram-bot
 docker compose --profile mainsail --profile moonraker-telegram-bot up -d
 ```
 
+#### mobileraker_companion
+[mobileraker_companion by Clon1998](https://github.com/Clon1998/mobileraker_companion) can be enabled via the `mobileraker_companion` Profile.
+
+The default configuration provided with this repository contains everything needed to start the service and receive notifications via the [Mobileraker App](https://github.com/Clon1998/mobileraker). See the [configuration reference](https://github.com/Clon1998/mobileraker_companion#companion---config) for further configuration Options.
+
+```
+docker compose --profile mainsail --profile mobileraker_companion up -d
+```
+
 ## Updating
 Images are built daily and tagged with latest and the first seven chars of the commit-sha of the remote repo. 
 Example: 
