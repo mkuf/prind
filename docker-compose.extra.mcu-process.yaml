@@ -1,4 +1,8 @@
 x-klipper-mcuprocess: &klipper-mcuprocess
+  image: klipper:local
+  build:
+    context: docker/klipper
+    target: run
   depends_on:
     init:
       condition: service_completed_successfully

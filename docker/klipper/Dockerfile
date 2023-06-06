@@ -23,7 +23,8 @@ FROM python:2-slim as run
 WORKDIR /opt
 RUN groupadd klipper --gid 1000 \
  && useradd klipper --uid 1000 --gid klipper \
- && usermod klipper --append --groups dialout
+ && usermod klipper --append --groups dialout \
+ && usermod klipper --append --groups tty
 RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data/config \
  && chown -R klipper:klipper /opt/*
 
