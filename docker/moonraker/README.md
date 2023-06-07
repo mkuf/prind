@@ -14,7 +14,8 @@ Create `moonraker.conf` and `printer.cfg` as well as the directories `run` and `
 #### Run
 ```bash
 docker run \
-  --device /dev/ttymxc3:/dev/ttymxc3 \
+  --privileged \
+  -v /dev:/dev \
   -v $(pwd)/run:/printer_data/run \
   -v $(pwd)/gcode:/opt/printer_data/gcodes \
   -v $(pwd)/printer.cfg:/opt/printer_data/config/printer.cfg \
@@ -33,9 +34,9 @@ docker run \
 services:
   klipper:
     image: mkuf/klipper:latest
-    devices:
-      - /dev/ttymxc3:/dev/ttymxc3
+    privileged: true
     volumes:
+      - /dev:/dev
       - ./printer.cfg:/opt/printer_data/conf/printer.cfg
       - ./run:/opt/printer_data/run
       - ./gcode:/opt/printer_data/gcodes

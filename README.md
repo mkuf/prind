@@ -39,14 +39,6 @@ make flash FLASH_DEVICE=/dev/serial/by-id/<my printer>
 If your Board can be flashed via SD-Card, you may want to omit `make flash` and retrieve the `klipper.bin` from the `out` directory that is created by `make`. Follow your boards instructions on how to proceed with flashing via SD-Card.
 
 ### Add your Configuration to docker-compose.override.yaml
-Locate the ``klipper`` Service within ``docker-compose.override.yaml`` and update the ``device`` Section with the Serial Port of your Printer.  
-In this example, the Printer is using device ``/dev/ttymxc3``.
-```yaml
-  klipper:
-    devices:
-      - /dev/ttymxc3:/dev/ttymxc3
-```
-
 Locate the ``webcam`` Service within ``docker-compose.override.yaml`` and update the ``device`` Section with the Device Name of your Webcam.  
 In this example, the Webcam is using device ``/dev/video0``. Do not edit any other lines.
 ```yaml
@@ -65,7 +57,7 @@ In this example, the Webcam is using device ``/dev/video0``. Do not edit any oth
 
 ### Configuring Klipper/Moonraker
 All Runtime Configs are stored within ``config`` of this Repo.  
-* Update config/printer.cfg with your Klipper config, make sure to not remove the existing Macros as they are required by fluidd/mainsail. See [Klipper3d Docs](https://www.klipper3d.org/Config_Reference.html) for Reference
+* Update ``config/printer.cfg`` with your Klipper config, set the serial device and make sure to not remove the existing Macros as they are required by fluidd/mainsail. See [Klipper3d Docs](https://www.klipper3d.org/Config_Reference.html) for Reference
 * Make sure to update ``cors_domains`` and ``trusted_clients`` within ``moonraker.cfg`` to secure your moonraker api from unwanted access. See [Moonraker Docs](https://moonraker.readthedocs.io/en/latest/configuration/) for Reference
 
 ### Starting the stack

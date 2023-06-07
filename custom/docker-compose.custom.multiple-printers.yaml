@@ -25,7 +25,7 @@
 ## 5. Make sure each service has a unique 'command' and is referencing the files created by 2.
 ## 6. Add your printers config to their corresponding file
 ## 7. Set the correct klippy_uds_address in the corresponding *.moonraker.conf
-## 8. Update the Devices used for klipper and the webcam services
+## 8. Update the Devices used for the webcam services
 ## 9. Start the stack
 ##      > docker compose up -d
 
@@ -33,7 +33,9 @@
 x-klipper-svc: &klipper-svc
   image: mkuf/klipper:latest
   restart: unless-stopped
+  privileged: true
   volumes:
+    - /dev:/dev
     - ./config:/opt/printer_data/config
     - run:/opt/printer_data/run
     - gcode:/opt/printer_data/gcodes
@@ -63,8 +65,6 @@ services:
   printer1-klipper:
     <<: *klipper-svc
     command: -I printer_data/run/printer1.klipper.tty -a printer_data/run/printer1.klipper.sock printer_data/config/printer1.cfg -l printer_data/logs/printer1.klippy.log
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
     labels:
       org.prind.service: klipper
       org.prind.printer: printer1
@@ -91,8 +91,6 @@ services:
   printer2-klipper:
     <<: *klipper-svc
     command: -I printer_data/run/printer2.klipper.tty -a printer_data/run/printer2.klipper.sock printer_data/config/printer2.cfg -l printer_data/logs/printer2.klippy.log
-    devices:
-      - /dev/ttyUSB1:/dev/ttyUSB1
     labels:
       org.prind.service: klipper
       org.prind.printer: printer2

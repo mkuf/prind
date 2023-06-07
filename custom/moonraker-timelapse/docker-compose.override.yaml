@@ -6,10 +6,6 @@ x-ustreamer-svc: &ustreamer-svc
 
 ## Add your personal config here
 services:
-  klipper:
-    devices:
-      - /dev/ttymxc3:/dev/ttymxc3
-
   moonraker:
     image: moonraker:ffmpeg
     build:
