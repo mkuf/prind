@@ -85,7 +85,7 @@ COPY --from=build-hostmcu /usr/local/bin/klipper_mcu /usr/local/bin/klipper_mcu
 
 VOLUME ["/opt/printer_data/run"]
 ENTRYPOINT ["/usr/local/bin/klipper_mcu"]
-CMD ["-I", "/opt/printer_data/run/klipper_mcu.tty"]
+CMD ["-I", "/opt/printer_data/run/klipper_host_mcu.tty"]
 ###
 
 
