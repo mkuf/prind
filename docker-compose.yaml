@@ -71,7 +71,7 @@ services:
     image: octoprint/octoprint:minimal
     restart: unless-stopped
     depends_on:
-      klipper-priv:
+      klipper:
         condition: service_started
     privileged: true
     volumes:
