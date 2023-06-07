@@ -1,4 +1,5 @@
-## Get Code and Build venv
+## Get Klipper Source and Build venv
+##
 FROM python:2 as build
 
 ARG REPO=https://github.com/Klipper3d/klipper
@@ -16,8 +17,11 @@ RUN virtualenv -p python2 venv \
  && venv/bin/pip install numpy \
  && venv/bin/python -m compileall klipper/klippy \
  && venv/bin/python klipper/klippy/chelper/__init__.py
+###
 
-## Runtime Image
+
+## Klippy Runtime Image
+##
 FROM python:2-slim as run
 
 WORKDIR /opt
@@ -35,9 +39,12 @@ USER klipper
 VOLUME ["/opt/printer_data/run", "/opt/printer_data/gcodes", "/opt/printer_data/logs", "/opt/printer_data/config"]
 ENTRYPOINT ["/opt/venv/bin/python", "klipper/klippy/klippy.py"]
 CMD ["-I", "printer_data/run/klipper.tty", "-a", "printer_data/run/klipper.sock", "printer_data/config/printer.cfg"]
+###
 
-## For building MCU Code
-FROM debian:bullseye as mcu
+
+## Image for building MCU code including other tooling
+##
+FROM debian:bullseye as tools
 
 WORKDIR /opt
 ARG DEBIAN_FRONTEND=noninteractive
@@ -55,23 +62,36 @@ RUN apt update \
 
 COPY --from=build /opt/klipper ./klipper
 COPY --from=build /opt/venv ./venv
+###
 
-## For using your SBC as Klipper Microcontroller
-## https://www.klipper3d.org/RPi_microcontroller.html
-FROM mcu as mcuprocess
+
+## Build the klipper_mcu binary
+## 
+FROM tools as build-hostmcu
 
 WORKDIR /opt
 
 COPY config.mcuprocess klipper/.config
 RUN cd klipper \
  && make flash
+###
+
+
+## Runtime image for the klipper_mcu binary
+##
+FROM debian:bullseye-slim as hostmcu
+
+COPY --from=build-hostmcu /usr/local/bin/klipper_mcu /usr/local/bin/klipper_mcu
 
 VOLUME ["/opt/printer_data/run"]
 ENTRYPOINT ["/usr/local/bin/klipper_mcu"]
 CMD ["-I", "/opt/printer_data/run/klipper_mcu.tty"]
+###
 
-## Build klipper.elf for Simulavr and Simulavr itself
-FROM mcu as build-simulavr
+
+## Build Simulavr and klipper.elf
+## For manual builds, not uploaded to the docker registry
+FROM tools as build-simulavr
 
 RUN apt update \
  && apt install -y \

@@ -1,6 +1,6 @@
 services:
   make:
-    image: mkuf/klipper:${TAG:-latest}-mcu
+    image: mkuf/klipper:${TAG:-latest}-tools
     tty: true
     privileged: true
     entrypoint: make

@@ -1,5 +1,4 @@
-x-klipper-mcuprocess: &klipper-mcuprocess
-  image: klipper:local
+x-klipper-hostmcu: &klipper-mcuprocess
   build:
     context: docker/klipper
     target: run
@@ -17,24 +16,19 @@ x-klipper-mcuprocess: &klipper-mcuprocess
     - /dev:/dev
 
 services:
-  mcu:
-    image: klipper_mcu
+  hostmcu:
+    image: mkuf/klipper:latest-hostmcu
     restart: unless-stopped
-    build:
-      context: docker/klipper
-      target: mcuprocess
-      args:
-        VERSION: master
     privileged: true
     volumes:
       - /dev:/dev
       - run:/opt/printer_data/run
     labels:
-      org.prind.service: mcuprocess
+      org.prind.service: hostmcu
 
   ## Reconfigure Klipper service for klipper_mcu
   klipper:
-    <<: *klipper-mcuprocess
+    <<: *klipper-hostmcu
 
   klipper-priv:
-    <<: *klipper-mcuprocess
+    <<: *klipper-hostmcu
