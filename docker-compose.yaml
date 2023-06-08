@@ -19,13 +19,6 @@ services:
       - run:/opt/printer_data/run
       - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
-    profiles:
-      - fluidd
-      - mainsail
-      - klipperscreen
-      - moonraker-telegram-bot
-      - mobileraker_companion
-      - octoprint
     labels:
       org.prind.service: klipper
 
