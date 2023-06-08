@@ -20,7 +20,7 @@
 ## 4. Upload this file to portainer
 
 services:
- klipper:
+  klipper:
     image: mkuf/klipper:latest
     restart: unless-stopped
     privileged: true
