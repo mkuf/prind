@@ -66,7 +66,7 @@ COPY --from=build /opt/venv ./venv
 
 
 ## Build the klipper_mcu binary
-## 
+##
 FROM tools as build-hostmcu
 
 WORKDIR /opt
