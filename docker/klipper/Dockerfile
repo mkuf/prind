@@ -71,7 +71,7 @@ FROM tools as build-hostmcu
 
 WORKDIR /opt
 
-COPY config.mcuprocess klipper/.config
+COPY config.hostmcu klipper/.config
 RUN cd klipper \
  && make flash
 ###
