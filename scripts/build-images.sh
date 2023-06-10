@@ -53,7 +53,7 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
   fi
 
   ## latest
-  if docker manifest inspect ${registry}${app}:${shortref}${tag_extra} > /dev/null; then
+  if docker buildx imagetools inspect ${registry}${app}:${shortref}${tag_extra} > /dev/null; then
     log "## Image ${registry}${app}:${shortref}${tag_extra} already exists, nothing to do."
   else
     log "## Building latest Image ${registry}${app}:${shortref}${tag_extra}"
@@ -77,7 +77,7 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
 
   ## Tags
   for tag in $(git -c 'versionsort.suffix=-' ls-remote --tags --sort='version:refname' --refs ${source} | tail -n3 | rev | cut -f1 -d'/' | rev); do
-    if docker manifest inspect ${registry}${app}:${tag}${tag_extra} > /dev/null; then
+    if docker buildx imagetools inspect ${registry}${app}:${tag}${tag_extra} > /dev/null; then
       log "## Image ${registry}${app}:${tag}${tag_extra} already exists, nothing to do."
     else
       log "## Building Image for tagged release ${registry}${app}:${tag}${tag_extra}"
