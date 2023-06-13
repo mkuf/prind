@@ -43,12 +43,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update \
  && apt install -y \
       sudo \
-      virtualenv python-dev libffi-dev build-essential \
+      virtualenv python-dev libffi-dev build-essential pkg-config\
       libncurses-dev \
-      libusb-dev \
       avrdude gcc-avr binutils-avr avr-libc \
       stm32flash dfu-util libnewlib-arm-none-eabi \
-      gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0-0 \
+      gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0-0 libusb-1.0-0-dev \
       python3-numpy python3-matplotlib \
  && apt clean
 
