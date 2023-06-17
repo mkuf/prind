@@ -103,14 +103,17 @@ none
 ## Tags
 |Tag|Description|Static|
 |---|---|---|
-|`latest`/`nightly`|Refers to the most recent runtime Image.|May point to a new build within 24h, depending on code changes in the upstream repository.|
+|`latest`/`nightly`|Refers to the most recent runtime Image for klippy.|May point to a new build within 24h, depending on code changes in the upstream repository.|
 |`<7-digit-sha>` <br>eg: `d75154d`|Refers to a specific commit SHA in the upstream repository. eg: [Klipper3d/klipper:d75154d](https://github.com/Klipper3d/klipper/commit/d75154d695efb1338cbfff061d226c4f384d127b)|Yes|
-|`*-mcu`|Refers to a full blown Ubuntu Image containing all Tools necessary to Build the Microcontroller code for Klipper|Yes|
+|`*-tools`|Refers to Debian Image containing all Tools necessary to Build the Microcontroller code for Klipper|Yes|
+|`*-hostmcu`|Refers to the runtime Image for klipper_mcu.|Yes|
 
 ## Targets
 |Target|Description|Pushed|
 |---|---|---|
 |`build`|Pull Upstream Codebase and build python venv|No|
 |`build-simulavr`|Based on `mcu`: Pull and Build simulavr for klipper. Used for testing without Hardware.|No|
-|`run`|Default runtime Image|Yes|
-|`mcu`|Build Tools for MCU code compilation|Yes|
+|`build-hostmcu`|Based on `mcu`: Build the klipper_mcu binary|No|
+|`run`|Default runtime Image for klippy|Yes|
+|`tools`|Build Tools for MCU code compilation|Yes|
+|`hostmcu`|Runtime Image for the klipper_mcu binary|Yes|
