@@ -61,7 +61,7 @@ All Runtime Configs are stored within ``config`` of this Repo.
 * Make sure to update ``cors_domains`` and ``trusted_clients`` within ``moonraker.cfg`` to secure your moonraker api from unwanted access. See [Moonraker Docs](https://moonraker.readthedocs.io/en/latest/configuration/) for Reference
 
 ### Starting the stack
-Currently, there are 3 Profiles to choose from, depending on the Web Frontend you'd like to use.
+There are currently 3 frontend Profiles to choose from, depending on the Web Frontend you'd like to use.
 * fluidd
 * mainsail
 * octoprint
@@ -84,6 +84,31 @@ docker compose --profile mainsail up -d
 ```
 
 ### Additional Profiles
+Docker compose allows for multiple profiles to be started at once.  
+You may combine any of the above frontend profiles with any number of the following additional profiles.  
+
+Be sure to always use the same set of profiles when updating the stack, otherwise services may be orphaned or the stack is behaving in an unpredictable way. 
+
+#### hostmcu
+The `hostmcu` profile enables you to use your host as secondary mcu for klipper.  
+See the [Klipper Docs](https://www.klipper3d.org/RPi_microcontroller.html) for more information on this Topic.
+
+```
+docker compose --profile mainsail --profile hostmcu up -d
+```
+
+After the hostmcu container is started, you may check for available gpio chips with
+
+```
+docker compose exec -it hostmcu gpiodetect
+```
+
+and check the pin number and pin availability with
+
+```
+docker compose exec -it hostmcu gpioinfo
+```
+
 #### KlipperScreen
 [KlipperScreen by jordanruthe](https://github.com/jordanruthe/KlipperScreen) can be enabled via the `klipperscreen` Profile.  
 
