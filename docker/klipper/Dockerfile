@@ -81,6 +81,10 @@ RUN cd klipper \
 ##
 FROM debian:bullseye-slim as hostmcu
 
+RUN apt update \
+ && apt install -y gpiod \
+ && apt clean
+
 COPY --from=build-hostmcu /usr/local/bin/klipper_mcu /usr/local/bin/klipper_mcu
 
 VOLUME ["/opt/printer_data/run"]
