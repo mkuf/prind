@@ -61,7 +61,6 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
       --build-arg VERSION=${ref} \
       --platform ${platform} \
       --tag ${registry}${app}:${shortref}${tag_extra} \
-      --tag ${registry}${app}:nightly${tag_extra} \
       --tag ${registry}${app}:latest${tag_extra} \
       --label org.prind.version=${label_prind_version} \
       --label org.prind.image.created="${label_date}" \
