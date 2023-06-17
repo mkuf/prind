@@ -93,6 +93,13 @@ Be sure to always use the same set of profiles when updating the stack, otherwis
 The `hostmcu` profile enables you to use your host as secondary mcu for klipper.  
 See the [Klipper Docs](https://www.klipper3d.org/RPi_microcontroller.html) for more information on this Topic.
 
+Uncomment the following lines in `printer.cfg`
+```
+[mcu host]
+serial: /opt/printer_data/run/klipper_host_mcu.tty
+```
+then start the stack with
+
 ```
 docker compose --profile mainsail --profile hostmcu up -d
 ```
