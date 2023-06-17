@@ -188,11 +188,10 @@ ACTION=="add",SUBSYSTEM=="tty",ATTRS{idVendor}=="0000",ATTRS{idProduct}=="0000",
 ```
 
 ### Input Shaper Calibration
-Note:
->Running a host_mcu process on a RaspberryPi to access its GPIO pins is currently not possible when running in Docker.
-Feel free to contribute if you have a Solution for this.
+Using input shaper requires an accelerometer.  
+If you choose to connect this to your hosts GPIO pins, make sure to enable the `hostmcu` profile described in the `Additional Profiles` section above.
 
-Using input shaper requires an accelerometer that is directly connected to your printers mainboard. Follow the Docs on [Measuring Resonances](https://www.klipper3d.org/Measuring_Resonances.html), to set up your Printer accordingly.  
+Follow the Docs on [Measuring Resonances](https://www.klipper3d.org/Measuring_Resonances.html), to set up your Printer.  
 
 After running `TEST_RESONANCES` or `SHAPER_CALIBRATE`, Klipper generates csv output in /tmp. To further analyze this data, it has to be extracted from the running klipper container.
 ```
