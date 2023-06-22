@@ -1,6 +1,6 @@
 ## Get Klipper Source and Build venv
 ##
-FROM python:2 as build
+FROM python:3-bookworm as build
 
 ARG REPO=https://github.com/Klipper3d/klipper
 ARG VERSION=master
@@ -12,7 +12,7 @@ RUN git clone ${REPO} klipper \
  && git checkout ${VERSION} \
  && rm -rf .git
 
-RUN virtualenv -p python2 venv \
+RUN python -m venv venv \
  && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
  && venv/bin/pip install numpy \
  && venv/bin/python -m compileall klipper/klippy \
@@ -22,7 +22,7 @@ RUN virtualenv -p python2 venv \
 
 ## Klippy Runtime Image
 ##
-FROM python:2-slim as run
+FROM python:3-slim-bookworm as run
 
 WORKDIR /opt
 RUN groupadd klipper --gid 1000 \
@@ -44,14 +44,14 @@ CMD ["-I", "printer_data/run/klipper.tty", "-a", "printer_data/run/klipper.sock"
 
 ## Image for building MCU code including other tooling
 ##
-FROM debian:bullseye as tools
+FROM debian:bookworm as tools
 
 WORKDIR /opt
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update \
  && apt install -y \
       sudo \
-      virtualenv python-dev libffi-dev build-essential pkg-config\
+      virtualenv python3-dev libffi-dev build-essential pkg-config\
       libncurses-dev \
       avrdude gcc-avr binutils-avr avr-libc \
       stm32flash dfu-util libnewlib-arm-none-eabi \
@@ -78,7 +78,7 @@ RUN cd klipper \
 
 ## Runtime image for the klipper_mcu binary
 ##
-FROM debian:bullseye-slim as hostmcu
+FROM debian:bookworm-slim as hostmcu
 
 RUN apt update \
  && apt install -y gpiod \

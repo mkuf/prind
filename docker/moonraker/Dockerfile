@@ -1,5 +1,5 @@
 ## Get Code and Build venv
-FROM python:3-bullseye as build
+FROM python:3-bookworm as build
 
 ARG REPO=https://github.com/Arksine/moonraker
 ARG VERSION=master
@@ -15,7 +15,7 @@ RUN python -m venv venv \
  && venv/bin/pip install -r moonraker/scripts/moonraker-requirements.txt
 
 ## Runtime Image
-FROM python:3-slim-bullseye as run
+FROM python:3-slim-bookworm as run
 
 RUN apt update \
  && apt install -y \
@@ -23,11 +23,11 @@ RUN apt update \
       python3-libgpiod \
       curl \
       libcurl4 \
-      libssl1.1 \
+      libssl3 \
       liblmdb0 \
       libsodium23 \
       libjpeg62-turbo \
-      libtiff5 \
+      libtiff6 \
       libxcb1 \
       zlib1g \
       iproute2 \
