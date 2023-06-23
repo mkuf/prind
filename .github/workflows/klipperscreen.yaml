@@ -5,7 +5,7 @@ on:
     - cron: '0 2 * * *'
 jobs:
   build:
-    uses: mkuf/prind/.github/workflows/image-workflow.yaml@main
+    uses: ./.github/workflows/image-workflow.yaml
     with:
       app: klipperscreen
     secrets:
