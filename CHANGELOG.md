@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - CHANGELOG.md
+- custom/docker-compose.custom.unique-uid-gid.override.yaml
 ### Fixed
 - Github Action Runner running out of space
 ### Changed
