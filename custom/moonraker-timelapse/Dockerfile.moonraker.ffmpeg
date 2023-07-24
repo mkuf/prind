@@ -1,8 +1,0 @@
-FROM mkuf/moonraker:latest
-
-USER root
-RUN apt update \
- && apt install -y ffmpeg \
- && apt clean
-
-USER moonraker

@@ -1,0 +1,72 @@
+## Moonraker Timelapse in Docker
+##
+## Usecase: Create timelapses via moonraker plugin
+## Issue: https://github.com/mkuf/prind/issues/46
+##
+## Assumptions:
+## * I use a profile that requires moonraker
+## * I have a webcam
+## * I want to create timelapses
+##
+## About this setup:
+## * this file replaces the main docker-compose.override.yaml
+## * moonraker image is built at stack startup
+## * timelapses will be saved to `/opt/timelapse` on the host machine
+##
+## Setup
+## 1. Check out the timelapse code to `../` relative to the root of this repository
+## ```
+## git clone https://github.com/mainsail-crew/moonraker-timelapse ../moonraker-timelapse
+## ```
+## 2. Add the gcode macros provided by moonraker-timelapse to your printers configuration file https://github.com/mainsail-crew/moonraker-timelapse/blob/main/klipper_macro/timelapse.cfg
+## 3. Add the following to your moonraker.conf
+## ```
+## [timelapse]
+## output_path: /opt/timelapse/
+## ```
+## 4. Add your personal config to this file and copy it to the root of the repository, overwriting the existing docker-compose.override.yaml
+## 5. start the stack as described in the main readme using mainsail or fluidd as profile
+
+## Ustreamer base Service
+x-ustreamer-svc: &ustreamer-svc
+  image: mkuf/ustreamer:latest
+  restart: unless-stopped
+  command: --host=0.0.0.0 --port=8080 --slowdown --device=/dev/webcam --resolution=1280x960 --format=MJPEG --desired-fps=30
+
+## Add your personal config here
+services:
+  moonraker:
+    image: moonraker:ffmpeg
+    build:
+      dockerfile_inline: |
+        FROM mkuf/moonraker:latest
+        USER root
+        RUN apt update \
+        && apt install -y ffmpeg \
+        && apt clean
+        USER moonraker
+    volumes:
+      - /opt/moonraker-timelapse/component/timelapse.py:/opt/moonraker/moonraker/components/timelapse.py
+      - /opt/timelapse:/opt/timelapse
+      - /dev/null:/opt/klipper/config/null
+      - /dev/null:/opt/klipper/docs/null
+      - /run/dbus:/run/dbus
+      - /run/systemd:/run/systemd
+      - run:/opt/printer_data/run
+      - gcode:/opt/printer_data/gcodes
+      - log:/opt/printer_data/logs
+      - moonraker-db:/opt/printer_data/database
+      - ./config:/opt/printer_data/config
+
+  webcam:
+    <<: *ustreamer-svc
+    devices:
+      - /dev/video0:/dev/webcam
+    labels:
+      org.prind.service: webcam
+      traefik.enable: true
+      traefik.http.services.webcam.loadbalancer.server.port: 8080
+      traefik.http.routers.webcam.rule: PathPrefix(`/webcam`)
+      traefik.http.routers.webcam.entrypoints: web
+      traefik.http.middlewares.webcam.stripprefix.prefixes: /webcam
+      traefik.http.routers.webcam.middlewares: webcam
