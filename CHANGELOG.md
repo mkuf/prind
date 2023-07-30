@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Github Action Runner running out of space
 ### Changed
 - Refactor moonraker-timelapse custom setup into an single override file
+- Clarify docs for upgrading the stack related to #86
 ### Removed
 -->
 

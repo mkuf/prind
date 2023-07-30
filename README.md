@@ -166,9 +166,10 @@ The SHA-Tag ``a33d069`` will remain and refers to [Klipper3d/klipper:a33d069](ht
 
 Updating can be handled via docker-compose.  
 docker-compose.yaml uses latest tags for all Images contained in this Repository.  
-Compose will download all current Images and replace them when starting the stack again. 
+Compose will download all current Images and replace them when starting the stack again.  
+Make sure to include _all_ profiles that you specified at stack startup when pulling images.  
 ```
-docker compose pull
+docker compose --profile <profile> pull
 docker compose --profile <profile> up -d
 ``` 
 
