@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 if ! [ -f "docker-compose.yaml" ]; then
   echo -e "
   \033[1;31mMissing docker-compose.yaml\033[0m
@@ -70,7 +68,7 @@ commands=(
 
 ## Generate archive
 archive_name="prind-info-$(date +%d%m%Y-%H%M%S).tar.gz"
-tar -cf ${archive_name} ${tmpdir} 2> /dev/null
+tar --exclude "out" --exclude "resonances" -cf ${archive_name} ${tmpdir} 2> /dev/null
 
 ## Prompt user to upload the generated file
 echo -e "
