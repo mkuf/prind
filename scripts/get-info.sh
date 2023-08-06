@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if ! [ -f "docker-compose.yaml" ]; then
   echo -e "
   \033[1;31mMissing docker-compose.yaml\033[0m
@@ -34,43 +36,37 @@ read
 
 tmpdir=$(mktemp -d --suffix=-prind)
 
-function log {
-  echo -e "\033[0;36m\n## ${1} \033[0m"
+function pad_cmd {
+  echo "## ${@}"
+  ${@}
+  echo "## END ${@}"
+  echo ""
 }
 
 (
-  log "System Info"
-  docker system info
+  pad_cmd docker system info
+  pad_cmd docker compose version
+  pad_cmd docker system df
+  pad_cmd docker image ls
+  pad_cmd df -h
+  pad_cmd ls -l /dev
+  pad_cmd docker ps -af "label=org.prind.service"
+  pad_cmd docker cp $(docker ps -aqf "label=org.prind.service=klipper"):/opt/printer_data/logs ${tmpdir}
+  pad_cmd cp -a $(pwd) $tmpdir
 
-  log "Compose Version"
-  docker compose version
-
-  log "System df"
-  docker system df
-
-  log "Docker Images"
-  docker image ls
-
-  log "Disk Space"
-  df -h
-
-  log "Connected devices"
-  ls -l /dev
-
-  log "Image Versions of running containers"
+  echo "## Image Versions"
   for container in $(docker ps -aqf "label=org.prind.service"); do
     echo "$(docker inspect --format '{{ index .Config.Labels "org.prind.service" }}' ${container}): $(docker inspect --format '{{ index .Config.Image }}' ${container}) $(docker inspect --format '{{ index .Config.Labels "org.prind.image.version"}}' ${container})"
   done
+  echo "## END Image Versions"
 
-  log "All Containers"
-  docker ps -af "label=org.prind.service"
-) | tee ${tmpdir}/runtime-info.txt
+) > ${tmpdir}/info.txt 2>&1
 
-log "Retrieving Klipper/Moonraker Logfiles"
-docker cp $(docker ps -aqf "label=org.prind.service=klipper"):/opt/printer_data/logs ${tmpdir}
+## Generate archive
+archive_name="prind-info-$(date +%d%m%Y-%H%M%S).tar.gz"
+tar -cf ${archive_name} ${tmpdir} 2> /dev/null
 
-log "Copying current configs"
-cp -a $(pwd) $tmpdir
-
-log "Generating Archive"
-tar --exclude-vcs -cvf prind-info-$(date +%d%m%Y-%H%M%S).tar.gz ${tmpdir}
+## Prompt user to upload the generated file
+echo -e "
+\033[1;32mSuccess:\033[0m Please attach \033[1;33m${archive_name}\033[0m to your issue.
+"
