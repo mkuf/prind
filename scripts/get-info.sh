@@ -43,16 +43,22 @@ function pad_cmd {
   echo ""
 }
 
+commands=(
+  "docker system info"
+  "docker compose version"
+  "docker system df"
+  "docker image ls"
+  "df -h"
+  "ls -lRn /dev"
+  "docker ps -af label=org.prind.service"
+  "docker cp $(docker ps -aqf label=org.prind.service=klipper):/opt/printer_data/logs ${tmpdir}"
+  "cp -a $(pwd) $tmpdir"
+)
+
 (
-  pad_cmd docker system info
-  pad_cmd docker compose version
-  pad_cmd docker system df
-  pad_cmd docker image ls
-  pad_cmd df -h
-  pad_cmd ls -l /dev
-  pad_cmd docker ps -af "label=org.prind.service"
-  pad_cmd docker cp $(docker ps -aqf "label=org.prind.service=klipper"):/opt/printer_data/logs ${tmpdir}
-  pad_cmd cp -a $(pwd) $tmpdir
+  for cmd in "${commands[@]}"; do
+    pad_cmd ${cmd}
+  done
 
   echo "## Image Versions"
   for container in $(docker ps -aqf "label=org.prind.service"); do
