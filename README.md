@@ -154,6 +154,29 @@ The default configuration provided with this repository contains everything need
 docker compose --profile mainsail --profile mobileraker_companion up -d
 ```
 
+#### moonraker-obico
+> This profile is incompatible with OctoPrint, choose Fluidd or Mainsail instead.
+
+1. Link a new `Klipper`-Type Printer via the Webinterface
+2. Klick `Next` when prompted to *Install Obico for Klipper*, not executing the shown Commands
+3. Change to the root of the prind repository and start the linking process
+```bash
+cd prind
+
+docker run --rm -it \
+  -v $(pwd)/config:/opt/printer_data/config \
+  --entrypoint /opt/venv/bin/python \
+  ghcr.io/thespaghettidetective/moonraker-obico:latest \
+    -m moonraker_obico.link -c /opt/printer_data/config/moonraker-obico.cfg
+```
+4. Enter the *6-digit verification code*
+5. Check if `[server].auth_token` is set in `config/mooonraker-obico.cfg`, see the [Official Documentation](https://www.obico.io/docs/user-guides/moonraker-obico/config/) on further configuration Options
+6. Start the stack
+```bash
+docker compose --profile mainsail --profile moonraker-obico up -d
+```
+
+
 ## Updating
 Images are built daily and tagged with latest and the first seven chars of the commit-sha of the remote repo. 
 Example: 
