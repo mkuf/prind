@@ -158,6 +158,17 @@ services:
     labels:
       org.prind.service: hostmcu
 
+  moonraker-obico:
+    image: ghcr.io/thespaghettidetective/moonraker-obico:latest
+    restart: unless-stopped
+    volumes:
+      - ./config:/opt/printer_data/config
+      - log:/opt/printer_data/logs
+    profiles:
+      - moonraker-obico
+    labels:
+      org.prind.service: moonraker-obico
+
   ## Accompanying Services/Infra
   ##
 
