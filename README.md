@@ -161,13 +161,7 @@ docker compose --profile mainsail --profile mobileraker_companion up -d
 2. Klick `Next` when prompted to *Install Obico for Klipper*, not executing the shown Commands
 3. Change to the root of the prind repository and start the linking process
 ```bash
-cd prind
-
-docker run --rm -it \
-  -v $(pwd)/config:/opt/printer_data/config \
-  --entrypoint /opt/venv/bin/python \
-  ghcr.io/thespaghettidetective/moonraker-obico:latest \
-    -m moonraker_obico.link -c /opt/printer_data/config/moonraker-obico.cfg
+docker compose -f docker-compose.extra.link-obico.yaml run --rm link-obico
 ```
 4. Enter the *6-digit verification code*
 5. Check if `[server].auth_token` is set in `config/mooonraker-obico.cfg`, see the [Official Documentation](https://www.obico.io/docs/user-guides/moonraker-obico/config/) on further configuration Options
