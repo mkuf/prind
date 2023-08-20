@@ -7,13 +7,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
-- profile: moonraker-obico via #89
 ### Fixed
+### Changed
+### Removed
+-->
+
+## [v1.9.0] - 2023-08-20
+### Added
+- profile: moonraker-obico via #89
 ### Changed
 - docker: update repo url for KlipperScreen
 - scripts: exclude `out` and `resonances` directory from support archive
-### Removed
--->
 
 ## [v1.8.0] - 2023-08-06
 ### Added
