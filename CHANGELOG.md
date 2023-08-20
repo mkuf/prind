@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - docker: update repo url for KlipperScreen
 - scripts: exclude `out` and `resonances` directory from support archive
 
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.8.0...v1.9.0
+
 ## [v1.8.0] - 2023-08-06
 ### Added
 - CHANGELOG.md
