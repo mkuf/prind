@@ -157,14 +157,23 @@ docker compose --profile mainsail --profile mobileraker_companion up -d
 #### moonraker-obico
 > This profile is incompatible with OctoPrint, choose Fluidd or Mainsail instead.
 
-1. Link a new `Klipper`-Type Printer via the Webinterface
+[moonraker-obico by TheSpaghettiDetective](https://github.com/TheSpaghettiDetective/moonraker-obico) can be enabled via the `moonraker-obico` Profile.  
+
+The default configuration provided with this repository contains everything needed to access the webcam and use the tunnel with obico Cloud. This requires an account at https://obico.io.  
+If you use a self hosted instance of [obico-server](https://github.com/TheSpaghettiDetective/obico-server), you'll have to change the `[server].url` at `config/moonraker-obico.cfg`.  
+
+For further configuration options, see the [Official Documentation](https://www.obico.io/docs/user-guides/moonraker-obico/config/).
+
+Follow these steps to link your printer and start the profile:
+
+1. Add a new `Klipper`-Type Printer via the Webinterface
 2. Klick `Next` when prompted to *Install Obico for Klipper*, not executing the shown Commands
 3. Change to the root of the prind repository and start the linking process
 ```bash
 docker compose -f docker-compose.extra.link-obico.yaml run --rm link-obico
 ```
 4. Enter the *6-digit verification code*
-5. Check if `[server].auth_token` is set in `config/mooonraker-obico.cfg`, see the [Official Documentation](https://www.obico.io/docs/user-guides/moonraker-obico/config/) on further configuration Options
+5. Check if `[server].auth_token` is set in `config/mooonraker-obico.cfg`
 6. Start the stack
 ```bash
 docker compose --profile mainsail --profile moonraker-obico up -d
