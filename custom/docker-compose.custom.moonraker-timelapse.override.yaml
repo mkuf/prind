@@ -42,7 +42,7 @@ services:
         FROM mkuf/moonraker:latest
         USER root
         RUN apt update \
-        && apt install -y ffmpeg \
+        && apt install -y ffmpeg wget \
         && apt clean
         USER moonraker
     volumes:
