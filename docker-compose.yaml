@@ -115,6 +115,7 @@ services:
     profiles:
       - klipperscreen
     volumes:
+      - /run/dbus:/run/dbus
       - /run/systemd:/run/systemd
       - /etc/localtime:/etc/localtime:ro
       - /tmp/.X11-unix:/tmp/.X11-unix
