@@ -162,6 +162,7 @@ services:
   moonraker-obico:
     image: ghcr.io/thespaghettidetective/moonraker-obico:latest
     restart: unless-stopped
+    privileged: true
     volumes:
       - ./config:/opt/printer_data/config
       - log:/opt/printer_data/logs
