@@ -8,13 +8,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 ### Fixed
+### Changed
+### Removed
+-->
+
+## [v1.9.1] - 2023-09-23
+### Fixed
 - klipper: pin numpy to 1.25.2 to fix failing image build on arm/v7 #95
 - custom: added wget to moonraker-timelaps as suggested in https://github.com/mkuf/prind/issues/46#issuecomment-1714421086
 ### Changed
 - klipperscreen: mount host dbus into container
 - moonraker-obico: run service in privileged mode
-### Removed
--->
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.9.0...v1.9.1
 
 ## [v1.9.0] - 2023-08-20
 ### Added
