@@ -14,18 +14,14 @@
 ## * timelapses will be saved to `/opt/timelapse` on the host machine
 ##
 ## Setup
-## 1. Check out the timelapse code to `../` relative to the root of this repository
-## ```
-## git clone https://github.com/mainsail-crew/moonraker-timelapse ../moonraker-timelapse
-## ```
-## 2. Add the gcode macros provided by moonraker-timelapse to your printers configuration file https://github.com/mainsail-crew/moonraker-timelapse/blob/main/klipper_macro/timelapse.cfg
-## 3. Add the following to your moonraker.conf
+## 1. Add the gcode macros provided by moonraker-timelapse to your printers configuration file https://github.com/mainsail-crew/moonraker-timelapse/blob/main/klipper_macro/timelapse.cfg
+## 2. Add the following to your moonraker.conf
 ## ```
 ## [timelapse]
 ## output_path: /opt/timelapse/
 ## ```
-## 4. Add your personal config to this file and copy it to the root of the repository, overwriting the existing docker-compose.override.yaml
-## 5. start the stack as described in the main readme using mainsail or fluidd as profile
+## 3. Add your personal config to this file and copy it to the root of the repository, overwriting the existing docker-compose.override.yaml
+## 4. start the stack as described in the main readme using mainsail or fluidd as profile
 
 ## Ustreamer base Service
 x-ustreamer-svc: &ustreamer-svc
@@ -39,14 +35,17 @@ services:
     image: moonraker:ffmpeg
     build:
       dockerfile_inline: |
+        FROM alpine/git as pull
+        RUN git clone https://github.com/mainsail-crew/moonraker-timelapse /opt/moonraker-timelapse
         FROM mkuf/moonraker:latest
         USER root
         RUN apt update \
         && apt install -y ffmpeg wget \
         && apt clean
         USER moonraker
+        COPY --chown=moonraker:moonraker --from=pull /opt/moonraker-timelapse /opt/moonraker-timelapse
+        RUN ln -s /opt/moonraker-timelapse/component/timelapse.py /opt/moonraker/moonraker/components/timelapse.py
     volumes:
-      - /opt/moonraker-timelapse/component/timelapse.py:/opt/moonraker/moonraker/components/timelapse.py
       - /opt/timelapse:/opt/timelapse
       - /dev/null:/opt/klipper/config/null
       - /dev/null:/opt/klipper/docs/null
