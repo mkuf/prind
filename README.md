@@ -245,6 +245,17 @@ calibrate_shaper resonances_y_20220708_125150.csv -o cal_y.png
   Recommended shaper is mzv @ 48.2 Hz
 ```
 
+### Use CANBUS
+CAN Devices are network devices in the Hosts network namespace. Granting access for containers requires running them in host network mode.  
+Add the following snippet to your `docker-compose.override.yaml` and restart the stack.  
+Any further configuration has to be done in klipper, see the [official Klipper Docs](https://www.klipper3d.org/CANBUS.html)
+```yaml
+services:
+  klipper:
+    network_mode: host
+```
+
+
 ### Change Execution Options
 The Entrypoint for all Docker Images within this Repo are the actual Applications, which are run at container execution time.  
 This makes it possible to set command line Arguments for the Apps as Docker Command.  
