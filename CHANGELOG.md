@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
+- docs: add notes about CANBUS
 ### Fixed
 ### Changed
 - docker: pin base images to python:3.11-(slim-)bookworm
