@@ -16,13 +16,13 @@ Create `moonraker.conf` and `printer.cfg` as well as the directories `run` and `
 docker run \
   --privileged \
   -v /dev:/dev \
-  -v $(pwd)/run:/printer_data/run \
+  -v $(pwd)/run:/opt/printer_data/run \
   -v $(pwd)/gcode:/opt/printer_data/gcodes \
   -v $(pwd)/printer.cfg:/opt/printer_data/config/printer.cfg \
   mkuf/klipper:latest
 
 docker run \
-  -v $(pwd)/run:/printer_data/run \
+  -v $(pwd)/run:/opt/printer_data/run \
   -v $(pwd)/gcode:/opt/printer_data/gcodes \
   -v $(pwd)/moonraker.conf:/opt/printer_data/config/moonraker.conf \
   -p 7125:7125 \

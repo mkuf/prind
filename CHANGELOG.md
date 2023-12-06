@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - docs: add notes about CANBUS
 ### Fixed
+- docs: fix volume paths in moonraker examples #102
 ### Changed
 - docker: pin base images to python:3.11-(slim-)bookworm
 - extra: simplify moonraker-timelapse setup
