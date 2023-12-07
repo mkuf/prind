@@ -1,3 +1,5 @@
+This Image is built and used by [prind](.).
+
 # ustreamer packaged in Docker
 ## What is ustreamer?
 
