@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - docker: pin base images to python:3.11-(slim-)bookworm
 - extra: simplify moonraker-timelapse setup
+- ci: restructure image build workflows
 ### Removed
 -->
 
