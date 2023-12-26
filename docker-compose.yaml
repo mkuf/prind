@@ -15,7 +15,7 @@ services:
     command: -I printer_data/run/klipper.tty -a printer_data/run/klipper.sock printer_data/config/printer.cfg -l printer_data/logs/klippy.log
     volumes:
       - /dev:/dev
-      - ./config:/opt/printer_data/config
+      - config:/opt/printer_data/config
       - run:/opt/printer_data/run
       - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
@@ -44,7 +44,7 @@ services:
       - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
       - moonraker-db:/opt/printer_data/database
-      - ./config:/opt/printer_data/config
+      - config:/opt/printer_data/config
     profiles:
       - fluidd
       - mainsail
@@ -119,7 +119,7 @@ services:
       - /run/systemd:/run/systemd
       - /etc/localtime:/etc/localtime:ro
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./config:/opt/cfg
+      - config:/opt/cfg
     labels:
       org.prind.service: klipperscreen
 
@@ -133,7 +133,7 @@ services:
     volumes:
       - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
-      - ./config:/opt/printer_data/config
+      - config:/opt/printer_data/config
     labels:
       org.prind.service: moonraker-telegram-bot
 
@@ -143,7 +143,7 @@ services:
     profiles:
       - mobileraker_companion
     volumes:
-      - ./config:/opt/printer_data/config
+      - config:/opt/printer_data/config
     labels:
       org.prind.service: mobileraker_companion
 
@@ -164,7 +164,7 @@ services:
     restart: unless-stopped
     privileged: true
     volumes:
-      - ./config:/opt/printer_data/config
+      - config:/opt/printer_data/config
       - log:/opt/printer_data/logs
     profiles:
       - moonraker-obico
@@ -177,9 +177,8 @@ services:
   ## Config dir needs to be writable by uid/gid 1000
   ## This container sets the right permissions and exits
   init:
-    build: docker/init
+    build: .
     volumes:
-      - .:/prind
       - config:/opt/printer_data/config
     labels:
       org.prind.service: init
