@@ -177,10 +177,10 @@ services:
   ## Config dir needs to be writable by uid/gid 1000
   ## This container sets the right permissions and exits
   init:
-    image: busybox:latest
-    command: chown -R 1000:1000 /prind/config
+    build: docker/init
     volumes:
       - .:/prind
+      - config:/opt/printer_data/config
     labels:
       org.prind.service: init
 
@@ -201,14 +201,15 @@ services:
       org.prind.service: traefik
 
 volumes:
-  run:
+  config:
+  gcode:
+  moonraker-db:
+  log:
     driver_opts:
       type: tmpfs
       device: tmpfs
-  gcode:
   octoprint:
-  moonraker-db:
-  log:
+  run:
     driver_opts:
       type: tmpfs
       device: tmpfs
