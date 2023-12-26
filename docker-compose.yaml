@@ -71,7 +71,6 @@ services:
       - /dev:/dev
       - run:/opt/printer_data/run
       - octoprint:/octoprint
-      - ./config/octoprint.yaml:/octoprint/octoprint/config.yaml
     profiles:
       - octoprint
     labels:
@@ -180,6 +179,7 @@ services:
     build: .
     volumes:
       - config:/opt/printer_data/config
+      - octoprint:/octoprint
     labels:
       org.prind.service: init
 
