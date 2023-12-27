@@ -19,6 +19,7 @@ services:
       - run:/opt/printer_data/run
       - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
+    network_mode: host
     labels:
       org.prind.service: klipper
 
