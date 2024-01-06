@@ -1,8 +1,0 @@
-services:
-  link-obico:
-    image: ghcr.io/thespaghettidetective/moonraker-obico:latest
-    user: 0:0
-    entrypoint: /opt/venv/bin/python
-    command: ["-m", "moonraker_obico.link", "-c", "/opt/printer_data/config/moonraker-obico.cfg"]
-    volumes:
-      - ./config:/opt/printer_data/config
