@@ -1,0 +1,57 @@
+## Monitoring Webpage
+##
+## Usecase: Show Resource Usage via a Web Interface
+## Issue: https://github.com/mkuf/prind/issues/109
+##
+## Assumptions:
+## * I want to view resource metrics of my host
+##
+## About this setup:
+## * this file replaces the main docker-compose.override.yaml
+## * metrics are served via traefik at path `/glances`
+## * https://github.com/nicolargo/glances is used to generate and display metrics
+##
+## Setup
+## 1. Add your personal config to this file and copy it to the root of the repository, overwriting the existing docker-compose.override.yaml
+## 2. start the stack as described in the main readme using profiles of your choice
+
+## Ustreamer base Service
+x-ustreamer-svc: &ustreamer-svc
+  image: mkuf/ustreamer:latest
+  restart: unless-stopped
+  command: --host=0.0.0.0 --port=8080 --slowdown --device=/dev/webcam --resolution=1280x960 --format=MJPEG --desired-fps=30
+
+## Add your personal config here
+services:
+  glances:
+    image: nicolargo/glances:latest-full
+    restart: unless-stopped
+    pid: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      GLANCES_OPT: -w
+    labels:
+      org.prind.service: glances
+      traefik.enable: true
+      traefik.http.services.glances.loadbalancer.server.port: 61208
+      traefik.http.middlewares.glances-redirect.redirectregex.regex: (^.*\/glances$$)
+      traefik.http.middlewares.glances-redirect.redirectregex.replacement: $$1/
+      traefik.http.middlewares.glances-redirect.redirectregex.permanent: false
+      traefik.http.middlewares.glances-prefix.stripprefix.prefixes: /glances
+      traefik.http.routers.glances.middlewares: glances-redirect,glances-prefix
+      traefik.http.routers.glances.rule: PathPrefix(`/glances`)
+      traefik.http.routers.glances.entrypoints: web
+
+  webcam:
+    <<: *ustreamer-svc
+    devices:
+      - /dev/video0:/dev/webcam
+    labels:
+      org.prind.service: webcam
+      traefik.enable: true
+      traefik.http.services.webcam.loadbalancer.server.port: 8080
+      traefik.http.routers.webcam.rule: PathPrefix(`/webcam`)
+      traefik.http.routers.webcam.entrypoints: web
+      traefik.http.middlewares.webcam.stripprefix.prefixes: /webcam
+      traefik.http.routers.webcam.middlewares: webcam
