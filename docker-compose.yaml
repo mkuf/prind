@@ -12,7 +12,11 @@ services:
     depends_on:
       init:
         condition: service_completed_successfully
-    command: -I printer_data/run/klipper.tty -a printer_data/run/klipper.sock printer_data/config/printer.cfg -l printer_data/logs/klippy.log
+    command: >
+      -I printer_data/run/klipper.tty
+      -a printer_data/run/klipper.sock
+      printer_data/config/printer.cfg
+      -l printer_data/logs/klippy.log
     volumes:
       - /dev:/dev
       - ./config:/opt/printer_data/config
@@ -196,7 +200,7 @@ services:
       - "80:80"
     restart: unless-stopped
     volumes:
-        - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
     labels:
       org.prind.service: traefik
 

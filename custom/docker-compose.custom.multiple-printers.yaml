@@ -1,6 +1,6 @@
 ## Usecase: Run multiple Printers on the same Host
 ##
-## Assumptions: 
+## Assumptions:
 ## * I have two printers
 ## * One is called printer1, the other one printer2
 ## * printer1 is using serial port /dev/ttyUSB0 and webcam /dev/video0
@@ -55,7 +55,14 @@ x-moonraker-svc: &moonraker-svc
 x-ustreamer-svc: &ustreamer-svc
   image: mkuf/ustreamer:latest
   restart: unless-stopped
-  command: --host=0.0.0.0 --port=8080 --slowdown --device=/dev/webcam --resolution=1280x960 --format=MJPEG --desired-fps=30
+  command: >
+    --host=0.0.0.0
+    --port=8080
+    --slowdown
+    --device=/dev/webcam
+    --resolution=1280x960
+    --format=MJPEG
+    --desired-fps=30
 
 ## Service Definitions
 services:
@@ -64,13 +71,20 @@ services:
   ## Access api via port 8101/tcp and webcam via 8102/tcp
   printer1-klipper:
     <<: *klipper-svc
-    command: -I printer_data/run/printer1.klipper.tty -a printer_data/run/printer1.klipper.sock printer_data/config/printer1.cfg -l printer_data/logs/printer1.klippy.log
+    command: >
+      -I printer_data/run/printer1.klipper.tty
+      -a printer_data/run/printer1.klipper.sock
+      printer_data/config/printer1.cfg
+      -l printer_data/logs/printer1.klippy.log
     labels:
       org.prind.service: klipper
       org.prind.printer: printer1
   printer1-moonraker:
     <<: *moonraker-svc
-    command: -d printer_data -c printer_data/config/printer1.moonraker.conf -l printer_data/logs/printer1.moonraker.log
+    command: >
+      -d printer_data
+      -c printer_data/config/printer1.moonraker.conf
+      -l printer_data/logs/printer1.moonraker.log
     ports:
       - 8101:7125
     labels:
@@ -90,13 +104,20 @@ services:
   ## Access api via port 8201/tcp and webcam via 8202/tcp
   printer2-klipper:
     <<: *klipper-svc
-    command: -I printer_data/run/printer2.klipper.tty -a printer_data/run/printer2.klipper.sock printer_data/config/printer2.cfg -l printer_data/logs/printer2.klippy.log
+    command: >
+      -I printer_data/run/printer2.klipper.tty
+      -a printer_data/run/printer2.klipper.sock
+      printer_data/config/printer2.cfg
+      -l printer_data/logs/printer2.klippy.log
     labels:
       org.prind.service: klipper
       org.prind.printer: printer2
   printer2-moonraker:
     <<: *moonraker-svc
-    command: -d printer_data -c printer_data/config/printer2.moonraker.conf -l printer_data/logs/printer2.moonraker.log
+    command: >
+      -d printer_data
+      -c printer_data/config/printer2.moonraker.conf
+      -l printer_data/logs/printer2.moonraker.log
     ports:
       - 8201:7125
     labels:

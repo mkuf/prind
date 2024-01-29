@@ -6,7 +6,7 @@ services:
     build:
       context: docker/klipper
       target: build-simulavr
-      args: 
+      args:
         VERSION: master
     privileged: true
     volumes:
@@ -14,7 +14,7 @@ services:
       - run:/opt/printer_data/run
     labels:
       org.prind.service: simulavr
-  
+
   ## Reconfigure Klipper service for simulavr
   klipper:
     depends_on:
@@ -22,4 +22,8 @@ services:
         condition: service_completed_successfully
       simulavr:
         condition: service_started
-    command: -I printer_data/run/klipper.tty -a printer_data/run/klipper.sock printer_data/config/printer-simulavr.cfg -l printer_data/logs/klippy.log
+    command: >
+      -I printer_data/run/klipper.tty
+      -a printer_data/run/klipper.sock
+      printer_data/config/printer-simulavr.cfg
+      -l printer_data/logs/klippy.log
