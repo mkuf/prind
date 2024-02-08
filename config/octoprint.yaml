@@ -1,6 +1,6 @@
 serial:
   additionalPorts:
-  - /opt/printer_data/run/klipper.tty
+    - /opt/printer_data/run/klipper.tty
   autoconnect: true
   port: /opt/printer_data/run/klipper.tty
 webcam:

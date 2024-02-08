@@ -12,17 +12,25 @@
 ## * init container will set the permissions to the new UID/GID
 ##
 ## Setup
-## 1. Add your personal config to this file and copy it to the root of the repository, overwriting the existing docker-compose.override.yaml
-## 2. Replace the example UID and GID of '4242' in the 'dockerfile_inline' block of the klipper and moonraker services, 
+## 1. Add your personal config to this file and copy it to the root of the repository,
+##    overwriting the existing docker-compose.override.yaml
+## 2. Replace the example UID and GID of '4242' in the 'dockerfile_inline' block of the klipper and moonraker services,
 ##    as well as in the command of the init service with your specific requirements.
 ##    Make sure to use the identical UIDs/GIDs in klipper and moonraker.
-## 3. start the stack as described in the main readme using a profile of your choice. 
+## 3. start the stack as described in the main readme using a profile of your choice.
 
 ## Ustreamer base Service
 x-ustreamer-svc: &ustreamer-svc
   image: mkuf/ustreamer:latest
   restart: unless-stopped
-  command: --host=0.0.0.0 --port=8080 --slowdown --device=/dev/webcam --resolution=1280x960 --format=MJPEG --desired-fps=30
+  command: >
+    --host=0.0.0.0
+    --port=8080
+    --slowdown
+    --device=/dev/webcam
+    --resolution=1280x960
+    --format=MJPEG
+    --desired-fps=30
 
 ## Add your personal config here
 services:

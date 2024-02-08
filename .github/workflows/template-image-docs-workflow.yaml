@@ -20,13 +20,13 @@ jobs:
   image-docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: "Update Docker Hub Description"
-      uses: peter-evans/dockerhub-description@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-        repository: ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.app }}
-        short-description: ${{ inputs.short-description }} 
-        readme-filepath: ./docker/${{ inputs.app }}/README.md
-        enable-url-completion: true
+      - uses: actions/checkout@v4
+      - name: "Update Docker Hub Description"
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.app }}
+          short-description: ${{ inputs.short-description }}
+          readme-filepath: ./docker/${{ inputs.app }}/README.md
+          enable-url-completion: true

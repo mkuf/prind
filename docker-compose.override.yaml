@@ -2,7 +2,14 @@
 x-ustreamer-svc: &ustreamer-svc
   image: mkuf/ustreamer:latest
   restart: unless-stopped
-  command: --host=0.0.0.0 --port=8080 --slowdown --device=/dev/webcam --resolution=1280x960 --format=MJPEG --desired-fps=30
+  command: >
+    --host=0.0.0.0
+    --port=8080
+    --slowdown
+    --device=/dev/webcam
+    --resolution=1280x960
+    --format=MJPEG
+    --desired-fps=30
 
 ## Add your personal config here
 services:
