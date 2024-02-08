@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
+### Fixed
+### Changed
+### Removed
+-->
+
+## [v1.10.0] - 2024-02-08
+### Added
 - docs: add notes about CANBUS
 - custom: add monitoring example
 - ci: add yamllint action via #110 by @hz61p1
@@ -19,8 +26,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - ci: restructure image build workflows
 - ci: add image docs workflow to update dockerhub descriptions automatically
 - docs: add note about image origin
-### Removed
--->
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.9.1...v1.10.0
 
 ## [v1.9.1] - 2023-09-23
 ### Fixed
