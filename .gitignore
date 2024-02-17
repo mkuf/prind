@@ -4,3 +4,5 @@ out
 *.bkp
 resonances
 *.tar.gz
+*.zip
+config/printer-*.cfg
