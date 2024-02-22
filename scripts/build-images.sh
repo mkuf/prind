@@ -8,7 +8,7 @@
 ## docker buildx inspect --bootstrap
 ## docker buildx build --platform linux/amd64,linux/arm/v7 -t octoprint:latest --target run .
 
-set -xe
+set -e
 
 app=${1}
 registry=${2}
