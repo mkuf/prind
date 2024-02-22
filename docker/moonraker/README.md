@@ -77,8 +77,8 @@ services:
 ## Tags
 |Tag|Description|Static|
 |---|---|---|
-|`latest`/`nightly`|Refers to the most recent runtime Image.|May point to a new build within 24h, depending on code changes in the upstream repository.|
-|`<7-digit-sha>` <br>eg: `d37f91c`|Refers to a specific commit SHA in the upstream repository. eg: [Arksine/moonraker:d37f91c](https://github.com/Arksine/moonraker/commit/d37f91c9c864302e750385297d2aa2a0c9b43035)|Yes|
+|`latest`|Refers to the most recent runtime Image.|May point to a new build within 24h, depending on code changes in the upstream repository.|
+|`<git description>` <br>eg: `v0.8.0-314-gaadff0d`|Refers to a specific [git description](https://git-scm.com/docs/git-describe#_examples) in the upstream repository. eg: [arksine/moonraker:v0.8.0-314-gaadff0d](https://github.com/Arksine/moonraker/commit/aadff0d54e98a536c13d4aca295e3250e06b67b8)|Yes|
 
 ## Targets
 |Target|Description|Pushed|

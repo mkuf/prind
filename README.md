@@ -18,7 +18,7 @@ Currently supported Frontends:
 Depending on which Frontend you've chosen, moonraker will also be deployed.
 
 ## Getting started
-The following Guide requires ``docker`` and ``docker compose`` on your machine.  
+The following Guide requires `docker`` and ``docker compose` on your machine.  
 Follow the official Guides on how to get them up and running. 
 * https://docs.docker.com/engine/install/ubuntu/
 * https://docs.docker.com/compose/cli-command/#installing-compose-v2
@@ -39,8 +39,8 @@ make flash FLASH_DEVICE=/dev/serial/by-id/<my printer>
 If your Board can be flashed via SD-Card, you may want to omit `make flash` and retrieve the `klipper.bin` from the `out` directory that is created by `make`. Follow your boards instructions on how to proceed with flashing via SD-Card.
 
 ### Add your Configuration to docker-compose.override.yaml
-Locate the ``webcam`` Service within ``docker-compose.override.yaml`` and update the ``device`` Section with the Device Name of your Webcam.  
-In this example, the Webcam is using device ``/dev/video0``. Do not edit any other lines.
+Locate the `webcam`` Service within ``docker-compose.override.yaml`` and update the ``device` Section with the Device Name of your Webcam.  
+In this example, the Webcam is using device `/dev/video0`. Do not edit any other lines.
 ```yaml
   webcam:
     <<: *ustreamer-svc
@@ -56,9 +56,9 @@ In this example, the Webcam is using device ``/dev/video0``. Do not edit any oth
 ```
 
 ### Configuring Klipper/Moonraker
-All Runtime Configs are stored within ``config`` of this Repo.  
-* Update ``config/printer.cfg`` with your Klipper config, set the serial device and make sure to not remove the existing Macros as they are required by fluidd/mainsail. See [Klipper3d Docs](https://www.klipper3d.org/Config_Reference.html) for Reference
-* Make sure to update ``cors_domains`` and ``trusted_clients`` within ``moonraker.cfg`` to secure your moonraker api from unwanted access. See [Moonraker Docs](https://moonraker.readthedocs.io/en/latest/configuration/) for Reference
+All Runtime Configs are stored within `config` of this Repo.  
+* Update `config/printer.cfg` with your Klipper config, set the serial device and make sure to not remove the existing Macros as they are required by fluidd/mainsail. See [Klipper3d Docs](https://www.klipper3d.org/Config_Reference.html) for Reference
+* Make sure to update `cors_domains`` and ``trusted_clients`` within ``moonraker.cfg` to secure your moonraker api from unwanted access. See [Moonraker Docs](https://moonraker.readthedocs.io/en/latest/configuration/) for Reference
 
 ### Starting the stack
 There are currently 3 frontend Profiles to choose from, depending on the Web Frontend you'd like to use.
@@ -181,14 +181,14 @@ docker compose --profile mainsail --profile moonraker-obico up -d
 
 
 ## Updating
-Images are built daily and tagged with latest and the first seven chars of the commit-sha of the remote repo. 
+Images are built daily and tagged with `latest` and the [git description](https://git-scm.com/docs/git-describe#_examples) of the remote repo. 
 Example: 
 
-* ``mkuf/klipper:latest``
-* ``mkuf/klipper:a33d069``
+* `mkuf/klipper:latest`
+* `mkuf/klipper:v0.12.0-114-ga77d0790`
 
-The ``latest`` Tag will point to a new Image within 24h.  
-The SHA-Tag ``a33d069`` will remain and refers to [Klipper3d/klipper:a33d069](https://github.com/Klipper3d/klipper/commit/a33d0697b6438e362f0cf9d25e1e8358d331bf53)
+The `latest` Tag will point to a new Image within 24h.  
+The descriptive Tag `v0.12.0-114-ga77d0790` will remain and refers to [Klipper3d/klipper:v0.12.0-114-ga77d0790](https://github.com/Klipper3d/klipper/commit/a77d07907fdfcd76f7175231caee170db205ff04)
 
 Updating can be handled via docker-compose.  
 docker-compose.yaml uses latest tags for all Images contained in this Repository.  
@@ -272,7 +272,7 @@ Example from service Klipper:
 
 ### Multiple Webcams
 The Ustreamer Service is already templated to be easily reused for multi-webcam Setups.  
-To add a new Ustreamer Service, simply add the following snippet to ``docker-compose.override.yaml``.  
+To add a new Ustreamer Service, simply add the following snippet to `docker-compose.override.yaml`.  
 Notice, that all service names, container names and traefik labels need to be unique while the right side of the passed Device (`:/dev/webcam`) always stays the same.
 Hence replace webcam2 with webcam3 and so on for every webcam you add and update the physical device that gets passed to the container.
 ```yaml
@@ -291,11 +291,11 @@ Hence replace webcam2 with webcam3 and so on for every webcam you add and update
 ```
 
 ### Building Docker images locally
-If you'd like to customize the provided Docker Images, you may edit the Dockerfiles within the ``docker/<service>`` Directory.  
-Images are build in multiple stages, the final stage is called ``run``. Based on this, you can update Service definitions within ``docker-compose.override.yaml`` to build Images locally.
+If you'd like to customize the provided Docker Images, you may edit the Dockerfiles within the `docker/<service>` Directory.  
+Images are build in multiple stages, the final stage is called `run``. Based on this, you can update Service definitions within ``docker-compose.override.yaml` to build Images locally.
 
 Example: Build Moonraker  
-Update the ``image:`` name and add a ``build`` config:
+Update the `image:`` name and add a ``build` config:
 ```yaml
   moonraker:
     image: moonraker:latest

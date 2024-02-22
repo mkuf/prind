@@ -105,8 +105,8 @@ none
 ## Tags
 |Tag|Description|Static|
 |---|---|---|
-|`latest`/`nightly`|Refers to the most recent runtime Image for klippy.|May point to a new build within 24h, depending on code changes in the upstream repository.|
-|`<7-digit-sha>` <br>eg: `d75154d`|Refers to a specific commit SHA in the upstream repository. eg: [Klipper3d/klipper:d75154d](https://github.com/Klipper3d/klipper/commit/d75154d695efb1338cbfff061d226c4f384d127b)|Yes|
+|`latest`|Refers to the most recent runtime Image for klippy.|May point to a new build within 24h, depending on code changes in the upstream repository.|
+|`<git description>` <br>eg: `v0.12.0-114-ga77d0790`|Refers to a specific [git description](https://git-scm.com/docs/git-describe#_examples) in the upstream repository. eg: [Klipper3d/klipper:v0.12.0-114-ga77d0790](https://github.com/Klipper3d/klipper/commit/a77d07907fdfcd76f7175231caee170db205ff04)|Yes|
 |`*-tools`|Refers to Debian Image containing all Tools necessary to Build the Microcontroller code for Klipper|Yes|
 |`*-hostmcu`|Refers to the runtime Image for klipper_mcu.|Yes|
 

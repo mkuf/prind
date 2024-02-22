@@ -18,21 +18,32 @@ platform="linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8"
 dockerfile=docker/${app}/Dockerfile
 context=$(echo -n ${dockerfile} | rev | cut -f2- -d'/' | rev)
 
-# Get latest commitref from upstream repo
+# Get get versioning info from upstream repo
+## Set up directories
+pwd=$(pwd)
+tmp=$(mktemp -d)
+## Get upstream repo from Dockerfile
 source=$(grep "ARG REPO" ${dockerfile} | sed -r 's/.*REPO=(.*)$/\1/g')
-ref=$(git ls-remote ${source} HEAD | cut -f1)
-shortref=$(echo -n ${ref} | cut -c 1-7)
+## Clone repo
+git clone ${source} ${tmp} > /dev/null
+## enter repo directory and get infos
+cd ${tmp}
+upstream_version=$(git describe --tags)
+upstream_tags=($(git tag -l --sort='v:refname' | tail -n3))
+upstream_sha=$(git rev-parse HEAD)
+## Return to previous directory and remove tmp
+cd ${pwd}
+rm -rf ${tmp}
 
 # Set label Values
 label_date=$(date --rfc-3339=seconds)
+label_prind_version=$(git describe --tags)
 if [ "${CI}" == "true" ]; then
-  label_prind_version="${GITHUB_SHA}"
   label_author="${GITHUB_REPOSITORY_OWNER}"
   label_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
   label_doc="${label_url}/blob/${GITHUB_SHA}/docker/${app}/README.md"
   label_src="${label_url}/blob/${GITHUB_SHA}/docker/${app}"
 else
-  label_prind_version="$(git rev-parse HEAD)"
   label_author="$(whoami)"
   label_url="local"
   label_doc="local"
@@ -53,14 +64,14 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
   fi
 
   ## latest
-  if docker buildx imagetools inspect ${registry}${app}:${shortref}${tag_extra} > /dev/null; then
-    log "## Image ${registry}${app}:${shortref}${tag_extra} already exists, nothing to do."
+  if docker buildx imagetools inspect ${registry}${app}:${upstream_version}${tag_extra} > /dev/null; then
+    log "## Image ${registry}${app}:${upstream_version}${tag_extra} already exists, nothing to do."
   else
-    log "## Building latest Image ${registry}${app}:${shortref}${tag_extra}"
+    log "## Building latest Image ${registry}${app}:${upstream_version}${tag_extra}"
     docker buildx build \
-      --build-arg VERSION=${ref} \
+      --build-arg VERSION=${upstream_sha} \
       --platform ${platform} \
-      --tag ${registry}${app}:${shortref}${tag_extra} \
+      --tag ${registry}${app}:${upstream_version}${tag_extra} \
       --tag ${registry}${app}:latest${tag_extra} \
       --label org.prind.version=${label_prind_version} \
       --label org.prind.image.created="${label_date}" \
@@ -68,14 +79,15 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
       --label org.prind.image.url="${label_url}" \
       --label org.prind.image.documentation="${label_doc}" \
       --label org.prind.image.source="${label_src}" \
-      --label org.prind.image.version="${ref}" \
+      --label org.prind.image.version="${upstream_version}" \
+      --label org.prind.image.sha="${upstream_sha}" \
       --target ${target} \
       --push \
       ${context}
   fi
 
   ## Tags
-  for tag in $(git -c 'versionsort.suffix=-' ls-remote --tags --sort='version:refname' --refs ${source} | tail -n3 | rev | cut -f1 -d'/' | rev); do
+  for tag in ${upstream_tags[@]}; do
     if docker buildx imagetools inspect ${registry}${app}:${tag}${tag_extra} > /dev/null; then
       log "## Image ${registry}${app}:${tag}${tag_extra} already exists, nothing to do."
     else
@@ -91,6 +103,7 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
         --label org.prind.image.documentation="${label_doc}" \
         --label org.prind.image.source="${label_src}" \
         --label org.prind.image.version="${tag}" \
+        --label org.prind.image.sha="${upstream_sha}" \
         --target ${target} \
         --push \
         ${context}

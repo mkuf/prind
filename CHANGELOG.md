@@ -9,7 +9,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 ### Fixed
 ### Changed
+- images: all images will now tagged with the [git description](https://git-scm.com/docs/git-describe#_examples) of the upstream repository instead of a shortened SHA in an attempt to make image versions easier to understand (numbers always go up :rocket:) via #114 and #111
+- docs: reflect new tagging scheme
 ### Removed
+**Full Changelog**: https://github.com/mkuf/prind/compare/vX.X.X...vX.X.X
 -->
 
 ## [v1.10.0] - 2024-02-08
