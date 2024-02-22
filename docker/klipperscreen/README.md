@@ -50,8 +50,8 @@ none
 ## Tags
 |Tag|Description|Static|
 |---|---|---|
-|`latest`/`nightly`|Refers to the most recent runtime Image.|May point to a new build within 24h, depending on code changes in the upstream repository.|
-|`<7-digit-sha>` <br>eg: `37c10fc`|Refers to a specific commit SHA in the upstream repository. eg: [jordanruthe/KlipperScreen:37c10fc](https://github.com/jordanruthe/KlipperScreen/commit/37c10fc8b373944ea138574a44bbfa0a5dcf0a98)|Yes|
+|`latest`|Refers to the most recent runtime Image.|May point to a new build within 24h, depending on code changes in the upstream repository.|
+|`<git description>` <br>eg: `v0.3.8-101-g0226ba0`|Refers to a specific [git description](https://git-scm.com/docs/git-describe#_examples) in the upstream repository. eg: [KlipperScreen/KlipperScreen:v0.3.8-101-g0226ba0](https://github.com/KlipperScreen/KlipperScreen/commit/0226ba0d95fc1b8644a9d1bbf4b7cae7d936b075)|Yes|
 
 ## Targets
 |Target|Description|Pushed|
