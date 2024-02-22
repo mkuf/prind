@@ -37,14 +37,13 @@ rm -rf ${tmp}
 
 # Set label Values
 label_date=$(date --rfc-3339=seconds)
+label_prind_version=$(git describe --tags)
 if [ "${CI}" == "true" ]; then
-  label_prind_version="${GITHUB_SHA}"
   label_author="${GITHUB_REPOSITORY_OWNER}"
   label_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
   label_doc="${label_url}/blob/${GITHUB_SHA}/docker/${app}/README.md"
   label_src="${label_url}/blob/${GITHUB_SHA}/docker/${app}"
 else
-  label_prind_version="$(git rev-parse HEAD)"
   label_author="$(whoami)"
   label_url="local"
   label_doc="local"
