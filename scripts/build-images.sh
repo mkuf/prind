@@ -30,7 +30,6 @@ git clone ${source} ${tmp} > /dev/null
 cd ${tmp}
 upstream_version=$(git describe --tags)
 upstream_tags=($(git tag -l --sort='v:refname' | tail -n3))
-upstream_sha=$(git rev-parse HEAD)
 ## Return to previous directory and remove tmp
 cd ${pwd}
 rm -rf ${tmp}
@@ -81,7 +80,6 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
       --label org.prind.image.documentation="${label_doc}" \
       --label org.prind.image.source="${label_src}" \
       --label org.prind.image.version="${upstream_version}" \
-      --label org.prind.image.sha="${upstream_sha}" \
       --target ${target} \
       --push \
       ${context}
@@ -104,7 +102,6 @@ for target in $(grep "FROM .* as" ${dockerfile} | sed -r 's/.*FROM.*as (.*)/\1/g
         --label org.prind.image.documentation="${label_doc}" \
         --label org.prind.image.source="${label_src}" \
         --label org.prind.image.version="${tag}" \
-        --label org.prind.image.sha="${upstream_sha}" \
         --target ${target} \
         --push \
         ${context}
