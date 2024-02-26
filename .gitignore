@@ -4,3 +4,4 @@ out
 *.bkp
 resonances
 *.tar.gz
+venv
