@@ -20,6 +20,9 @@
 ## ```
 ## [timelapse]
 ## output_path: /opt/timelapse/
+##
+## [webcam]
+## snapshot_url: http://webcam:8080/snapshot
 ## ```
 ## 3. Add your personal config to this file and copy it to the root of the repository,
 ##    overwriting the existing docker-compose.override.yaml
