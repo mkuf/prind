@@ -23,11 +23,12 @@ parser = argparse.ArgumentParser(
   description="Build container images for prind"
 )
 parser.add_argument("app",help="App to build. Directory must be located at ./docker/<app>")
-parser.add_argument("-b","--backfill",default=3,help="Number of latest upstream git tags to build images for [default: 3]")
+parser.add_argument("-b","--backfill",type=int,default=3,help="Number of latest upstream git tags to build images for [default: 3]")
 parser.add_argument("-r","--registry",help="Where to push images to, /<app> will be appended")
 parser.add_argument("-p", "--platform",action="append",default=["linux/amd64"],help="Platform to build for. Repeat to build a multi-platform image [default: linux/amd64]")
 parser.add_argument("--push",action="store_true",default=False,help="Push image to registry [default: False]")
 parser.add_argument("--dry-run",action="store_true",default=False,help="Do not actually build images [default: False]")
+parser.add_argument("--force",action="store_true",default=False,help="Build images even though they exist in the registry [default: False]")
 args = parser.parse_args()
 
 #---
@@ -112,9 +113,13 @@ for version in build["versions"].keys():
     ]
 
     try:
-      # Check if the image already exists
-      docker.buildx.imagetools.inspect(tags[0])
-      logger.info("Image " + tags[0] + " exists, nothing to to.")
+      if args.force:
+        logger.warning("Build is forced")
+        raise
+      else:
+        # Check if the image already exists
+        docker.buildx.imagetools.inspect(tags[0])
+        logger.info("Image " + tags[0] + " exists, nothing to to.")
     except:
       if args.dry_run:
         logger.debug("[dry-run] Would build " + tags[0])
