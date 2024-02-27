@@ -52,5 +52,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Install Build requirements
+        run: pip install -r scripts/build/requirements.txt
       - name: Run Build Script
-        run: bash ./scripts/build-images.sh ${{ inputs.app }} ${{ secrets.DOCKERHUB_USERNAME }}/
+        run: |
+          python3 scripts/build/build.py ${{ inputs.app }} \
+            --backfill 3 \
+            --platform linux/amd64 \
+            --platform linux/arm/v6 \
+            --platform linux/arm/v7 \
+            --platform linux/arm64/v8 \
+            --registry docker.io/${GITHUB_REPOSITORY_OWNER} \
+            --push
