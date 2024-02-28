@@ -1,11 +1,10 @@
-name: 'Image: Klipper'
+name: 'PR: Klipper'
 on:
-  workflow_dispatch:
   pull_request:
     paths:
       - scripts/build/build.py
-      - .github/workflows
-      - docker/klipper
+      - .github/workflows/*
+      - docker/klipper/*
 
 jobs:
   build:
