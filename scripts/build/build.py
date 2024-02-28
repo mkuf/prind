@@ -1,0 +1,147 @@
+#!/usr/bin/env python3
+
+## Prerequisites
+## * user has read access to upstream repo
+## * docker login for each repo was executed
+## * qemu has been set up
+## * docker buildx instance has been created and bootstrapped
+
+import os
+import re
+import git
+import getpass
+import logging
+import argparse
+import tempfile
+
+from datetime import datetime, timezone
+from python_on_whales import docker
+
+# Parse arguments
+parser = argparse.ArgumentParser(
+  prog="Build",
+  description="Build container images for prind"
+)
+parser.add_argument("app",help="App to build. Directory must be located at ./docker/<app>")
+parser.add_argument("--backfill",type=int,default=3,help="Number of latest upstream git tags to build images for [default: 3]")
+parser.add_argument("--registry",help="Where to push images to, /<app> will be appended")
+parser.add_argument("--platform",action="append",default=["linux/amd64"],help="Platform to build for. Repeat to build a multi-platform image [default: linux/amd64]")
+parser.add_argument("--push",action="store_true",default=False,help="Push image to registry [default: False]")
+parser.add_argument("--dry-run",action="store_true",default=False,help="Do not actually build images [default: False]")
+parser.add_argument("--force",action="store_true",default=False,help="Build images even though they exist in the registry [default: False]")
+args = parser.parse_args()
+
+#---
+# Set up logging
+logger = logging.getLogger('prind')
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch = logging.StreamHandler()
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
+#---
+# static definitions
+context = "docker/" + args.app
+dockerfile = context + "/Dockerfile"
+build = {
+  "upstream": None,
+  "targets": [],
+  "versions": {},
+  "labels": {
+    "org.prind.version": os.environ.get("GITHUB_SHA",(git.Repo(search_parent_directories=True)).head.object.hexsha),
+    "org.prind.image.created": datetime.now(timezone.utc).astimezone().isoformat(),
+    "org.prind.image.authors": os.environ.get("GITHUB_REPOSITORY_OWNER",getpass.getuser()),
+    "org.prind.image.url": "{GITHUB_SERVER_URL}/{GITHUB_REPOSITORY}".format(**os.environ) if "GITHUB_REPOSITORY" in os.environ else "local",
+    "org.prind.image.documentation": ("{GITHUB_SERVER_URL}/{GITHUB_REPOSITORY}/blob/{GITHUB_SHA}/docker/" + args.app + "/README.md").format(**os.environ) if "GITHUB_REPOSITORY" in os.environ else "local",
+    "org.prind.image.source": ("{GITHUB_SERVER_URL}/{GITHUB_REPOSITORY}/blob/{GITHUB_SHA}/docker/" + args.app).format(**os.environ) if "GITHUB_REPOSITORY" in os.environ else "local",
+  }
+}
+
+#---
+# extract info from dockerfile
+logger.info("Reading " + dockerfile)
+with open(dockerfile) as file:
+  for line in file:
+
+    # upstream repository url
+    repo = re.findall(r'ARG REPO.*', line)
+    if repo:
+      build["upstream"] = repo[0].split('=')[1]
+
+    # build targets
+    target = re.findall(r'FROM .* as .*', line)
+    if target:
+      if not "build" in target[0]:
+        build["targets"].append(target[0].split(' as ')[-1])
+
+logger.info("Found upstream repository: " + build["upstream"])
+logger.info("Found docker targets: " + str(build["targets"]))
+
+#---
+# extract info from upstream
+logger.info("Cloning Upstream repository")
+tmp = tempfile.TemporaryDirectory()
+upstream_repo = git.Repo.clone_from(build["upstream"], tmp.name)
+
+logger.info("Generating Versions from Upstream repository")
+## latest
+latest_version = upstream_repo.git.describe("--tags")
+build["versions"][latest_version] = { "latest": True }
+
+## tags
+upstream_repo_sorted_tags = upstream_repo.git.tag("-l", "--sort=v:refname").split('\n')
+for i in range(1,args.backfill+1):
+  tag = upstream_repo_sorted_tags[-abs(i)]
+  if tag not in build.keys():
+    build["versions"][tag] = { "latest": False }
+
+tmp.cleanup()
+logger.info("Found versions: " + str(build["versions"]))
+
+#---
+# Build all targets for all versions
+for version in build["versions"].keys():
+  for target in build["targets"]:
+
+    # Create list of docker tags
+    docker_image = "/".join(filter(None, (args.registry, args.app)))
+    tags = [
+      docker_image + ":" + (version if target == "run" else '-'.join([version, target])),
+      *(docker_image + (":latest" if target == "run" else '-'.join([":latest", target])) for _i in range(1) if build["versions"][version]["latest"]),
+    ]
+
+    try:
+      if args.force:
+        logger.warning("Build is forced")
+        raise
+      else:
+        # Check if the image already exists
+        docker.buildx.imagetools.inspect(tags[0])
+        logger.info("Image " + tags[0] + " exists, nothing to to.")
+    except:
+      if args.dry_run:
+        logger.debug("[dry-run] Would build " + tags[0])
+      else:
+        # Build if image does not exist
+        logger.info("Building " + tags[0])
+        stream = (
+          docker.buildx.build(
+            # Build specific
+            context_path = context,
+            build_args = {"VERSION": version},
+            platforms = args.platform,
+            target = target,
+            push = args.push,
+            tags = tags,
+            labels = {
+              **build["labels"],
+              "org.prind.image.version": version
+            },
+            stream_logs = True
+          )
+        )
+
+        for line in stream:
+          logger.info("BUILD: " + line.strip())
