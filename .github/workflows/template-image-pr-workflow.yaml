@@ -1,4 +1,4 @@
-name: "Template: image-build-workflow"
+name: "Template: image-pr-workflow"
 on:
   workflow_call:
     inputs:
