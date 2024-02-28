@@ -1,0 +1,14 @@
+name: 'Image: Klipper'
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - scripts/build/build.py
+      - .github/workflows
+      - docker/klipper
+
+jobs:
+  build:
+    uses: ./.github/workflows/template-image-pr-workflow.yaml
+    with:
+      app: klipper
