@@ -37,6 +37,7 @@ RUN apt update \
       libjpeg62-turbo \
       libbsd0 \
       libgpiod2 \
+      v4l-utils \
  && apt clean
 
 WORKDIR /opt
@@ -44,11 +45,11 @@ RUN groupadd ustreamer --gid 1000 \
  && useradd ustreamer --uid 1000 --gid ustreamer \
  && usermod ustreamer --append --groups video
 
-COPY --chown=ustreamer:ustreamer --from=build /opt/ustreamer ./ustreamer
+COPY --chown=ustreamer:ustreamer --from=build /opt/ustreamer/ustreamer.bin ./ustreamer
 
 ## Start ustreamer
 USER ustreamer
 EXPOSE 8080
-ENTRYPOINT [ "/opt/ustreamer/ustreamer"]
+ENTRYPOINT [ "/opt/ustreamer"]
 CMD ["--host=0.0.0.0", "--port=8080"]
 

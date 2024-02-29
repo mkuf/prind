@@ -30,7 +30,7 @@ services:
 |---|---|
 |User| `ustreamer (1000:1000)` |
 |Workdir|`/opt`|
-|Entrypoint|`/opt/ustreamer/ustreamer`|
+|Entrypoint|`/opt/ustreamer`|
 |Cmd|`--host=0.0.0.0 --port=8080`|
 
 ## Ports
