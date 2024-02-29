@@ -94,7 +94,7 @@ build["versions"][latest_version] = { "latest": True }
 upstream_repo_sorted_tags = upstream_repo.git.tag("-l", "--sort=v:refname").split('\n')
 for i in range(1,args.backfill+1):
   tag = upstream_repo_sorted_tags[-abs(i)]
-  if tag not in build.keys():
+  if tag not in build["versions"].keys():
     build["versions"][tag] = { "latest": False }
 
 tmp.cleanup()
