@@ -32,7 +32,7 @@ jobs:
             ustreamer:
               - .github/workflows/image-docs-publish.yaml
               - docker/moonraker/README.md
-  image-docs:
+  dockerhub-description:
     needs: changes
     strategy:
       matrix:
