@@ -2,8 +2,8 @@ name: 'Build Images for Review'
 on:
   pull_request:
     paths:
+      - .github/workflows/image-build-review.yaml
       - scripts/build/*
-      - .github/workflows/*
       - docker/*
 
 jobs:
@@ -19,20 +19,20 @@ jobs:
         with:
           filters: |
             klipper:
+              - .github/workflows/image-build-review.yaml
               - scripts/build/**
-              - .github/workflows/**
               - docker/klipper/**
             klipperscreen:
+              - .github/workflows/image-build-review.yaml
               - scripts/build/**
-              - .github/workflows/**
               - docker/klipperscreen/**
             moonraker:
+              - .github/workflows/image-build-review.yaml
               - scripts/build/**
-              - .github/workflows/**
               - docker/moonraker/**
             ustreamer:
+              - .github/workflows/image-build-review.yaml
               - scripts/build/**
-              - .github/workflows/**
               - docker/ustreamer/**
   build:
     needs: changes
@@ -43,7 +43,8 @@ jobs:
     steps:
       - name: "[prind] checkout"
         uses: actions/checkout@v3
-      - uses: ./.github/actions/image-build-common
+      - name: "[prind] set up build environment"
+        uses: ./.github/actions/image-build-common
       - name: "[prind] build"
         run: |
           python3 scripts/build/build.py ${{ matrix.app }} \
