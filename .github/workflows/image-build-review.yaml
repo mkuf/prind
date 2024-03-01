@@ -1,0 +1,55 @@
+name: 'Build Images for Review'
+on:
+  pull_request:
+    paths:
+      - scripts/build/*
+      - .github/workflows/*
+      - docker/*
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      apps: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            klipper:
+              - scripts/build/**
+              - .github/workflows/**
+              - docker/klipper/**
+            klipperscreen:
+              - scripts/build/**
+              - .github/workflows/**
+              - docker/klipperscreen/**
+            moonraker:
+              - scripts/build/**
+              - .github/workflows/**
+              - docker/moonraker/**
+            ustreamer:
+              - scripts/build/**
+              - .github/workflows/**
+              - docker/ustreamer/**
+  build:
+    needs: changes
+    strategy:
+      matrix:
+        app: ${{ fromJSON(needs.changes.outputs.apps) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "[prind] checkout"
+        uses: actions/checkout@v3
+      - uses: ./.github/actions/image-build-common
+      - name: "[prind] build"
+        run: |
+          python3 scripts/build/build.py ${{ matrix.app }} \
+            --backfill 0 \
+            --platform linux/amd64 \
+            --platform linux/arm/v6 \
+            --platform linux/arm/v7 \
+            --platform linux/arm64/v8 \
+            --force

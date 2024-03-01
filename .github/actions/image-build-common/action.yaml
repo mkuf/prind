@@ -1,15 +1,8 @@
-name: "Template: image-pr-workflow"
-on:
-  workflow_call:
-    inputs:
-      app:
-        required: true
-        type: string
-        description: 'app image to build'
+name: "image-build-common"
+description: "Common runner setup to build Container Images for prind"
 
-jobs:
-  build-images:
-    runs-on: ubuntu-latest
+runs:
+  using: "composite"
     steps:
       - name: "[misc] Clean Runner"
         run: |
@@ -38,18 +31,5 @@ jobs:
       - name: "[docker] set up buildx"
         uses: docker/setup-buildx-action@v2.7.0
 
-      - name: "[prind] checkout"
-        uses: actions/checkout@v3.5.3
-
       - name: "[prind] install requirements"
         run: pip install -r scripts/build/requirements.txt
-
-      - name: "[prind] build"
-        run: |
-          python3 scripts/build/build.py ${{ inputs.app }} \
-            --backfill 0 \
-            --platform linux/amd64 \
-            --platform linux/arm/v6 \
-            --platform linux/arm/v7 \
-            --platform linux/arm64/v8 \
-            --force
