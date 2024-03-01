@@ -8,10 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 ### Fixed
+* ustreamer: copy the correct binary to the runtime image and set entrypoint accordingly
 ### Changed
+* scripts: rewrite build script using python
+* ci: use new build script in github workflows
 ### Removed
 
-**Full Changelog**: https://github.com/mkuf/prind/compare/vX.X.X...vX.X.X
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.11.0...vX.X.X
 -->
 
 ## [v1.11.0] - 2024-02-23
