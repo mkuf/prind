@@ -5,6 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: "[misc] Clean Runner"
+      shell: bash
       run: |
         set -x
         ## Remove files
@@ -32,4 +33,5 @@ runs:
       uses: docker/setup-buildx-action@v2.7.0
 
     - name: "[prind] install requirements"
+      shell: bash
       run: pip install -r scripts/build/requirements.txt
