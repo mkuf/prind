@@ -45,7 +45,7 @@ RUN groupadd ustreamer --gid 1000 \
  && useradd ustreamer --uid 1000 --gid ustreamer \
  && usermod ustreamer --append --groups video
 
-COPY --chown=ustreamer:ustreamer --from=build /opt/ustreamer/ustreamer.bin ./ustreamer
+COPY --chown=ustreamer:ustreamer --from=build /opt/ustreamer/src/ustreamer.bin ./ustreamer
 
 ## Start ustreamer
 USER ustreamer
