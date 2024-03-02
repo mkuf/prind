@@ -24,7 +24,7 @@ RUN git clone ${REPO} ustreamer \
  && rm -rf .git
 
 RUN cd ustreamer \
- && make
+ && make LDFLAGS=-latomic
 
 ## Runtime Image
 FROM debian:bookworm-slim as run
