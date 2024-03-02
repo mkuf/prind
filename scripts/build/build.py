@@ -29,6 +29,7 @@ parser.add_argument("--platform",action="append",default=["linux/amd64"],help="P
 parser.add_argument("--push",action="store_true",default=False,help="Push image to registry [default: False]")
 parser.add_argument("--dry-run",action="store_true",default=False,help="Do not actually build images [default: False]")
 parser.add_argument("--force",action="store_true",default=False,help="Build images even though they exist in the registry [default: False]")
+parser.add_argument("--version",help="Which upstream Ref to build. Will overwrite automatic Version extraction from upstream")
 args = parser.parse_args()
 
 #---
@@ -80,25 +81,31 @@ logger.info("Found upstream repository: " + build["upstream"])
 logger.info("Found docker targets: " + str(build["targets"]))
 
 #---
-# extract info from upstream
-logger.info("Cloning Upstream repository")
-tmp = tempfile.TemporaryDirectory()
-upstream_repo = git.Repo.clone_from(build["upstream"], tmp.name)
+# populate version dict
+if args.version:
+  # version from args
+  logger.warning("Version '" + args.version + "' specified, skipping upstream lookup")
+  build["versions"][args.version] = { "latest": True }
+else:
+  # extract info from upstream
+  logger.info("Cloning Upstream repository")
+  tmp = tempfile.TemporaryDirectory()
+  upstream_repo = git.Repo.clone_from(build["upstream"], tmp.name)
 
-logger.info("Generating Versions from Upstream repository")
-## latest
-latest_version = upstream_repo.git.describe("--tags")
-build["versions"][latest_version] = { "latest": True }
+  logger.info("Generating Versions from Upstream repository")
+  ## latest
+  latest_version = upstream_repo.git.describe("--tags")
+  build["versions"][latest_version] = { "latest": True }
 
-## tags
-upstream_repo_sorted_tags = upstream_repo.git.tag("-l", "--sort=v:refname").split('\n')
-for i in range(1,args.backfill+1):
-  tag = upstream_repo_sorted_tags[-abs(i)]
-  if tag not in build["versions"].keys():
-    build["versions"][tag] = { "latest": False }
+  ## tags
+  upstream_repo_sorted_tags = upstream_repo.git.tag("-l", "--sort=v:refname").split('\n')
+  for i in range(1,args.backfill+1):
+    tag = upstream_repo_sorted_tags[-abs(i)]
+    if tag not in build["versions"].keys():
+      build["versions"][tag] = { "latest": False }
 
-tmp.cleanup()
-logger.info("Found versions: " + str(build["versions"]))
+  tmp.cleanup()
+  logger.info("Found versions: " + str(build["versions"]))
 
 #---
 # Build all targets for all versions
