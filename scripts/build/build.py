@@ -9,6 +9,7 @@
 import os
 import re
 import git
+import sys
 import getpass
 import logging
 import argparse
@@ -50,6 +51,10 @@ build = {
   "upstream": None,
   "targets": [],
   "versions": {},
+  "results": {
+    "success": [],
+    "failure": []
+  },
   "labels": {
     "org.prind.version": os.environ.get("GITHUB_SHA",(git.Repo(search_parent_directories=True)).head.object.hexsha),
     "org.prind.image.created": datetime.now(timezone.utc).astimezone().isoformat(),
@@ -131,24 +136,35 @@ for version in build["versions"].keys():
       if args.dry_run:
         logger.debug("[dry-run] Would build " + tags[0])
       else:
-        # Build if image does not exist
-        logger.info("Building " + tags[0])
-        stream = (
-          docker.buildx.build(
-            # Build specific
-            context_path = context,
-            build_args = {"VERSION": version},
-            platforms = args.platform,
-            target = target,
-            push = args.push,
-            tags = tags,
-            labels = {
-              **build["labels"],
-              "org.prind.image.version": version
-            },
-            stream_logs = True
+        try:
+          # Build if image does not exist
+          logger.info("Building " + tags[0])
+          stream = (
+            docker.buildx.build(
+              # Build specific
+              context_path = context,
+              build_args = {"VERSION": version},
+              platforms = args.platform,
+              target = target,
+              push = args.push,
+              tags = tags,
+              labels = {
+                **build["labels"],
+                "org.prind.image.version": version
+              },
+              stream_logs = True
+            )
           )
-        )
 
-        for line in stream:
-          logger.info("BUILD: " + line.strip())
+          for line in stream:
+            logger.info("BUILD: " + line.strip())
+
+          logger.info("Successfully built " + tags[0])
+          build["results"]["success"].append(tags[0])
+        except:
+          logger.error("Failed to build " + tags[0])
+          build["results"]["failure"].append(tags[0])
+
+logger.info("Build results: " + str(build["results"]))
+if len(build["results"]["failure"]) > 0:
+  sys.exit(1)
