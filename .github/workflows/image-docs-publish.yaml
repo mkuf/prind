@@ -1,0 +1,51 @@
+name: "Update Image Description at Dockerhub"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/image-docs-publish.yaml
+      - docker/**/README.md
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      apps: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            klipper:
+              - .github/workflows/image-docs-publish.yaml
+              - docker/klipper/README.md
+            klipperscreen:
+              - .github/workflows/image-docs-publish.yaml
+              - docker/klipperscreen/README.md
+            moonraker:
+              - .github/workflows/image-docs-publish.yaml
+              - docker/moonraker/README.md
+            ustreamer:
+              - .github/workflows/image-docs-publish.yaml
+              - docker/moonraker/README.md
+  dockerhub-description:
+    needs: changes
+    strategy:
+      matrix:
+        app: ${{ fromJSON(needs.changes.outputs.apps) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Update Docker Hub Description"
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.app }}
+          readme-filepath: ./docker/${{ matrix.app }}/README.md
+          enable-url-completion: true
