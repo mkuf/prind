@@ -1,10 +1,7 @@
 <p align=center><img src=img/prind-logo.png height=400px></p>
 
 # prind
-[![Image: Klipper](https://github.com/mkuf/prind/actions/workflows/image-build-klipper.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/image-build-klipper.yaml)
-[![Image: Moonraker](https://github.com/mkuf/prind/actions/workflows/image-build-moonraker.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/image-build-moonraker.yaml)
-[![Image: KlipperScreen](https://github.com/mkuf/prind/actions/workflows/image-build-klipperscreen.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/image-build-klipperscreen.yaml)
-[![Image: Ustreamer](https://github.com/mkuf/prind/actions/workflows/image-build-ustreamer.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/image-build-ustreamer.yaml)
+[![Build and Publish Images](https://github.com/mkuf/prind/actions/workflows/image-build-and-publish.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/image-build-and-publish.yaml)
 
 prind allows you to run the Software for your 3D Printer in Docker containers.  
 With a single Command, you can start up klipper and choose between multiple Frontends. 
