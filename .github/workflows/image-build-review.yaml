@@ -1,0 +1,58 @@
+name: 'Build Images for Review'
+on:
+  pull_request:
+    paths:
+      - .github/workflows/image-build-review.yaml
+      - scripts/build/**
+      - docker/**
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      apps: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            klipper:
+              - .github/workflows/image-build-review.yaml
+              - scripts/build/**
+              - docker/klipper/**
+            klipperscreen:
+              - .github/workflows/image-build-review.yaml
+              - scripts/build/**
+              - docker/klipperscreen/**
+            moonraker:
+              - .github/workflows/image-build-review.yaml
+              - scripts/build/**
+              - docker/moonraker/**
+            ustreamer:
+              - .github/workflows/image-build-review.yaml
+              - scripts/build/**
+              - docker/ustreamer/**
+  build:
+    needs: changes
+    if: ${{ needs.changes.outputs.apps != '' && toJson(fromJson(needs.changes.outputs.apps)) != '[]' }}
+    strategy:
+      matrix:
+        app: ${{ fromJSON(needs.changes.outputs.apps) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "[prind] checkout"
+        uses: actions/checkout@v3
+      - name: "[prind] set up build environment"
+        uses: ./.github/actions/image-build-common
+      - name: "[prind] build"
+        run: |
+          python3 scripts/build/build.py ${{ matrix.app }} \
+            --backfill 0 \
+            --platform linux/amd64 \
+            --platform linux/arm/v6 \
+            --platform linux/arm/v7 \
+            --platform linux/arm64/v8 \
+            --force
