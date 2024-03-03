@@ -52,4 +52,3 @@ USER ustreamer
 EXPOSE 8080
 ENTRYPOINT [ "/opt/ustreamer"]
 CMD ["--host=0.0.0.0", "--port=8080"]
-
