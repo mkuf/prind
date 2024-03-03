@@ -51,9 +51,10 @@ build = {
   "upstream": None,
   "targets": [],
   "versions": {},
-  "results": {
+  "summary": {
     "success": [],
-    "failure": []
+    "failure": [],
+    "skipped": []
   },
   "labels": {
     "org.prind.version": os.environ.get("GITHUB_SHA",(git.Repo(search_parent_directories=True)).head.object.hexsha),
@@ -132,6 +133,7 @@ for version in build["versions"].keys():
         # Check if the image already exists
         docker.buildx.imagetools.inspect(tags[0])
         logger.info("Image " + tags[0] + " exists, nothing to to.")
+        build["summary"]["skipped"].append(tags[0])
     except:
       if args.dry_run:
         logger.debug("[dry-run] Would build " + tags[0])
@@ -160,11 +162,11 @@ for version in build["versions"].keys():
             logger.info("BUILD: " + line.strip())
 
           logger.info("Successfully built " + tags[0])
-          build["results"]["success"].append(tags[0])
+          build["summary"]["success"].append(tags[0])
         except:
-          logger.error("Failed to build " + tags[0])
-          build["results"]["failure"].append(tags[0])
+          logger.critical("Failed to build " + tags[0])
+          build["summary"]["failure"].append(tags[0])
 
-logger.info("Build results: " + str(build["results"]))
-if len(build["results"]["failure"]) > 0:
+logger.info("Build Summary: " + str(build["summary"]))
+if len(build["summary"]["failure"]) > 0:
   sys.exit(1)
