@@ -1,5 +1,5 @@
 ## Get Code and Build venv
-FROM python:3.11-bookworm as build
+FROM python:3.12-bookworm as build
 
 ARG REPO=https://github.com/Arksine/moonraker
 ARG VERSION=master
@@ -15,7 +15,7 @@ RUN python -m venv venv \
  && venv/bin/pip install -r moonraker/scripts/moonraker-requirements.txt
 
 ## Runtime Image
-FROM python:3.11-slim-bookworm as run
+FROM python:3.12-slim-bookworm as run
 
 RUN apt update \
  && apt install -y \

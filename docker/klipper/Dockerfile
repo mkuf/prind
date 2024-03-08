@@ -1,6 +1,6 @@
 ## Get Klipper Source and Build venv
 ##
-FROM python:3.11-bookworm as build
+FROM python:3.12-bookworm as build
 
 ARG REPO=https://github.com/Klipper3d/klipper
 ARG VERSION=master
@@ -22,7 +22,7 @@ RUN python -m venv venv \
 
 ## Klippy Runtime Image
 ##
-FROM python:3.11-slim-bookworm as run
+FROM python:3.12-slim-bookworm as run
 
 WORKDIR /opt
 RUN groupadd klipper --gid 1000 \
