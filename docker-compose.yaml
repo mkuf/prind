@@ -190,7 +190,7 @@ services:
 
   ## Loadbalancer/Proxy
   traefik:
-    image: traefik:v2.5
+    image: traefik:v2.11
     command:
       - "--accesslog"
       - "--providers.docker=true"
