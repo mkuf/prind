@@ -31,6 +31,7 @@ parser.add_argument("--push",action="store_true",default=False,help="Push image 
 parser.add_argument("--dry-run",action="store_true",default=False,help="Do not actually build images [default: False]")
 parser.add_argument("--force",action="store_true",default=False,help="Build images even though they exist in the registry [default: False]")
 parser.add_argument("--version",help="Which upstream Ref to build. Will overwrite automatic Version extraction from upstream")
+parser.add_argument("--upstream",help="Overwrite upstream Repo Url. Will skip Url extraction from Dockerfile")
 args = parser.parse_args()
 
 #---
@@ -85,6 +86,10 @@ with open(dockerfile) as file:
 
 logger.info("Found upstream repository: " + build["upstream"])
 logger.info("Found docker targets: " + str(build["targets"]))
+
+if args.upstream:
+  logger.warning("Upstream Repo has been overwritten to: " + args.upstream )
+  build["upstream"] = args.upstream
 
 #---
 # populate version dict
@@ -145,7 +150,7 @@ for version in build["versions"].keys():
             docker.buildx.build(
               # Build specific
               context_path = context,
-              build_args = {"VERSION": version},
+              build_args = {"REPO": build["upstream"], "VERSION": version},
               platforms = args.platform,
               target = target,
               push = args.push,
