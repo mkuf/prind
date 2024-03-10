@@ -145,9 +145,6 @@ for version in build["versions"].keys():
       else:
         try:
           # Build if image does not exist
-          print(os.environ["CI"])
-          if "CI" in os.environ:
-            print("::group::" + tags[0])
           logger.info("Building " + tags[0])
           stream = (
             docker.buildx.build(
@@ -165,6 +162,10 @@ for version in build["versions"].keys():
               stream_logs = True
             )
           )
+
+
+          if "CI" in os.environ:
+            print("::group::" + tags[0])
 
           for line in stream:
             logger.info("BUILD: " + line.strip())
