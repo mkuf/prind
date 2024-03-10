@@ -145,6 +145,8 @@ for version in build["versions"].keys():
       else:
         try:
           # Build if image does not exist
+          if "CI" in os.environ:
+            print("::group:: Building " + tags[0])
           logger.info("Building " + tags[0])
           stream = (
             docker.buildx.build(
@@ -171,6 +173,8 @@ for version in build["versions"].keys():
         except:
           logger.critical("Failed to build " + tags[0])
           build["summary"]["failure"].append(tags[0])
+        if "CI" in os.environ:
+          print("::group:: Building " + tags[0])
 
 logger.info("Build Summary: " + str(build["summary"]))
 if len(build["summary"]["failure"]) > 0:
