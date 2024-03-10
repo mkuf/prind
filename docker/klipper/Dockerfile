@@ -14,7 +14,7 @@ RUN git clone ${REPO} klipper \
 
 RUN python -m venv venv \
  && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
- && venv/bin/pip install numpy==1.25.2 \
+ && venv/bin/pip install numpy==1.26.4 \
  && venv/bin/python -m compileall klipper/klippy \
  && venv/bin/python klipper/klippy/chelper/__init__.py
 ###
