@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+
+  "timezone": "Europe/Berlin",
+  "schedule": "every 2 weeks on friday",
+  "packageRules": [
+    {
+    "matchPackageNames": ["traefik"],
+    "extractVersion": "^v(?<version>.*)$"
+    }
   ]
 }
