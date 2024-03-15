@@ -128,7 +128,7 @@ services:
       org.prind.service: klipperscreen
 
   moonraker-telegram-bot:
-    image: lefskiy/moonraker-telegram-bot:development
+    image: lefskiy/moonraker-telegram-bot:latest
     restart: unless-stopped
     logging:
       driver: none
