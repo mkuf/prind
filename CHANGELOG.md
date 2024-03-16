@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 * ci: workflow to build images for pull requests to review
+* custom: add moonraker config snippet for timelapse setup
 ### Fixed
 * ustreamer: copy the correct binary to the runtime image and set entrypoint accordingly
 ### Changed
@@ -15,6 +16,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * ci: use new build script in github workflows
 * ci: consolidate image specific build workflows into a single matrix workflow
 * ci: consolidate image specific dockerhub description workflows into a single matrix workflow
+* moonraker: make traefik labels compatible with traefik v3.0-rc1
+* moonraker-telegram-bot: use `latest` instead of `development` image via #137
+* chore: update traefik to v2.11 via !127
 ### Removed
 
 **Full Changelog**: https://github.com/mkuf/prind/compare/v1.11.0...vX.X.X
