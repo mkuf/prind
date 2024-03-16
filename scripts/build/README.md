@@ -1,5 +1,6 @@
 # build.py
-This script is used to build multi platform images provided by prind and upload them to the registry. 
+This script is used to build multi platform images provided by prind and upload them to the registry.  
+If you're looking for a way to build images locally, head to the main [README](../../README.md#building-docker-images-locally)
 
 ## Local usage
 ### Multi-Platform Requirements
@@ -21,8 +22,8 @@ venv/bin/pip install -r scripts/build/requirements.txt
 
 Usage description:
 ```bash
-usage: Build [-h] [--backfill BACKFILL] [--registry REGISTRY] [--platform PLATFORM] [--push] [--dry-run] [--force]
-             app
+$ python scripts/build/build.py --help
+usage: Build [-h] [--backfill BACKFILL] [--registry REGISTRY] [--platform PLATFORM] [--push] [--dry-run] [--force] [--version VERSION] [--upstream UPSTREAM] app
 
 Build container images for prind
 
@@ -37,4 +38,6 @@ options:
   --push               Push image to registry [default: False]
   --dry-run            Do not actually build images [default: False]
   --force              Build images even though they exist in the registry [default: False]
+  --version VERSION    Which upstream Ref to build. Will overwrite automatic Version extraction from upstream
+  --upstream UPSTREAM  Overwrite upstream Repo Url. Will skip Url extraction from Dockerfile
 ```
