@@ -7,11 +7,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
+### Fixed
+### Changed
+### Removed
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.12.0...vX.X.X
+-->
+
+## [v1.12.0] - 2024-03-23
+### Added
 * ci: workflow to build images for pull requests to review
 * custom: add moonraker config snippet for timelapse setup
 ### Fixed
 * ustreamer: copy the correct binary to the runtime image and set entrypoint accordingly
 ### Changed
+* klipper: update to python 3.12 base image and move additional python requirements to file
+* moonraker: update to python 3.12 base image
 * scripts: rewrite build script using python
 * ci: use new build script in github workflows
 * ci: consolidate image specific build workflows into a single matrix workflow
@@ -19,10 +30,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * moonraker: make traefik labels compatible with traefik v3.0-rc1
 * moonraker-telegram-bot: use `latest` instead of `development` image via #137
 * chore: update traefik to v2.11 via !127
-### Removed
 
-**Full Changelog**: https://github.com/mkuf/prind/compare/v1.11.0...vX.X.X
--->
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.11.0...v1.12.0
 
 ## [v1.11.0] - 2024-02-23
 ### Changed
