@@ -7,13 +7,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
-- profile: spoolman
 ### Fixed
 ### Changed
 ### Removed
 
-**Full Changelog**: https://github.com/mkuf/prind/compare/v1.12.0...vX.X.X
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.13.0...vX.X.X
 -->
+
+## [v1.13.0] - 2024-03-23
+### Added
+- profile: [spoolman by Donkie](https://github.com/Donkie/Spoolman) via #91
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.12.0...v1.13.0
 
 ## [v1.12.0] - 2024-03-23
 ### Added
