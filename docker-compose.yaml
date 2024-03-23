@@ -175,6 +175,18 @@ services:
     labels:
       org.prind.service: moonraker-obico
 
+  spoolman:
+    image: ghcr.io/donkie/spoolman:latest
+    restart: unless-stopped
+    volumes:
+      - spoolman-db:/home/app/.local/share/spoolman
+    profiles:
+      - spoolman
+    ports:
+      - 8000:8000
+    labels:
+      org.prind.service: spoolman
+
   ## Accompanying Services/Infra
   ##
 
@@ -216,3 +228,4 @@ volumes:
     driver_opts:
       type: tmpfs
       device: tmpfs
+  spoolman-db:
