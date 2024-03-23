@@ -29,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * ci: consolidate image specific dockerhub description workflows into a single matrix workflow
 * moonraker: make traefik labels compatible with traefik v3.0-rc1
 * moonraker-telegram-bot: use `latest` instead of `development` image via #137
-* chore: update traefik to v2.11 via !127
+* chore: update traefik to v2.11 via #127
 
 **Full Changelog**: https://github.com/mkuf/prind/compare/v1.11.0...v1.12.0
 
