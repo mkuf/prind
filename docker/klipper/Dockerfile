@@ -2,19 +2,25 @@
 ##
 FROM python:3.12-bookworm as build
 
-ARG REPO=https://github.com/Klipper3d/klipper
-ARG VERSION=master
+RUN apt update \
+ && apt install -y cmake \
+ && apt clean
 
 WORKDIR /opt
+COPY additional_requirements.txt .
+
+RUN python -m venv venv \
+ && venv/bin/pip install -r additional_requirements.txt
+
+ARG REPO=https://github.com/Klipper3d/klipper
+ARG VERSION=master
 
 RUN git clone ${REPO} klipper \
  && cd klipper \
  && git checkout ${VERSION} \
  && rm -rf .git
 
-RUN python -m venv venv \
- && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
- && venv/bin/pip install numpy==1.26.4 \
+RUN venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
  && venv/bin/python -m compileall klipper/klippy \
  && venv/bin/python klipper/klippy/chelper/__init__.py
 ###
