@@ -7,10 +7,10 @@ RUN apt update \
  && apt clean
 
 WORKDIR /opt
-COPY additional_requirements.txt .
+COPY requirements-prind.txt .
 
 RUN python -m venv venv \
- && venv/bin/pip install -r additional_requirements.txt
+ && venv/bin/pip install -r requirements-prind.txt
 
 ARG REPO=https://github.com/Klipper3d/klipper
 ARG VERSION=master

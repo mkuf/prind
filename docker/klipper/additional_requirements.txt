@@ -1,2 +1,0 @@
-#cmake==3.28.4; platform.machine == 'armv7l'
-numpy==1.26.4
