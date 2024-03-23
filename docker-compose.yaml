@@ -176,21 +176,16 @@ services:
       org.prind.service: moonraker-obico
 
   spoolman:
-    image: ghcr.io/donkie/spoolman:edge
+    image: ghcr.io/donkie/spoolman:latest
     restart: unless-stopped
-    command: ["--host", "0.0.0.0", "--port", "8000", "--root-path", "/spoolman"]
     volumes:
       - spoolman-db:/home/app/.local/share/spoolman
     profiles:
       - spoolman
+    ports:
+      - 8000:8000
     labels:
       org.prind.service: spoolman
-      traefik.enable: true
-      traefik.http.services.spoolman.loadbalancer.server.port: 8000
-      traefik.http.routers.spoolman.entrypoints: web
-      traefik.http.routers.spoolman.rule: PathPrefix(`/spoolman`)
-      traefik.http.routers.spoolman.middlewares: strip-spoolman@docker
-      traefik.http.middlewares.strip-spoolman.stripprefix.prefixes: /spoolman
 
   ## Accompanying Services/Infra
   ##
