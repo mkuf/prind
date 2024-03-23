@@ -179,12 +179,13 @@ docker compose --profile mainsail --profile moonraker-obico up -d
 #### Spoolman
 [Spoolman by Donkie](https://github.com/Donkie/Spoolman) can be enabled via the `spoolman` Profile.  
 
-After starting the stack via 
+Uncomment the spoolman section in `moonraker.conf` and add your printers Hostname or IP to the server URL.  
+The stack can then be started by specifying the `spoolman` profile. 
 ```bash
 docker compose --profile fluidd --profile spoolman up -d
 ```
 
-Navigate to http://<yourprinter>/spoolman to access the spoolman webinterface.
+Navigate to `http://<yourprinter>:8000` to access the spool manager webinterface.
 
 ## Updating
 Images are built daily and tagged with `latest` and the [git description](https://git-scm.com/docs/git-describe#_examples) of the remote repo. 
