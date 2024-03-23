@@ -1,20 +1,26 @@
 ## Get Klipper Source and Build venv
 ##
-FROM python:3.11-bookworm as build
+FROM python:3.12-bookworm as build
+
+RUN apt update \
+ && apt install -y cmake \
+ && apt clean
+
+WORKDIR /opt
+COPY requirements-prind.txt .
+
+RUN python -m venv venv \
+ && venv/bin/pip install -r requirements-prind.txt
 
 ARG REPO=https://github.com/Klipper3d/klipper
 ARG VERSION=master
-
-WORKDIR /opt
 
 RUN git clone ${REPO} klipper \
  && cd klipper \
  && git checkout ${VERSION} \
  && rm -rf .git
 
-RUN python -m venv venv \
- && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
- && venv/bin/pip install numpy==1.25.2 \
+RUN venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
  && venv/bin/python -m compileall klipper/klippy \
  && venv/bin/python klipper/klippy/chelper/__init__.py
 ###
@@ -22,7 +28,7 @@ RUN python -m venv venv \
 
 ## Klippy Runtime Image
 ##
-FROM python:3.11-slim-bookworm as run
+FROM python:3.12-slim-bookworm as run
 
 WORKDIR /opt
 RUN groupadd klipper --gid 1000 \
