@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 * klipper: update to python 3.12 base image and move additional python requirements to file
 * moonraker: update to python 3.12 base image
+* klipperscreen: update to python 3.12 base image
 * scripts: rewrite build script using python
 * ci: use new build script in github workflows
 * ci: consolidate image specific build workflows into a single matrix workflow
