@@ -33,6 +33,7 @@ RUN apt update \
       iproute2 \
       systemd \
       sudo \
+      git \
  && apt clean
 
 WORKDIR /opt
