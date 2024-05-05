@@ -68,7 +68,7 @@ services:
       org.prind.service: moonraker
       traefik.enable: true
       traefik.http.services.moonraker.loadbalancer.server.port: 7125
-      traefik.http.routers.moonraker.rule: PathPrefix(`/websocket`,`/printer`,`/api`,`/access`,`/machine`,`/server`)
+      traefik.http.routers.moonraker.rule: PathPrefix(`/websocket`) ||  PathPrefix(`/printer`) ||  PathPrefix(`/api`) ||  PathPrefix(`/access`) ||  PathPrefix(`/machine`) || PathPrefix(`/server`)
       traefik.http.routers.moonraker.entrypoints: web
 
   webcam:
