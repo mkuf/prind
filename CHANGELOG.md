@@ -8,16 +8,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 ### Fixed
-* klipper: revert to python 3.11 base images as klipper does not support 3.12 yet to fix #143 and #150
 ### Changed
-* ci: update buildx action to v3.3.0
-* traefik: upgrade to 3
-* moonraker: use `PathRegexp` for router rule to be compatible w/ traefik 3
-* build: upgrade requirements
 ### Removed
 
 **Full Changelog**: https://github.com/mkuf/prind/compare/v1.13.0...vX.X.X
 -->
+
+## [v1.14.0] - 2024-05-06
+### Fixed
+* klipper: revert to python 3.11 base images as klipper does not support 3.12 yet to fix #143 and #150
+### Changed
+* traefik: upgrade to 3
+* moonraker: use `PathRegexp` for router rule to be compatible w/ traefik 3
+* ci: update buildx action to v3.3.0
+* build: upgrade requirements
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.13.0...v1.14.0
 
 ## [v1.13.0] - 2024-03-23
 ### Added
