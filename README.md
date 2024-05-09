@@ -207,19 +207,18 @@ docker compose --profile <profile> up -d
 ``` 
 
 ## Advanced Topics
-### Serial device permissions
-It may be necessary to change the permissions of your printers serial device.  
-This is usually the case when you're on a non debian based distro which uses a different numerical groupid for the `dialout` group.  
+### Device permissions
+Adjusting permissions for devices connected to your host may become necessary, especially if you're using a non-Debian-based distribution with varying numerical group IDs.  
 
-Serial devices passed into the klipper container should be assigned to groupid `20` for the permissions to work within it.
+You can accomplish this by crafting a udev rule tailored to your specific device on your host system. Refer to your operating system's manual for instructions on configuring udev rules.  
 
-This may be done by creating a udev rule on your host machine for your specific device, read up on how to do this on your specific OS.  
-Usually you'll have to create a `*.rules` file in `/etc/udev/rules.d` and add a single line like this to it.  
-Be sure to use your devices specific `idVendor` and `idProduct`, which can be found via `lsusb`.
+Typically, this involves creating a `*.rules` file within `/etc/udev/rules.d` and appending a single line to it.  
+Consult the table below for the appropriate rule corresponding to your device type. Ensure to include your device's specific `idVendor` and `idProduct`, which can be identified using the `lsusb` command.
 
-```
-ACTION=="add",SUBSYSTEM=="tty",ATTRS{idVendor}=="0000",ATTRS{idProduct}=="0000",GROUP="20"
-```
+| Device Type | Group Name | GID  | Udev Rule                                                                                            |
+|-------------|------------|------|------------------------------------------------------------------------------------------------------|
+| Serial Port | `dialout`  | `20` | `ACTION=="add",SUBSYSTEM=="tty",ATTRS{idVendor}=="0000",ATTRS{idProduct}=="0000",GROUP="20"`         |
+| Webcam      | `video`    | `44` | `ACTION=="add",SUBSYSTEM=="video4linux",ATTRS{idVendor}=="0000",ATTRS{idProduct}=="0000",GROUP="44"` |
 
 ### Input Shaper Calibration
 Using input shaper requires an accelerometer.  
