@@ -8,6 +8,7 @@ RUN apt update \
       libgirepository1.0-dev \
       libdbus-glib-1-dev \
       cmake \
+      libsystemd-dev \
  && apt clean
 
 WORKDIR /opt
