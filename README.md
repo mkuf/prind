@@ -3,22 +3,39 @@
 # prind
 [![Build and Publish Images](https://github.com/mkuf/prind/actions/workflows/image-build-and-publish.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/image-build-and-publish.yaml)
 
-prind allows you to run the Software for your 3D Printer in Docker containers.  
-With a single Command, you can start up klipper and choose between multiple Frontends. 
+prind allows you to run the software for your 3D printer in Docker containers, eliminating any dependencies on the operating system.  
+This means you can use end-of-life or cutting-edge operating systems, and anything in between.
 
-Currently supported Frontends:
-  * Octoprint (via [Dockerhub](https://hub.docker.com/r/octoprint/octoprint))
-  * Fluidd (via [GHCR](https://github.com/fluidd-core/fluidd/pkgs/container/fluidd))
-  * Mainsail (via [GHCR](https://github.com/mainsail-crew/mainsail/pkgs/container/mainsail))
-  * KlipperScreen
+With a single command, you can start up Klipper and its accompanying applications.
 
-Depending on which Frontend you've chosen, moonraker will also be deployed.
+## Supported Applications
+|   |Name|Source|Container Image built by|
+|---|----|------|--------------|
+|<img src="https://raw.githubusercontent.com/Klipper3d/klipper/master/docs/img/klipper-logo.png" height=20px>|Klipper|https://github.com/Klipper3d/klipper|`prind`|
+|<img src="https://avatars.githubusercontent.com/u/9563098?v=4" height=20px>|Moonraker|https://github.com/Arksine/moonraker|`prind`|
+|<img src="https://raw.githubusercontent.com/mainsail-crew/docs/master/assets/img/logo.png" height=20px>|Mainsail|https://github.com/mainsail-crew/mainsail|`upstream`|
+|<img src="https://raw.githubusercontent.com/fluidd-core/fluidd/develop/docs/assets/images/logo.svg" height=20px>|Fluidd|https://github.com/fluidd-core/fluidd|`upstream`|
+|<img src="https://github.com/OctoPrint/OctoPrint/blob/master/docs/images/octoprint-logo.png?raw=true" height=20px>|Octoprint|https://github.com/OctoPrint/OctoPrint|`upstream`|
+|<img src="https://avatars.githubusercontent.com/u/91093001?s=200&v=4" height=20px>|KlipperScreen|https://github.com/KlipperScreen/KlipperScreen|`prind`|
+|<img src="https://avatars.githubusercontent.com/u/52351624?s=48&v=4" height=20px>|moonraker-telegram-bot|https://github.com/nlef/moonraker-telegram-bot|`upstream`|
+|<img src="https://github.com/Clon1998/mobileraker/blob/master/assets/icon/ic_launcher_foreground.png?raw=true" height=20px>|mobileraker_companion|https://github.com/Clon1998/mobileraker_companion|`upstream`|
+|<img src="https://avatars.githubusercontent.com/u/46323662?s=200&v=4" height=20px>|moonraker-obico|https://github.com/TheSpaghettiDetective/moonraker-obico|`upstream`|
+|<img src="https://raw.githubusercontent.com/Donkie/Spoolman/master/client/icons/spoolman.svg" height=20px>|Spoolman|https://github.com/Donkie/Spoolman|`upstream`|
+|<img src="https://avatars.githubusercontent.com/u/41749659?s=200&v=4" height=20px>|µStreamer|https://github.com/pikvm/ustreamer|`prind`|
+
 
 ## Getting started
-The following Guide requires `docker` and `docker compose` on your machine.  
-Follow the official Guides on how to get them up and running. 
-* https://docs.docker.com/engine/install/ubuntu/
-* https://docs.docker.com/compose/cli-command/#installing-compose-v2
+This guide requires _Docker_ and _Docker Compose v2_ on your machine.  
+Follow the official guides to install and set them up:
+
+* [Install Docker on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+* [Install Docker Compose v2](https://docs.docker.com/compose/cli-command/#installing-compose-v2)
+
+Clone this repository onto your Docker host using Git:
+```
+git clone https://github.com/mkuf/prind
+```
+Unless otherwise specified, all commands mentioned in the documentation should be run from the root of the repository.
 
 ### Build the MCU Code
 Before using Klipper, you'll have to build and flash the microcontroller-code for your printers mainboard.  
@@ -61,7 +78,7 @@ All Runtime Configs are stored within `config` of this Repo.
 There are currently 3 frontend Profiles to choose from, depending on the Web Frontend you'd like to use.
 * fluidd
 * mainsail
-* octoprint
+* octoprint (w/o moonraker)
 
 Starting the stack comes down to:
 ```
@@ -73,7 +90,7 @@ docker compose --profile fluidd up -d
 ```
 
 Switching between profiles requires the whole stack to be torn down before starting another Frontend.  
-Running two Frontends at the same time is currently not supported.
+Running two Frontends at the same time is currently not supported behind a proxy.
 Switching from fluidd to mainsail would look like this: 
 ```
 docker compose --profile fluidd down
