@@ -7,15 +7,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
-* docs: note about video device permissions via #155 reported by @d-graz
-* moonraker: additional requirements are installed prior to upstream requirements, fixes https://github.com/Arksine/moonraker/issues/864
 ### Fixed
 ### Changed
-* spoolman: serve via traefik subpath `/spoolman` instead of container port `8000`
 ### Removed
 
-**Full Changelog**: https://github.com/mkuf/prind/compare/v1.13.0...vX.X.X
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.15.0...vX.X.X
 -->
+
+## [v1.15.0]
+### Added
+* docs: note about video device permissions via #155 reported by @d-graz
+* moonraker: install additional requirements prior to upstream requirements, fixes https://github.com/Arksine/moonraker/issues/864
+### Changed
+* docs: rework intro and added table of supported applications
+* spoolman: serve via traefik subpath `/spoolman` instead of container port `8000`
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.14.0...v1.15.0
 
 ## [v1.14.0] - 2024-05-06
 ### Fixed
