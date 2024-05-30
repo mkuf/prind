@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 * docs: note about video device permissions via #155 reported by @d-graz
+* moonraker: additional requirements are installed prior to upstream requirements, fixes https://github.com/Arksine/moonraker/issues/864
 ### Fixed
 ### Changed
 ### Removed

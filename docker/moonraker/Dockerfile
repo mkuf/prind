@@ -1,10 +1,14 @@
 ## Get Code and Build venv
 FROM python:3.12-bookworm as build
 
+WORKDIR /opt
+COPY requirements-prind.txt .
+
+RUN python -m venv venv \
+ && venv/bin/pip install -r requirements-prind.txt
+
 ARG REPO=https://github.com/Arksine/moonraker
 ARG VERSION=master
-
-WORKDIR /opt
 
 RUN git clone ${REPO} moonraker \
  && cd moonraker \
