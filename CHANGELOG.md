@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * moonraker: additional requirements are installed prior to upstream requirements, fixes https://github.com/Arksine/moonraker/issues/864
 ### Fixed
 ### Changed
+* spoolman: serve via traefik subpath `/spoolman` instead of container port `8000`
 ### Removed
 
 **Full Changelog**: https://github.com/mkuf/prind/compare/v1.13.0...vX.X.X

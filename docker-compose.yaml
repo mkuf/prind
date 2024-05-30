@@ -182,10 +182,14 @@ services:
       - spoolman-db:/home/app/.local/share/spoolman
     profiles:
       - spoolman
-    ports:
-      - 8000:8000
+    environment:
+      SPOOLMAN_BASE_PATH: /spoolman
     labels:
       org.prind.service: spoolman
+      traefik.enable: true
+      traefik.http.services.octoprint.loadbalancer.server.port: 8000
+      traefik.http.routers.octoprint.rule: PathPrefix(`/spoolman`)
+      traefik.http.routers.octoprint.entrypoints: web
 
   ## Accompanying Services/Infra
   ##

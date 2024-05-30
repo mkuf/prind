@@ -202,7 +202,7 @@ The stack can then be started by specifying the `spoolman` profile.
 docker compose --profile fluidd --profile spoolman up -d
 ```
 
-Navigate to `http://<yourprinter>:8000` to access the spool manager webinterface.
+Navigate to `http://<yourprinter>/spoolman` to access the spool manager webinterface.
 
 ## Updating
 Images are built daily and tagged with `latest` and the [git description](https://git-scm.com/docs/git-describe#_examples) of the remote repo. 
