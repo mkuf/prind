@@ -9,19 +9,19 @@ This means you can use end-of-life or cutting-edge operating systems, and anythi
 With a single command, you can start up Klipper and its accompanying applications.
 
 ## Supported Applications
-|   |Name|Source|Container Image built by|
-|:---:|----|------|--------------|
-|<img src="https://raw.githubusercontent.com/Klipper3d/klipper/master/docs/img/klipper-logo.png" width=30px>|Klipper|https://github.com/Klipper3d/klipper|`prind`|
-|<img src="https://avatars.githubusercontent.com/u/9563098?v=4" width=30px>|Moonraker|https://github.com/Arksine/moonraker|`prind`|
-|<img src="https://raw.githubusercontent.com/mainsail-crew/docs/master/assets/img/logo.png" width=30px>|Mainsail|https://github.com/mainsail-crew/mainsail|`upstream`|
-|<img src="https://raw.githubusercontent.com/fluidd-core/fluidd/develop/docs/assets/images/logo.svg" width=30px>|Fluidd|https://github.com/fluidd-core/fluidd|`upstream`|
-|<img src="https://github.com/OctoPrint/OctoPrint/blob/master/docs/images/octoprint-logo.png?raw=true" width=30px>|Octoprint|https://github.com/OctoPrint/OctoPrint|`upstream`|
-|<img src="https://avatars.githubusercontent.com/u/91093001?s=200&v=4" width=30px>|KlipperScreen|https://github.com/KlipperScreen/KlipperScreen|`prind`|
-|<img src="https://avatars.githubusercontent.com/u/52351624?s=48&v=4" width=30px>|moonraker-telegram-bot|https://github.com/nlef/moonraker-telegram-bot|`upstream`|
-|<img src="https://github.com/Clon1998/mobileraker/blob/master/assets/icon/ic_launcher_foreground.png?raw=true" width=30px>|mobileraker_companion|https://github.com/Clon1998/mobileraker_companion|`upstream`|
-|<img src="https://avatars.githubusercontent.com/u/46323662?s=200&v=4" width=30px>|moonraker-obico|https://github.com/TheSpaghettiDetective/moonraker-obico|`upstream`|
-|<img src="https://raw.githubusercontent.com/Donkie/Spoolman/master/client/icons/spoolman.svg" width=30px>|Spoolman|https://github.com/Donkie/Spoolman|`upstream`|
-|<img src="https://avatars.githubusercontent.com/u/41749659?s=200&v=4" width=30px>|µStreamer|https://github.com/pikvm/ustreamer|`prind`|
+|   |Name|Container Image built by|
+|:---:|------|--------------|
+|<img src="https://raw.githubusercontent.com/Klipper3d/klipper/master/docs/img/klipper-logo.png" width=30px>|[Klipper](https://github.com/Klipper3d/klipper)|`prind`|
+|<img src="https://avatars.githubusercontent.com/u/9563098?v=4" width=30px>|[Moonraker](https://github.com/Arksine/moonraker)|`prind`|
+|<img src="https://raw.githubusercontent.com/mainsail-crew/docs/master/assets/img/logo.png" width=30px>|[Mainsail](https://github.com/mainsail-crew/mainsail)|`upstream`|
+|<img src="https://raw.githubusercontent.com/fluidd-core/fluidd/develop/docs/assets/images/logo.svg" width=30px>|[Fluidd](https://github.com/fluidd-core/fluidd)|`upstream`|
+|<img src="https://github.com/OctoPrint/OctoPrint/blob/master/docs/images/octoprint-logo.png?raw=true" width=30px>|[Octoprint](https://github.com/OctoPrint/OctoPrint)|`upstream`|
+|<img src="https://avatars.githubusercontent.com/u/91093001?s=200&v=4" width=30px>|[KlipperScreen](https://github.com/KlipperScreen/KlipperScreen)|`prind`|
+|<img src="https://avatars.githubusercontent.com/u/52351624?s=48&v=4" width=30px>|[moonraker-telegram-bot](https://github.com/nlef/moonraker-telegram-bot)|`upstream`|
+|<img src="https://github.com/Clon1998/mobileraker/blob/master/assets/icon/ic_launcher_foreground.png?raw=true" width=30px>|[mobileraker_companion](https://github.com/Clon1998/mobileraker_companion)|`upstream`|
+|<img src="https://avatars.githubusercontent.com/u/46323662?s=200&v=4" width=30px>|[moonraker-obico](https://github.com/TheSpaghettiDetective/moonraker-obico)|`upstream`|
+|<img src="https://raw.githubusercontent.com/Donkie/Spoolman/master/client/icons/spoolman.svg" width=30px>|[Spoolman](https://github.com/Donkie/Spoolman)|`upstream`|
+|<img src="https://avatars.githubusercontent.com/u/41749659?s=200&v=4" width=30px>|[µStreamer](https://github.com/pikvm/ustreamer)|`prind`|
 
 
 ## Getting started
