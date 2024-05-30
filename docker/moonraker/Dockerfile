@@ -2,7 +2,7 @@
 FROM python:3.12-bookworm as build
 
 WORKDIR /opt
-COPY requirements-prind.txt
+COPY requirements-prind.txt .
 
 RUN python -m venv venv \
  && venv/bin/pip install -r requirements-prind.txt
