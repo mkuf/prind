@@ -9,6 +9,9 @@ This means you can use end-of-life or cutting-edge operating systems, and anythi
 With a single command, you can start up Klipper and its accompanying applications.
 
 ## Supported Applications
+<details>
+<summary>Click to expand</summary>
+
 |   |Name|Container Image built by|
 |:---:|------|--------------|
 |<img src="https://raw.githubusercontent.com/Klipper3d/klipper/master/docs/img/klipper-logo.png" width=30px>|[Klipper](https://github.com/Klipper3d/klipper)|`prind`|
@@ -22,7 +25,7 @@ With a single command, you can start up Klipper and its accompanying application
 |<img src="https://avatars.githubusercontent.com/u/46323662?s=200&v=4" width=30px>|[moonraker-obico](https://github.com/TheSpaghettiDetective/moonraker-obico)|`upstream`|
 |<img src="https://raw.githubusercontent.com/Donkie/Spoolman/master/client/icons/spoolman.svg" width=30px>|[Spoolman](https://github.com/Donkie/Spoolman)|`upstream`|
 |<img src="https://avatars.githubusercontent.com/u/41749659?s=200&v=4" width=30px>|[µStreamer](https://github.com/pikvm/ustreamer)|`prind`|
-
+</details>
 
 ## Getting started
 This guide requires _Docker_ and _Docker Compose v2_ on your machine.  
