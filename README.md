@@ -24,7 +24,7 @@ With a single command, you can start up Klipper and its accompanying application
 |<img src="https://github.com/Clon1998/mobileraker/blob/master/assets/icon/ic_launcher_foreground.png?raw=true" width=30px>|[mobileraker_companion](https://github.com/Clon1998/mobileraker_companion)|`upstream`|[Additional Profiles](#mobileraker_companion)|
 |<img src="https://avatars.githubusercontent.com/u/46323662?s=200&v=4" width=30px>|[moonraker-obico](https://github.com/TheSpaghettiDetective/moonraker-obico)|`upstream`|[Additional Profiles](#moonraker-obico)|
 |<img src="https://raw.githubusercontent.com/Donkie/Spoolman/master/client/icons/spoolman.svg" width=30px>|[Spoolman](https://github.com/Donkie/Spoolman)|`upstream`|[Additional Profiles](#spoolman)|
-|<img src="https://avatars.githubusercontent.com/u/41749659?s=200&v=4" width=30px>|[µStreamer](https://github.com/pikvm/ustreamer)|prind @ [docker/ustreamer](docker/ustreamer)|[Add your Configuration](#add-your-configuration-to-docker-composeoverrideyaml)<br>[Advanced Topics/Multiple Webcams](https://github.com/mkuf/prind?tab=readme-ov-file#multiple-webcams)|
+|<img src="https://avatars.githubusercontent.com/u/41749659?s=200&v=4" width=30px>|[µStreamer](https://github.com/pikvm/ustreamer)|prind @ [docker/ustreamer](docker/ustreamer)|[Add your Configuration](#add-your-configuration-to-docker-composeoverrideyaml)<br>[Multiple Webcams](https://github.com/mkuf/prind?tab=readme-ov-file#multiple-webcams)|
 </details>
 
 ## Getting started
