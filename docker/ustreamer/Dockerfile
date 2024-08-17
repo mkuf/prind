@@ -16,6 +16,7 @@ RUN apt update \
       libjpeg62-turbo-dev \
       libbsd-dev \
       libgpiod-dev \
+      pkg-config \
  && apt clean
 
 RUN git clone ${REPO} ustreamer \
