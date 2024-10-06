@@ -112,7 +112,7 @@ services:
       org.prind.service: init
 
   traefik:
-    image: traefik:3.1
+    image: traefik:3.2
     command:
       - "--accesslog"
       - "--providers.docker=true"
