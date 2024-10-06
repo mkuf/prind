@@ -21,18 +21,22 @@ jobs:
         with:
           filters: |
             klipper:
+              - .github/actions/**
               - .github/workflows/image-build-review.yaml
               - scripts/build/**
               - docker/klipper/**
             klipperscreen:
+              - .github/actions/**
               - .github/workflows/image-build-review.yaml
               - scripts/build/**
               - docker/klipperscreen/**
             moonraker:
+              - .github/actions/**
               - .github/workflows/image-build-review.yaml
               - scripts/build/**
               - docker/moonraker/**
             ustreamer:
+              - .github/actions/**
               - .github/workflows/image-build-review.yaml
               - scripts/build/**
               - docker/ustreamer/**
