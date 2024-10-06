@@ -2,6 +2,7 @@ name: 'Build Images for Review'
 on:
   pull_request:
     paths:
+      - .github/actions/**
       - .github/workflows/image-build-review.yaml
       - scripts/build/**
       - docker/**
