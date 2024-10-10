@@ -1,6 +1,6 @@
 ## Get Klipper Source and Build venv
 ##
-FROM python:3.11-bookworm as build
+FROM python:3.13-bookworm as build
 
 RUN apt update \
  && apt install -y cmake \
@@ -28,7 +28,7 @@ RUN venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
 
 ## Klippy Runtime Image
 ##
-FROM python:3.11-slim-bookworm as run
+FROM python:3.13-slim-bookworm as run
 
 WORKDIR /opt
 RUN groupadd klipper --gid 1000 \
