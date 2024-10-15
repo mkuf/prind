@@ -38,3 +38,4 @@ runs:
         python3 -m venv venv
         source venv/bin/activate
         pip install -r scripts/build/requirements.txt
+        echo PATH=$PATH >> $GITHUB_ENV
