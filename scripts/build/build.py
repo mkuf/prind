@@ -32,6 +32,7 @@ parser.add_argument("--dry-run",action="store_true",default=False,help="Do not a
 parser.add_argument("--force",action="store_true",default=False,help="Build images even though they exist in the registry [default: False]")
 parser.add_argument("--version",help="Which upstream Ref to build. Will overwrite automatic Version extraction from upstream")
 parser.add_argument("--upstream",help="Overwrite upstream Repo Url. Will skip Url extraction from Dockerfile")
+parser.add_argument("--suffix",help="Suffix to add after the image tag. Skips the creation of the 'latest' tag")
 args = parser.parse_args()
 
 #---
@@ -126,8 +127,8 @@ for version in build["versions"].keys():
     # Create list of docker tags
     docker_image = "/".join(filter(None, (args.registry, args.app)))
     tags = [
-      docker_image + ":" + (version if target == "run" else '-'.join([version, target])),
-      *(docker_image + (":latest" if target == "run" else '-'.join([":latest", target])) for _i in range(1) if build["versions"][version]["latest"]),
+      docker_image + ":" + (version if target == "run" else '-'.join([version, target])) + (f"_{args.suffix}" if args.suffix else ""),
+      *(docker_image + (":latest" if target == "run" else '-'.join([":latest", target])) for _i in range(1) if build["versions"][version]["latest"] and not args.suffix),
     ]
 
     try:
