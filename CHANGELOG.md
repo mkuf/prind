@@ -7,14 +7,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
-* docs: improvements to table of supported applications
+### Fixed
+### Changed
+### Removed
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.16.0...vX.X.X
+-->
+
+## [v1.16.0] - 2024-11-08
 ### Fixed
 * custom: fix config path for klipper in portainer example #165
 * ustreamer: add pkg-config to build stage to fix failing build #171
 ### Changed
 * moonraker: update lmdb to 1.5.1 #161
 * traefik: update to 3.2 #163 #174
-* klipperscreen: updated to python 3.13
+* klipperscreen: updated to python 3.13 #175
+* docs: improvements to table of supported applications
 * ci: update actions #159 #162 #164 #167 #168 #169 #170 #173
 * ci: start review workflow on changes to action definitions
 * ci: install build script dependencies in a venv #176
@@ -23,10 +31,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * scripts: allow setting image tag suffixes in build.py
 * renovate: automerge updates if review passes
 * renovate: skip python updates for moonraker and klipper
-### Removed
 
-**Full Changelog**: https://github.com/mkuf/prind/compare/v1.15.0...vX.X.X
--->
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.15.0...v1.16.0
 
 ## [v1.15.0] - 2024-05-30
 ### Added
