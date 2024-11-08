@@ -44,6 +44,7 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.apps != '' && toJson(fromJson(needs.changes.outputs.apps)) != '[]' }}
     strategy:
+      fail-fast: false
       matrix:
         app: ${{ fromJSON(needs.changes.outputs.apps) }}
         platform:
