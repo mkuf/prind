@@ -7,14 +7,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
+* docs: improvements to table of supported applications
 ### Fixed
+* custom: fix config path for klipper in portainer example #165
+* ustreamer: add pkg-config to build stage to fix failing build #171
 ### Changed
+* ci: update actions #159 #162 #164 #167 #168 #169 #170 #173
+* ci: start review workflow on changes to action definitions
+* ci: install build script dependencies in a venv #176
+* ci: do not fail fast for review builds
+* scripts: update build dependencies #166 #172
+* scripts: allow setting image tag suffixes in build.py
+* traefik: update to 3.2 #163 #174
+* moonraker: update lmdb to 1.5.1 #161
 ### Removed
 
 **Full Changelog**: https://github.com/mkuf/prind/compare/v1.15.0...vX.X.X
 -->
 
-## [v1.15.0]
+## [v1.15.0] - 2024-05-30
 ### Added
 * docs: note about video device permissions via #155 reported by @d-graz
 * moonraker: install additional requirements prior to upstream requirements, fixes https://github.com/Arksine/moonraker/issues/864
