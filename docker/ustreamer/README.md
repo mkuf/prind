@@ -52,3 +52,12 @@ none
 |---|---|---|
 |`build`|Pull Upstream Codebase and build application|No|
 |`run`|Default runtime Image|Yes|
+
+## Healthcheck
+`/opt/health.sh` gets executed every 5s inside the container.  
+The script does the following:
+* gets the JSON structure with the state of the server
+* Checks the following values
+  * `.ok` is set to `true`, which indicates ustreamer is working
+  * `.result.source.online` is set to `true`, which indicates the source (webcam) is returning an image rather than `NO SIGNAL`
+* If one of the above values is not `true`, the script exits with a failure state to indicate the container is unhealthy
