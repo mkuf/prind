@@ -13,6 +13,7 @@ ARG VERSION=master
 RUN git clone ${REPO} moonraker \
  && cd moonraker \
  && git checkout ${VERSION} \
+ && echo -n $(git describe --tags)-prind > moonraker/.version \
  && rm -rf .git
 
 RUN python -m venv venv \
