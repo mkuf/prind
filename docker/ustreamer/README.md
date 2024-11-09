@@ -60,4 +60,4 @@ The script does the following:
 * Checks the following values
   * `.ok` is set to `true`, which indicates ustreamer is working
   * `.result.source.online` is set to `true`, which indicates the source (webcam) is returning an image rather than `NO SIGNAL`
-* If one of the above values is not `true`, the script exits with a failure state to indicate the container is unhealthy
+* If one of the above requirements is not met, the script exits with a failure state to indicate the container is unhealthy
