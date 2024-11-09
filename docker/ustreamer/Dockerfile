@@ -1,5 +1,5 @@
 ## Get Code and make
-FROM debian:bookworm-slim as build
+FROM debian:bookworm-slim AS build
 
 ARG REPO=https://github.com/pikvm/ustreamer
 ARG VERSION=master
@@ -28,7 +28,7 @@ RUN cd ustreamer \
  && make LDFLAGS=-latomic
 
 ## Runtime Image
-FROM debian:bookworm-slim as run
+FROM debian:bookworm-slim AS run
 
 RUN apt update \
  && apt install -y \
