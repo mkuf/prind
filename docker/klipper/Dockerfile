@@ -39,9 +39,6 @@ RUN groupadd klipper --gid 1000 \
 RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data/config \
  && chown -R klipper:klipper /opt/*
 
-COPY --chown=klipper:klipper health.py ./
-HEALTHCHECK --interval=5s CMD ["python3", "/opt/health.py"]
-
 COPY --chown=klipper:klipper --from=build /opt/klipper ./klipper
 COPY --chown=klipper:klipper --from=build /opt/venv ./venv
 
