@@ -85,3 +85,13 @@ services:
 |---|---|---|
 |`build`|Pull Upstream Codebase and build python venv|No|
 |`run`|Default runtime Image|Yes|
+
+## Healthcheck
+`/opt/health.sh` gets executed every 5s inside the container.  
+The script does the following:
+* queries the `/server/info` endpoint of moonraker
+* Performs the following checks
+  * Number of failed moonraker_components = 0
+  * klippy_connected is `true`
+  * klippy_state is `ready`
+* If one of the above requirements is not met, the script exits with a failure state to indicate the container is unhealthy
