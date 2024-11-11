@@ -39,7 +39,6 @@ RUN apt update \
       systemd \
       sudo \
       git \
-      jq \
  && apt clean
 
 WORKDIR /opt
@@ -48,9 +47,6 @@ RUN groupadd moonraker --gid 1000 \
  && usermod moonraker --append --groups dialout
 RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data/database printer_data/config \
  && chown -R moonraker:moonraker /opt/*
-
-COPY --chown=moonraker:moonraker health.sh ./
-HEALTHCHECK --interval=5s CMD ["bash", "/opt/health.sh"]
 
 COPY --chown=moonraker:moonraker --from=build /opt/moonraker ./moonraker
 COPY --chown=moonraker:moonraker --from=build /opt/venv ./venv

@@ -119,10 +119,3 @@ none
 |`run`|Default runtime Image for klippy|Yes|
 |`tools`|Build Tools for MCU code compilation|Yes|
 |`hostmcu`|Runtime Image for the klipper_mcu binary|Yes|
-
-## Healthcheck
-`/opt/health.py` gets executed every 5s inside the container.  
-The script does the following:
-* queries klippers `info` endpoint via its unix socket
-* Checks if state is `ready`
-* If one of the above requirements is not `ready`, the script exits with a failure state to indicate the container is unhealthy
