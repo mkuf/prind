@@ -39,6 +39,8 @@ RUN apt update \
       libbsd0 \
       libgpiod2 \
       v4l-utils \
+      curl \
+      jq \
  && apt clean
 
 WORKDIR /opt
@@ -46,11 +48,14 @@ RUN groupadd ustreamer --gid 1000 \
  && useradd ustreamer --uid 1000 --gid ustreamer \
  && usermod ustreamer --append --groups video
 
+COPY --chown=ustreamer:ustreamer health.sh ./
+HEALTHCHECK --interval=5s CMD ["bash", "/opt/health.sh"]
+
 COPY --chown=ustreamer:ustreamer --from=build /opt/ustreamer/src/ustreamer.bin ./ustreamer
 
 ## Start ustreamer
 USER ustreamer
 EXPOSE 8080
-ENTRYPOINT [ "/opt/ustreamer"]
+ENTRYPOINT ["/opt/ustreamer"]
 CMD ["--host=0.0.0.0", "--port=8080"]
 
