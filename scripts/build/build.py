@@ -83,7 +83,7 @@ with open(dockerfile) as file:
     target = re.findall(r'FROM .* AS .*', line)
     if target:
       if not "build" in target[0]:
-        build["targets"].append(target[0].split(' as ')[-1])
+        build["targets"].append(target[0].split(' AS ')[-1])
 
 if args.upstream:
   logger.warning("Upstream Repo has been overwritten to: " + args.upstream )
