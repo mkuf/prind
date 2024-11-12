@@ -80,17 +80,22 @@ with open(dockerfile) as file:
       build["upstream"] = repo[0].split('=')[1]
 
     # build targets
-    target = re.findall(r'FROM .* as .*', line)
+    target = re.findall(r'FROM .* AS .*', line)
     if target:
       if not "build" in target[0]:
         build["targets"].append(target[0].split(' as ')[-1])
 
-logger.info("Found upstream repository: " + build["upstream"])
-logger.info("Found docker targets: " + str(build["targets"]))
-
 if args.upstream:
   logger.warning("Upstream Repo has been overwritten to: " + args.upstream )
   build["upstream"] = args.upstream
+else:
+  logger.info("Found upstream repository: " + build["upstream"])
+
+if len(build["targets"]) < 1:
+  logger.error("No targets found. Nothing to build")
+  sys.exit(1)
+else:
+  logger.info("Found docker targets: " + str(build["targets"]))
 
 #---
 # populate version dict
