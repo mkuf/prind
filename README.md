@@ -331,12 +331,11 @@ Update the `image:` name and add a `build` config:
 ```
 
 ### Healthchecks
-Klipper, Moonraker and Ustreamer images contain scripts that can be used to determine the overall health of the application.  
-Healthchecks have not been added to the Dockerfiles of these images, as they consume a considerable amount of CPU cycles and may lead to unwanted behaviour on low powered machines.   
-In tests, cpu usage of containers was **doubled** when executing the healtch check every 30s and increased **sixfold** when executing every 5s.  
+The Klipper, Moonraker, and Ustreamer images include scripts to monitor the overall health of the application. By default, health checks are **disabled** to avoid high CPU usage, which can cause unwanted behavior on low-powered machines.
 
-You can enable health checks by adding them to your `docker-compose.override.yaml`.  
-Reference the [compose file docs](https://docs.docker.com/reference/compose-file/services/#healthcheck) on how to further tweak these checks.
+In tests, container CPU usage **doubled** when health checks were performed every 30 seconds and increased **sixfold** when performed every 5 seconds.
+
+To enable health checks, you can add them to your docker-compose.override.yaml file. Refer to the [Compose file documentation]((https://docs.docker.com/reference/compose-file/services/#healthcheck)) for guidance on customizing these checks.
 
 ```yaml
 services:
