@@ -7,15 +7,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
-* klipper & moonraker: generate version file during build to correctly display versions
-* klipper, moonraker & ustreamer: add health check scripts to container images
-* docs: health check examples
 ### Fixed
 ### Changed
 ### Removed
 
-**Full Changelog**: https://github.com/mkuf/prind/compare/v1.16.0...vX.X.X
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.17.0...vX.X.X
 -->
+
+## [v1.17.0] - 2024-11-24
+### Added
+* klipper & moonraker: generate version file during build to correctly display versions (fixes [#74](https://github.com/mkuf/prind/issues/74#issuecomment-2474036799))
+* klipper, moonraker & ustreamer: add health check scripts to container images #178
+* docs: health check examples for each container and in main readme
+### Changed
+* ci: update build requirements #181
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.16.0...v1.17.0
 
 ## [v1.16.0] - 2024-11-08
 ### Fixed
