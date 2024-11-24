@@ -55,9 +55,23 @@ none
 
 ## Healthcheck
 `/opt/health.sh` gets executed every 5s inside the container.  
+
+> Be aware that enabling health checks in docker may increase CPU usage drastically.  
+> In tests, cpu usage of the container was doubled when executing the healtch check every 30s and increased sixfold when executing every 5s.  
+> This may lead to resource shortages on low powered host and unwanted behaviour  
+
 The script does the following:
 * gets the JSON structure with the state of the server
 * Checks the following values
   * `.ok` is set to `true`, which indicates ustreamer is working
   * `.result.source.online` is set to `true`, which indicates the source (webcam) is returning an image rather than `NO SIGNAL`
 * If one of the above requirements is not met, the script exits with a failure state to indicate the container is unhealthy
+
+Compose example:
+```yaml
+services:
+  ustreamer:
+    healthcheck:
+      test: ["bash", "/opt/health.sh"]
+      interval: 30s
+```

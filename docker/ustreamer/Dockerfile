@@ -49,7 +49,6 @@ RUN groupadd ustreamer --gid 1000 \
  && usermod ustreamer --append --groups video
 
 COPY --chown=ustreamer:ustreamer health.sh ./
-HEALTHCHECK --interval=5s CMD ["bash", "/opt/health.sh"]
 
 COPY --chown=ustreamer:ustreamer --from=build /opt/ustreamer/src/ustreamer.bin ./ustreamer
 

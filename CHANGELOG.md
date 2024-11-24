@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 * klipper & moonraker: generate version file during build to correctly display versions
-* klipper, moonraker & ustreamer: add healthchecks to container images
+* klipper, moonraker & ustreamer: add health check scripts to container images
+* docs: health check examples
 ### Fixed
 ### Changed
 ### Removed

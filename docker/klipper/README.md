@@ -121,8 +121,22 @@ none
 |`hostmcu`|Runtime Image for the klipper_mcu binary|Yes|
 
 ## Healthcheck
-`/opt/health.py` gets executed every 5s inside the container.  
+`/opt/health.py` is available to check the health of the container.  
+
+> Be aware that enabling health checks in docker may increase CPU usage drastically.  
+> In tests, cpu usage of the container was doubled when executing the healtch check every 30s and increased sixfold when executing every 5s.  
+> This may lead to resource shortages on low powered host and unwanted behaviour  
+
 The script does the following:
 * queries klippers `info` endpoint via its unix socket
 * Checks if state is `ready`
 * If one of the above requirements is not `ready`, the script exits with a failure state to indicate the container is unhealthy
+
+Compose example:
+```yaml
+services:
+  klipper:
+    healthcheck:
+      test: ["python3", "/opt/health.py"]
+      interval: 30s
+```

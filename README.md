@@ -330,6 +330,30 @@ Update the `image:` name and add a `build` config:
       target: run
 ```
 
+### Healthchecks
+Klipper, Moonraker and Ustreamer images contain scripts that can be used to determine the overall health of the application.  
+Healthchecks have not been added to the Dockerfiles of these images, as they consume a considerable amount of CPU cycles and may lead to unwanted behaviour on low powered machines.   
+In tests, cpu usage of containers was **doubled** when executing the healtch check every 30s and increased **sixfold** when executing every 5s.  
+
+You can enable health checks by adding them to your `docker-compose.override.yaml`.  
+Reference the [compose file docs](https://docs.docker.com/reference/compose-file/services/#healthcheck) on how to further tweak these checks.
+
+```yaml
+services:
+  klipper:
+    healthcheck:
+      test: ["python3", "/opt/health.py"]
+      interval: 30s
+  moonraker:
+    healthcheck:
+      test: ["bash", "/opt/health.sh"]
+      interval: 30s
+  webcam:
+    healthcheck:
+      test: ["bash", "/opt/health.sh"]
+      interval: 30s
+```
+
 ### Enable Mainsail remoteMode
 In case Moonraker is not situated on the same Host as Mainsail, you'll have to enable remoteMode in Mainsail to set up a remote Printer. This mirrors the behaviour of https://my.mainsail.xyz.
 

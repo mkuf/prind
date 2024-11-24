@@ -88,6 +88,11 @@ services:
 
 ## Healthcheck
 `/opt/health.sh` gets executed every 5s inside the container.  
+
+> Be aware that enabling health checks in docker may increase CPU usage drastically.  
+> In tests, cpu usage of the container was doubled when executing the healtch check every 30s and increased sixfold when executing every 5s.  
+> This may lead to resource shortages on low powered host and unwanted behaviour  
+
 The script does the following:
 * queries the `/server/info` endpoint of moonraker
 * Performs the following checks
@@ -95,3 +100,12 @@ The script does the following:
   * klippy_connected is `true`
   * klippy_state is `ready`
 * If one of the above requirements is not met, the script exits with a failure state to indicate the container is unhealthy
+
+Compose example:
+```yaml
+services:
+  moonraker:
+    healthcheck:
+      test: ["bash", "/opt/health.sh"]
+      interval: 30s
+```
