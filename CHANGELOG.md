@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * ci: force image build if source changes in main
 ### Fixed
 ### Changed
+* ci: use github action to set up python venv required for build
 ### Removed
 
 **Full Changelog**: https://github.com/mkuf/prind/compare/v1.17.0...vX.X.X
