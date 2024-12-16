@@ -32,10 +32,10 @@ runs:
     - name: "[docker] set up buildx"
       uses: docker/setup-buildx-action@v3.7.1
 
+    - name: "[python] set up python environment"
+      uses: actions/setup-python@v5.3.0
+
     - name: "[prind] install requirements"
       shell: bash
       run: |
-        python3 -m venv venv
-        source venv/bin/activate
         pip install -r scripts/build/requirements.txt
-        echo PATH=$PATH >> $GITHUB_ENV
