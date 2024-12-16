@@ -1,7 +1,7 @@
 <p align=center><img src=img/prind-logo.png height=400px></p>
 
 # prind
-[![Build and Publish Images](https://github.com/mkuf/prind/actions/workflows/image-build-and-publish.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/image-build-and-publish.yaml)
+[![Build and Publish Images](https://github.com/mkuf/prind/actions/workflows/image-build-and-publish-schedule.yaml/badge.svg)](https://github.com/mkuf/prind/actions/workflows/image-build-and-publish-schedule.yaml)
 
 prind allows you to run the software for your 3D printer in Docker containers, eliminating any dependencies on the operating system.  
 This means you can use end-of-life or cutting-edge operating systems, and anything in between.
