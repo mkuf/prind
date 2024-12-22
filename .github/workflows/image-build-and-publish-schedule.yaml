@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: "[prind] checkout"
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: "[prind] set up build environment"
         uses: ./.github/actions/image-build-common
       - name: "[docker] login"
