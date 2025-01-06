@@ -18,7 +18,7 @@ ARG VERSION=master
 RUN git clone ${REPO} klipper \
  && cd klipper \
  && git checkout ${VERSION} \
- && python3 scripts/make_version.py prind > klippy/.version \
+ && echo -n $(git describe --tags)-prind > klippy/.version \
  && rm -rf .git
 
 RUN venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
