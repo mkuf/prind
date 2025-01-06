@@ -23,7 +23,8 @@ parser = argparse.ArgumentParser(
   prog="Build",
   description="Build container images for prind"
 )
-parser.add_argument("app",help="App to build. Directory must be located at ./docker/<app>")
+parser.add_argument("name",help="App Name")
+parser.add_argument("context",help="Image build Context")
 parser.add_argument("--backfill",type=int,default=3,help="Number of latest upstream git tags to build images for [default: 3]")
 parser.add_argument("--registry",help="Where to push images to, /<app> will be appended")
 parser.add_argument("--platform",action="append",default=["linux/amd64"],help="Platform to build for. Repeat to build a multi-platform image [default: linux/amd64]")
@@ -47,8 +48,7 @@ logger.addHandler(ch)
 
 #---
 # static definitions
-context = "docker/" + args.app
-dockerfile = context + "/Dockerfile"
+dockerfile = args.context + "/Dockerfile"
 build = {
   "upstream": None,
   "targets": [],
@@ -63,8 +63,8 @@ build = {
     "org.prind.image.created": datetime.now(timezone.utc).astimezone().isoformat(),
     "org.prind.image.authors": os.environ.get("GITHUB_REPOSITORY_OWNER",getpass.getuser()),
     "org.prind.image.url": "{GITHUB_SERVER_URL}/{GITHUB_REPOSITORY}".format(**os.environ) if "GITHUB_REPOSITORY" in os.environ else "local",
-    "org.prind.image.documentation": ("{GITHUB_SERVER_URL}/{GITHUB_REPOSITORY}/blob/{GITHUB_SHA}/docker/" + args.app + "/README.md").format(**os.environ) if "GITHUB_REPOSITORY" in os.environ else "local",
-    "org.prind.image.source": ("{GITHUB_SERVER_URL}/{GITHUB_REPOSITORY}/blob/{GITHUB_SHA}/docker/" + args.app).format(**os.environ) if "GITHUB_REPOSITORY" in os.environ else "local",
+    "org.prind.image.documentation": ("{GITHUB_SERVER_URL}/{GITHUB_REPOSITORY}/blob/{GITHUB_SHA}/docker/" + args.name + "/README.md").format(**os.environ) if "GITHUB_REPOSITORY" in os.environ else "local",
+    "org.prind.image.source": ("{GITHUB_SERVER_URL}/{GITHUB_REPOSITORY}/blob/{GITHUB_SHA}/docker/" + args.name).format(**os.environ) if "GITHUB_REPOSITORY" in os.environ else "local",
   }
 }
 
@@ -130,7 +130,7 @@ for version in build["versions"].keys():
   for target in build["targets"]:
 
     # Create list of docker tags
-    docker_image = "/".join(filter(None, (args.registry, args.app)))
+    docker_image = "/".join(filter(None, (args.registry, args.name)))
     tags = [
       docker_image + ":" + (version if target == "run" else '-'.join([version, target])) + (f"_{args.suffix}" if args.suffix else ""),
       *(docker_image + (":latest" if target == "run" else '-'.join([":latest", target])) for _i in range(1) if build["versions"][version]["latest"] and not args.suffix),
@@ -155,7 +155,7 @@ for version in build["versions"].keys():
           stream = (
             docker.buildx.build(
               # Build specific
-              context_path = context,
+              context_path = args.context,
               build_args = {"REPO": build["upstream"], "VERSION": version},
               platforms = args.platform,
               target = target,
