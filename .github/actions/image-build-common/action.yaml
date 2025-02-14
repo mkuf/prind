@@ -30,7 +30,7 @@ runs:
       uses: docker/setup-qemu-action@v3.3.0
 
     - name: "[docker] set up buildx"
-      uses: docker/setup-buildx-action@v3.8.0
+      uses: docker/setup-buildx-action@v3.9.0
 
     - name: "[python] set up python environment"
       uses: actions/setup-python@v5.4.0
