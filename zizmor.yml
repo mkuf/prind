@@ -1,5 +1,0 @@
-rules:
-  template-injection:
-    ignore:
-      - image-build-and-publish-push.yaml:53:9
-      - image-build-review.yaml:65:9
