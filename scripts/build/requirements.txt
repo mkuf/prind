@@ -1,2 +1,2 @@
 GitPython==3.1.44
-python-on-whales==0.75.1
+python-on-whales==0.76.1
