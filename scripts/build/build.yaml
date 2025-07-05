@@ -4,4 +4,4 @@
 # This is helpful is upstream tags contain a bug that prevents the automated build system to succeed
 ignore:
   klipperscreen:
-    - v0.4.6 # https://github.com/KlipperScreen/KlipperScreen/commit/c520390fe459865eb96361bd04944d61cde27cf9#commitcomment-161345136
+    - v0.4.6  # https://github.com/KlipperScreen/KlipperScreen/commit/c520390fe459865eb96361bd04944d61cde27cf9#commitcomment-161345136
