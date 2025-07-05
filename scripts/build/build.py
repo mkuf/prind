@@ -10,6 +10,7 @@ import os
 import re
 import git
 import sys
+import yaml
 import getpass
 import logging
 import argparse
@@ -33,6 +34,7 @@ parser.add_argument("--force",action="store_true",default=False,help="Build imag
 parser.add_argument("--version",help="Which upstream Ref to build. Will overwrite automatic Version extraction from upstream")
 parser.add_argument("--upstream",help="Overwrite upstream Repo Url. Will skip Url extraction from Dockerfile")
 parser.add_argument("--suffix",help="Suffix to add after the image tag. Skips the creation of the 'latest' tag")
+parser.add_argument("--config",help="Path to the build.yaml file",default="scripts/build/build.yaml")
 args = parser.parse_args()
 
 #---
@@ -46,6 +48,11 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 #---
+# Read config
+with open(args.config,"r") as file:
+  cfg = yaml.safe_load(file)
+
+#---
 # static definitions
 context = "docker/" + args.app
 dockerfile = context + "/Dockerfile"
@@ -56,7 +63,8 @@ build = {
   "summary": {
     "success": [],
     "failure": [],
-    "skipped": []
+    "skipped": [],
+    "ignored": []
   },
   "labels": {
     "org.prind.version": os.environ.get("GITHUB_SHA",(git.Repo(search_parent_directories=True)).head.object.hexsha),
@@ -127,56 +135,63 @@ else:
 #---
 # Build all targets for all versions
 for version in build["versions"].keys():
-  for target in build["targets"]:
 
-    # Create list of docker tags
-    docker_image = "/".join(filter(None, (args.registry, args.app)))
-    tags = [
-      docker_image + ":" + (version if target == "run" else '-'.join([version, target])) + (f"_{args.suffix}" if args.suffix else ""),
-      *(docker_image + (":latest" if target == "run" else '-'.join([":latest", target])) for _i in range(1) if build["versions"][version]["latest"] and not args.suffix),
-    ]
+  # Check if specific version is in ignore list
+  if version in cfg["ignore"].get(args.app, []):
+    logger.warning("Version " + version + " will be ignored as configured in " + args.config)
+    build["summary"]["ignored"].append(version)
 
-    try:
-      if args.force:
-        logger.warning("Build is forced")
-        raise
-      else:
-        # Check if the image already exists
-        docker.buildx.imagetools.inspect(tags[0])
-        logger.info("Image " + tags[0] + " exists, nothing to to.")
-        build["summary"]["skipped"].append(tags[0])
-    except:
-      if args.dry_run:
-        logger.debug("[dry-run] Would build " + tags[0])
-      else:
-        try:
-          # Build if image does not exist
-          logger.info("Building " + tags[0])
-          stream = (
-            docker.buildx.build(
-              # Build specific
-              context_path = context,
-              build_args = {"REPO": build["upstream"], "VERSION": version},
-              platforms = args.platform,
-              target = target,
-              push = args.push,
-              tags = tags,
-              labels = {
-                **build["labels"],
-                "org.prind.image.version": version
-              },
-              stream_logs = True
+  else:
+    for target in build["targets"]:
+
+      # Create list of docker tags
+      docker_image = "/".join(filter(None, (args.registry, args.app)))
+      tags = [
+        docker_image + ":" + (version if target == "run" else '-'.join([version, target])) + (f"_{args.suffix}" if args.suffix else ""),
+        *(docker_image + (":latest" if target == "run" else '-'.join([":latest", target])) for _i in range(1) if build["versions"][version]["latest"] and not args.suffix),
+      ]
+
+      try:
+        if args.force:
+          logger.warning("Build is forced")
+          raise
+        else:
+          # Check if the image already exists
+          docker.buildx.imagetools.inspect(tags[0])
+          logger.info("Image " + tags[0] + " exists, nothing to to.")
+          build["summary"]["skipped"].append(tags[0])
+      except:
+        if args.dry_run:
+          logger.debug("[dry-run] Would build " + tags[0])
+        else:
+          try:
+            # Build if image does not exist
+            logger.info("Building " + tags[0])
+            stream = (
+              docker.buildx.build(
+                # Build specific
+                context_path = context,
+                build_args = {"REPO": build["upstream"], "VERSION": version},
+                platforms = args.platform,
+                target = target,
+                push = args.push,
+                tags = tags,
+                labels = {
+                  **build["labels"],
+                  "org.prind.image.version": version
+                },
+                stream_logs = True
+              )
             )
-          )
 
-          for line in stream:
-            logger.info("BUILD: " + line.strip())
+            for line in stream:
+              logger.info("BUILD: " + line.strip())
 
-          logger.info("Successfully built " + tags[0])
-          build["summary"]["success"].append(tags[0])
-        except:
-          logger.critical("Failed to build " + tags[0])
-          build["summary"]["failure"].append(tags[0])
+            logger.info("Successfully built " + tags[0])
+            build["summary"]["success"].append(tags[0])
+          except:
+            logger.critical("Failed to build " + tags[0])
+            build["summary"]["failure"].append(tags[0])
 
 logger.info("Build Summary: " + str(build["summary"]))
 if len(build["summary"]["failure"]) > 0:
