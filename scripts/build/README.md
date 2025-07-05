@@ -23,7 +23,7 @@ venv/bin/pip install -r scripts/build/requirements.txt
 Usage description:
 ```bash
 $ python scripts/build/build.py --help
-usage: Build [-h] [--backfill BACKFILL] [--registry REGISTRY] [--platform PLATFORM] [--push] [--dry-run] [--force] [--version VERSION] [--upstream UPSTREAM] app
+usage: Build [-h] [--backfill BACKFILL] [--registry REGISTRY] [--platform PLATFORM] [--push] [--dry-run] [--force] [--version VERSION] [--upstream UPSTREAM] [--suffix SUFFIX] [--config CONFIG] app
 
 Build container images for prind
 
@@ -40,4 +40,6 @@ options:
   --force              Build images even though they exist in the registry [default: False]
   --version VERSION    Which upstream Ref to build. Will overwrite automatic Version extraction from upstream
   --upstream UPSTREAM  Overwrite upstream Repo Url. Will skip Url extraction from Dockerfile
+  --suffix SUFFIX      Suffix to add after the image tag. Skips the creation of the 'latest' tag
+  --config CONFIG      Path to the build.yaml file
 ```
