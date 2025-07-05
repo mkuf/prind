@@ -135,9 +135,12 @@ else:
 #---
 # Build all targets for all versions
 for version in build["versions"].keys():
-  if version in cfg["ignore"][args.app]:
-    logger.warning("Version " + version + " will be ignored as it matched the ignore list in " + args.config)
+
+  # Check if specific version is in ignore list
+  if version in cfg["ignore"].get(args.app, []):
+    logger.warning("Version " + version + " will be ignored as configured in " + args.config)
     build["summary"]["ignored"].append(version)
+
   else:
     for target in build["targets"]:
 
