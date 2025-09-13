@@ -12,5 +12,16 @@
     {"matchPackageNames": ["traefik"],"extractVersion": "^v(?<version>.*)$"},
     {"matchPackageNames": ["python", "debian"], "automerge": false},
     {"matchPackageNames": ["python"], "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/"}
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["Dockerfile"],
+      "depNameTemplate": "debian",
+      "datasourceTemplate": "docker",
+      "matchStrings": [
+        ".*python:.*-(slim)?(?<currentValue>.+?)\\s.*"
+      ]
+    }
   ]
 }
