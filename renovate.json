@@ -3,21 +3,31 @@
   "extends": [
     "config:recommended"
   ],
-
   "timezone": "Europe/Berlin",
-  "schedule": "every friday",
+  "schedule": "on friday",
   "automerge": true,
   "automergeStrategy": "squash",
   "platformAutomerge": false,
   "packageRules": [
+    {"matchPackageNames": ["traefik"],"extractVersion": "^v(?<version>.*)$"},
+    {"matchPackageNames": ["python", "debian"], "automerge": false},
+    {"matchPackageNames": ["python"], "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/"},
+    {"matchPackageNames": ["debian"], "matchManagers": ["dockerfile"], "enabled": false}
+  ],
+  "customManagers": [
     {
-      "matchPackageNames": ["traefik"],
-      "extractVersion": "^v(?<version>.*)$"
-    },
-    {
-      "matchPackageNames": ["python"],
-      "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/",
-      "automerge": false
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/|\\.)Dockerfile$/",
+        "/(^|/)Dockerfile\\.[^/]*$/"
+      ],
+      "depNameTemplate": "debian",
+      "versioningTemplate": "debian",
+      "datasourceTemplate": "docker",
+      "matchStrings": [
+        "FROM\\s+python:[\\w\\d\\.]+-(?:slim-)?(?<currentValue>[a-z0-9]+)(?:\\s+.*)?",
+        "FROM\\s+debian:(?<currentValue>[a-z0-9]+)(?:-slim)?(?:\\s+.*)?"
+      ]
     }
   ]
 }
