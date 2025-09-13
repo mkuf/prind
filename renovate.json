@@ -16,7 +16,6 @@
     },
     {
       "matchPackageNames": ["python"],
-      "matchFileNames": ["docker/moonraker/Dockerfile", "docker/klipper/Dockerfile"],
       "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/",
       "automerge": false
     }
