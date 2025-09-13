@@ -5,12 +5,19 @@
   ],
 
   "timezone": "Europe/Berlin",
-  "schedule": "every 2 weeks on friday",
+  "schedule": "every friday",
   "automerge": true,
   "automergeStrategy": "squash",
   "platformAutomerge": false,
   "packageRules": [
-    {"matchPackageNames": ["traefik"],"extractVersion": "^v(?<version>.*)$"},
-    {"matchPackageNames": ["python"], "matchFileNames": ["docker/moonraker/Dockerfile", "docker/klipper/Dockerfile"], "enabled": false}
+    {
+      "matchPackageNames": ["traefik"],
+      "extractVersion": "^v(?<version>.*)$"
+    },
+    {
+      "matchPackageNames": ["python"],
+      "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/",
+      "automerge": false
+    }
   ]
 }
