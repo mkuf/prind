@@ -3,19 +3,22 @@
   "extends": [
     "config:recommended"
   ],
-
   "timezone": "Europe/Berlin",
-  "schedule": "every friday",
+  "schedule": "on friday",
   "automerge": true,
   "automergeStrategy": "squash",
   "platformAutomerge": false,
   "packageRules": [
     {
-      "matchPackageNames": ["traefik"],
+      "matchPackageNames": [
+        "traefik"
+      ],
       "extractVersion": "^v(?<version>.*)$"
     },
     {
-      "matchPackageNames": ["python"],
+      "matchPackageNames": [
+        "python"
+      ],
       "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/",
       "automerge": false
     }
