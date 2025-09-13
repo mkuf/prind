@@ -11,6 +11,6 @@
   "packageRules": [
     {"matchPackageNames": ["traefik"],"extractVersion": "^v(?<version>.*)$"},
     {"matchPackageNames": ["python", "debian"], "automerge": false},
-    {"mergePackageNames": ["python"], "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/"}
+    {"matchPackageNames": ["python"], "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/"}
   ]
 }
