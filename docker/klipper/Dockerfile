@@ -1,6 +1,6 @@
 ## Get Klipper Source and Build venv
 ##
-FROM python:3.12-bookworm AS build
+FROM python:3.12-trixie AS build
 
 RUN apt update \
  && apt install -y cmake \
@@ -29,7 +29,7 @@ RUN venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
 
 ## Klippy Runtime Image
 ##
-FROM python:3.12-slim-bookworm AS run
+FROM python:3.12-slim-trixie AS run
 
 WORKDIR /opt
 RUN groupadd klipper --gid 1000 \
@@ -53,7 +53,7 @@ CMD ["-I", "printer_data/run/klipper.tty", "-a", "printer_data/run/klipper.sock"
 
 ## Image for building MCU code including other tooling
 ##
-FROM debian:bookworm AS tools
+FROM debian:trixie AS tools
 
 WORKDIR /opt
 ARG DEBIAN_FRONTEND=noninteractive
@@ -87,7 +87,7 @@ RUN cd klipper \
 
 ## Runtime image for the klipper_mcu binary
 ##
-FROM debian:bookworm-slim AS hostmcu
+FROM debian:trixie-slim AS hostmcu
 
 RUN apt update \
  && apt install -y gpiod \

@@ -1,5 +1,5 @@
 ## Get Code and Build venv
-FROM python:3.12-bookworm AS build
+FROM python:3.12-trixie AS build
 
 WORKDIR /opt
 COPY requirements-prind.txt .
@@ -20,7 +20,7 @@ RUN python -m venv venv \
  && venv/bin/pip install -r moonraker/scripts/moonraker-requirements.txt
 
 ## Runtime Image
-FROM python:3.12-slim-bookworm AS run
+FROM python:3.12-slim-trixie AS run
 
 RUN apt update \
  && apt install -y \

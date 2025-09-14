@@ -1,4 +1,4 @@
-FROM python:3.13-bookworm AS build
+FROM python:3.13-trixie AS build
 
 ARG REPO=https://github.com/KlipperScreen/KlipperScreen
 ARG VERSION=master
@@ -19,7 +19,7 @@ RUN git clone ${REPO} klipperscreen \
 RUN python -m venv venv \
  && venv/bin/pip install -r klipperscreen/scripts/KlipperScreen-requirements.txt
 
-FROM python:3.13-slim-bookworm AS run
+FROM python:3.13-slim-trixie AS run
 
 RUN apt update \
  && apt install -y \
