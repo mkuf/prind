@@ -33,11 +33,11 @@ FROM debian:trixie-slim AS run
 RUN apt update \
  && apt install -y \
       ca-certificates \
-      libevent-2.1-7 \
-      libevent-pthreads-2.1-7 \
+      libevent-2.1-7t64 \
+      libevent-pthreads-2.1-7t64 \
       libjpeg62-turbo \
       libbsd0 \
-      libgpiod2 \
+      libgpiod3 \
       v4l-utils \
       curl \
       jq \
