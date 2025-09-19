@@ -26,7 +26,7 @@ RUN apt update \
       git \
       xdotool \
       x11-xserver-utils \
-      libglib2.0-0 \
+      libglib2.0-0t64 \
       libgirepository-1.0-1 \
       gir1.2-gtk-3.0 \
       libopenjp2-7 \
