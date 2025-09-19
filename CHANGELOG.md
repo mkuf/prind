@@ -7,14 +7,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
-* ci: force image build if source changes in main
 ### Fixed
 ### Changed
-* ci: use github action to set up python venv required for build
 ### Removed
 
-**Full Changelog**: https://github.com/mkuf/prind/compare/v1.17.0...vX.X.X
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.18.0...vX.X.X
 -->
+
+## [v1.18.0]
+### Added
+* ci: force image build if source changes in main
+* build: allow specific upstream versions to be ignored
+### Changed
+* **klipper: update base image(s) to python 3.12**
+* **klipper, moonraker, klipperscreen, ustreamer: update base image(s) to debian trixie**
+* klipper: use git to generate version file instead of `make_version.py`
+* traefik: update to v3.5
+* ci: use github action to set up python venv required for build
+* ci: update multiple actions
+* renovate: overhaul automerge configs and also generate PRs for debian base images
+### Removed
+* ci: remove zizmor workflow
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.17.0...v1.18.0
 
 ## [v1.17.0] - 2024-11-24
 ### Added
