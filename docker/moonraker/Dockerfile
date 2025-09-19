@@ -27,8 +27,8 @@ RUN apt update \
       libopenjp2-7 \
       python3-libgpiod \
       curl \
-      libcurl4 \
-      libssl3 \
+      libcurl4t64 \
+      libssl3t64 \
       liblmdb0 \
       libsodium23 \
       libjpeg62-turbo \
