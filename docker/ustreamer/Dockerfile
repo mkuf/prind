@@ -1,5 +1,5 @@
 ## Get Code and make
-FROM debian:bookworm-slim AS build
+FROM debian:trixie-slim AS build
 
 ARG REPO=https://github.com/pikvm/ustreamer
 ARG VERSION=master
@@ -28,16 +28,16 @@ RUN cd ustreamer \
  && make LDFLAGS=-latomic
 
 ## Runtime Image
-FROM debian:bookworm-slim AS run
+FROM debian:trixie-slim AS run
 
 RUN apt update \
  && apt install -y \
       ca-certificates \
-      libevent-2.1-7 \
-      libevent-pthreads-2.1-7 \
+      libevent-2.1-7t64 \
+      libevent-pthreads-2.1-7t64 \
       libjpeg62-turbo \
       libbsd0 \
-      libgpiod2 \
+      libgpiod3 \
       v4l-utils \
       curl \
       jq \
