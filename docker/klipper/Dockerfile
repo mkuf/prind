@@ -108,7 +108,7 @@ FROM tools AS build-simulavr
 RUN apt update \
  && apt install -y \
       git cmake swig \
-      python3-dev \
+      python3-dev python3-setuptools \
  && apt clean
 
 WORKDIR /opt/klipper
