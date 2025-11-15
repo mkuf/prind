@@ -14,7 +14,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 **Full Changelog**: https://github.com/mkuf/prind/compare/v1.18.0...vX.X.X
 -->
 
-## [v1.18.0]
+## [v1.19.0] - 2025-11-15
+### Added
+* **New Service:** OctoEverywhere #237
+### Fixed
+* simulavr: build failed after base images were upgraded to trixie
+### Changed
+* traefik: upgrade to 3.6
+* moonraker: lmdb upgrade to 1.7.5
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.18.0...v1.19.0
+
+## [v1.18.0] - 2025-09-19
 ### Added
 * ci: force image build if source changes in main
 * build: allow specific upstream versions to be ignored
