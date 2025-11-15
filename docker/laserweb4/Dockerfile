@@ -1,4 +1,4 @@
-FROM node:22-bookworm AS build
+FROM --platform=$BUILDPLATFORM node:22-bookworm AS build
 
 RUN git clone https://github.com/ssendev/LaserWeb4 /opt/laserweb \
 && cd /opt/laserweb \
