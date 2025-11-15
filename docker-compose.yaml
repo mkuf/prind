@@ -191,6 +191,19 @@ services:
       traefik.http.routers.octoprint.rule: PathPrefix(`/spoolman`)
       traefik.http.routers.octoprint.entrypoints: web
 
+  octoeverywhere:
+    image: octoeverywhere/octoeverywhere:latest
+    restart: unless-stopped
+    volumes:
+      - octoeverywhere-data:/data
+    profiles:
+      - octoeverywhere
+    environment:
+      COMPANION_MODE: klipper
+      MOONRAKER_PORT: 80
+    labels:
+      org.prind.service: octoeverywhere
+
   ## Accompanying Services/Infra
   ##
 
@@ -233,3 +246,4 @@ volumes:
       type: tmpfs
       device: tmpfs
   spoolman-db:
+  octoeverywhere-data:

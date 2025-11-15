@@ -25,6 +25,8 @@ With a single command, you can start up Klipper and its accompanying application
 |<img src="https://avatars.githubusercontent.com/u/46323662?s=200&v=4" width=30px>|[moonraker-obico](https://github.com/TheSpaghettiDetective/moonraker-obico)|`upstream`|[Additional Profiles](#moonraker-obico)|
 |<img src="https://raw.githubusercontent.com/Donkie/Spoolman/master/client/icons/spoolman.svg" width=30px>|[Spoolman](https://github.com/Donkie/Spoolman)|`upstream`|[Additional Profiles](#spoolman)|
 |<img src="https://avatars.githubusercontent.com/u/41749659?s=200&v=4" width=30px>|[µStreamer](https://github.com/pikvm/ustreamer)|prind @ [docker/ustreamer](docker/ustreamer)|[Add your Configuration](#add-your-configuration-to-docker-composeoverrideyaml)<br>[Multiple Webcams](https://github.com/mkuf/prind?tab=readme-ov-file#multiple-webcams)|
+|<img src="https://octoeverywhere.com/img/logo/logo_maskable.svg" width=30px>|[OctoEverywhere](https://octoeverywhere.com)|`upstream`|[Additional Profiles](#octoeverywhere)|
+
 </details>
 
 ## Getting started
@@ -206,6 +208,26 @@ docker compose --profile fluidd --profile spoolman up -d
 ```
 
 Navigate to `http://<yourprinter>/spoolman` to access the spool manager webinterface.
+
+#### octoeverywhere
+[OctoEverywhere](https://octoeverywhere.com) can be enabled via the `octoeverywhere` Profile.
+
+Add your Printers IP address to `docker-compose.override.yaml` like so, then start the stack.
+```yaml
+services:
+  octoeverywhere:
+    environment:
+      PRINTER_IP: 10.0.0.11
+```
+```
+docker compose --profile mainsail --profile octoeverywhere up -d
+```
+
+After the stack has started, get the logs of the octoeverywhere service to retrieve the code to link your printer.
+
+```
+docker compose logs octoeverywhere
+```
 
 ## Updating
 Images are built daily and tagged with `latest` and the [git description](https://git-scm.com/docs/git-describe#_examples) of the remote repo. 
