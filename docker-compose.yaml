@@ -204,6 +204,23 @@ services:
     labels:
       org.prind.service: octoeverywhere
 
+  laserweb4:
+    image: mkuf/laserweb4:latest
+    build:
+      context: docker/laserweb4
+      target: frontend
+    restart: unless-stopped
+    profiles:
+      - laserweb4
+    labels:
+      org.prind.service: laserweb4
+      traefik.enable: true
+      traefik.http.services.laserweb.loadbalancer.server.port: 80
+      traefik.http.routers.laserweb.rule: PathPrefix(`/laserweb`)
+      traefik.http.routers.laserweb.entrypoints: web
+      traefik.http.routers.laserweb.middlewares: strip-laserweb@docker
+      traefik.http.middlewares.strip-laserweb.stripprefix.prefixes: /laserweb
+
   ## Accompanying Services/Infra
   ##
 
