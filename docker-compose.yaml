@@ -200,8 +200,7 @@ services:
       - octoeverywhere
     environment:
       COMPANION_MODE: klipper
-      PRINTER_IP: moonraker
-      MOONRAKER_PORT: 7125
+      MOONRAKER_PORT: 80
     labels:
       org.prind.service: octoeverywhere
 
