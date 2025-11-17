@@ -14,7 +14,7 @@ WORKDIR /opt/laserweb
 RUN npm ci --force
 RUN npm run bundle-prod
 
-FROM nginx:alpine as frontend
+FROM nginx:alpine AS frontend
 
 COPY --from=build /opt/laserweb/dist /usr/share/nginx/html
 RUN chown -R nginx:nginx /usr/share/nginx/html
