@@ -1,8 +1,12 @@
 FROM --platform=$BUILDPLATFORM node:22-bookworm AS build
 
-RUN git clone https://github.com/ssendev/LaserWeb4 /opt/laserweb \
-&& cd /opt/laserweb \
-&& git checkout v4.1 \
+ARG REPO=https://github.com/ssendev/LaserWeb4
+ARG VERSION=v4.1
+
+WORKDIR /opt
+RUN git clone ${REPO} laserweb \
+&& cd laserweb \
+&& git checkout ${VERSION} \
 && git submodule init \
 && git submodule update
 
