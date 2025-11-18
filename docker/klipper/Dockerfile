@@ -53,10 +53,8 @@ CMD ["-I", "printer_data/run/klipper.tty", "-a", "printer_data/run/klipper.sock"
 
 ## Image for building MCU code including other tooling
 ##
-FROM debian:trixie AS tools
+FROM build AS tools
 
-WORKDIR /opt
-ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update \
  && apt install -y \
       sudo \
@@ -70,6 +68,7 @@ RUN apt update \
 
 COPY --from=build /opt/klipper ./klipper
 COPY --from=build /opt/venv ./venv
+ENTRYPOINT ["/usr/bin/bash"]
 ###
 
 
