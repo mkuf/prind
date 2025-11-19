@@ -90,7 +90,7 @@ with open(dockerfile) as file:
     # build targets
     target = re.findall(r'FROM .* AS .*', line)
     if target:
-      if not "build" in target[0]:
+      if not "AS build" in target[0]:
         build["targets"].append(target[0].split(' AS ')[-1])
 
 if args.upstream:
