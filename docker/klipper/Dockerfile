@@ -63,11 +63,12 @@ RUN apt update \
       avrdude gcc-avr binutils-avr avr-libc \
       stm32flash dfu-util libnewlib-arm-none-eabi \
       gcc-arm-none-eabi binutils-arm-none-eabi libusb-1.0-0 libusb-1.0-0-dev \
-      python3-numpy python3-matplotlib \
  && apt clean
 
-COPY --from=build /opt/klipper ./klipper
-COPY --from=build /opt/venv ./venv
+COPY requirements-prind-tools.txt .
+RUN venv/bin/pip install -r requirements-prind-tools.txt
+
+ENV PATH=/opt/venv/bin:$PATH
 ENTRYPOINT ["/usr/bin/bash"]
 ###
 
