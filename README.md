@@ -245,6 +245,17 @@ After the stack has started, get the logs of the octoeverywhere service to retri
 docker compose logs octoeverywhere
 ```
 
+#### laserweb
+
+[LaserWeb4](https://laserweb.yurl.ch/) can be enabled via the `laserweb` Profile. The image is based on [a fork](https://github.com/ssendev/LaserWeb4) which includes support for connecting to Moonraker.
+
+```
+docker compose --profile fluidd --profile laserweb up -d
+```
+
+After the stack has started, navigate to `http://<yourprinter>/laserweb/`.  
+In the `Comms` tab, select `SERVER: Moonraker`, add your Printers IP Address as `SERVER IP` and click `Connect`
+
 ## Updating
 Images are built daily and tagged with `latest` and the [git description](https://git-scm.com/docs/git-describe#_examples) of the remote repo. 
 Example: 
