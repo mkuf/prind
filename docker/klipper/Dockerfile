@@ -68,6 +68,7 @@ RUN apt update \
 COPY requirements-prind-tools.txt .
 RUN venv/bin/pip install -r requirements-prind-tools.txt
 
+RUN ln -s /opt/venv /root/klippy-env
 ENV PATH=/opt/venv/bin:$PATH
 ENTRYPOINT ["/usr/bin/bash"]
 ###
