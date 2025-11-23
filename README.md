@@ -26,6 +26,7 @@ With a single command, you can start up Klipper and its accompanying application
 |<img src="https://raw.githubusercontent.com/Donkie/Spoolman/master/client/icons/spoolman.svg" width=30px>|[Spoolman](https://github.com/Donkie/Spoolman)|`upstream`|[Additional Profiles](#spoolman)|
 |<img src="https://avatars.githubusercontent.com/u/41749659?s=200&v=4" width=30px>|[µStreamer](https://github.com/pikvm/ustreamer)|prind @ [docker/ustreamer](docker/ustreamer)|[Add your Configuration](#add-your-configuration-to-docker-composeoverrideyaml)<br>[Multiple Webcams](https://github.com/mkuf/prind?tab=readme-ov-file#multiple-webcams)|
 |<img src="https://octoeverywhere.com/img/logo/logo_maskable.svg" width=30px>|[OctoEverywhere](https://octoeverywhere.com)|`upstream`|[Additional Profiles](#octoeverywhere)|
+|:spider_web:|[LaserWeb4](https://laserweb.yurl.ch/)|prind @ [docker/laserweb](docker/laserweb)|[Additional Profiles](#laserweb)|
 
 </details>
 
