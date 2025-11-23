@@ -1,7 +1,0 @@
-services:
-  calibrate_shaper:
-    image: mkuf/klipper:${TAG:-latest}-tools
-    entrypoint: python3 /opt/klipper/scripts/calibrate_shaper.py
-    working_dir: /opt/resonances
-    volumes:
-      - ./resonances:/opt/resonances
