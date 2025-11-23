@@ -35,9 +35,9 @@ jobs:
             ustreamer:
               - .github/workflows/image-docs-publish.yaml
               - docker/moonraker/README.md
-            laserweb4:
+            laserweb:
               - .github/workflows/image-docs-publish.yaml
-              - docker/laserweb4/README.md
+              - docker/laserweb/README.md
   dockerhub-description:
     needs: changes
     if: ${{ needs.changes.outputs.apps != '' && toJson(fromJson(needs.changes.outputs.apps)) != '[]' }}
