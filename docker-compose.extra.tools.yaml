@@ -1,11 +1,12 @@
 services:
-  make:
+  tools:
     image: mkuf/klipper:${TAG:-latest}-tools
     tty: true
     privileged: true
-    entrypoint: make
+    entrypoint: bash -c
     working_dir: /opt/klipper
     volumes:
       - /dev:/dev
       - ./config/build.config:/opt/klipper/.config
       - ./out:/opt/klipper/out
+      - ./resonances:/opt/klipper/resonances

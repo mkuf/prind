@@ -37,25 +37,41 @@ Follow the official guides to install and set them up:
 * [Install Docker Compose v2](https://docs.docker.com/compose/cli-command/#installing-compose-v2)
 
 Clone this repository onto your Docker host using Git:
-```
+```bash
 git clone https://github.com/mkuf/prind
 ```
+
+Install the `prind-tools` helper script.
+```bash
+cd prind
+
+cat <<EOF | sudo install /dev/stdin /usr/local/bin/prind-tools
+#!/bin/sh
+docker compose -f $(pwd)/docker-compose.extra.tools.yaml run --rm tools "\$@"
+EOF
+```
+
 Unless otherwise specified, all commands mentioned in the documentation should be run from the root of the repository.
 
 ### Build the MCU Code
 Before using Klipper, you'll have to build and flash the microcontroller-code for your printers mainboard.  
-As this can be accomplished via docker, we can create an alias that replaces `make` with the appropriate docker compose command. After setting this alias, follow the Instructions on finding your printer, building and flashing the microcontroller found in the [Klipper Docs](https://www.klipper3d.org/Installation.html#building-and-flashing-the-micro-controller).  
+This can be done in a container by calling the build commands via `prind-tools`.  
+Follow the Instructions on finding your printer, building and flashing the microcontroller found in the [Klipper Docs](https://www.klipper3d.org/Installation.html#building-and-flashing-the-micro-controller).  
 
 Adapted from the official Docs, a generic Build would look like this.
-```
-alias make="docker compose -f docker-compose.extra.make.yaml run --rm make"
-
-make menuconfig
-make
-make flash FLASH_DEVICE=/dev/serial/by-id/<my printer>
+```bash
+prind-tools "make menuconfig"
+prind-tools "make"
+prind-tools "make flash FLASH_DEVICE=/dev/serial/by-id/<my printer>"
 ```
 
-If your Board can be flashed via SD-Card, you may want to omit `make flash` and retrieve the `klipper.bin` from the `out` directory that is created by `make`. Follow your boards instructions on how to proceed with flashing via SD-Card.
+If your Board can be flashed via SD-Card, you can also use the `flash-sdcard.sh` script provided by klipper
+
+```bash
+prind-tools "scripts/flash-sdcard.sh <device> <board>"
+```
+
+If no official flash method is available, you can retrieve the `klipper.bin` from the `out` directory that is created by `make` and Follow your boards instructions on how to proceed with flashing.
 
 ### Add your Configuration to docker-compose.override.yaml
 Locate the `webcam` Service within `docker-compose.override.yaml` and update the `device` Section with the Device Name of your Webcam.  
@@ -279,16 +295,13 @@ docker compose cp klipper:/tmp/resonances_x_20220708_124515.csv ./resonances/
 docker compose cp klipper:/tmp/resonances_y_20220708_125150.csv ./resonances/
 ```
 
-`docker-compose.extra.calibrate-shaper.yaml` is set up to run `calibrate_shaper.py`, so any options supported by the script can also be used with the container. 
-Set an alias to save yourself from typing the the docker compose command multiple times. The generated Images are located besides the csv files in `./resonances`
+To analyze the generated files, call `calibrate_shaper.py` via `prind-tools`
 ```
-alias calibrate_shaper="docker compose -f docker-compose.extra.calibrate-shaper.yaml run --rm calibrate_shaper"
-
-calibrate_shaper resonances_x_20220708_124515.csv -o cal_x.png
+prind-tools "scripts/calibrate_shaper.py resonances/resonances_x_20220708_124515.csv -o resonances/cal_x.png"
   [...]
   Recommended shaper is ei @ 90.2 Hz
 
-calibrate_shaper resonances_y_20220708_125150.csv -o cal_y.png
+prind-tools "scripts/calibrate_shaper.py resonances/resonances_y_20220708_125150.csv -o resonances/cal_y.png"
   [...]
   Recommended shaper is mzv @ 48.2 Hz
 ```
