@@ -41,7 +41,7 @@ Clone this repository onto your Docker host using Git:
 git clone https://github.com/mkuf/prind
 ```
 
-Install the `prind-tools` helper script into your path.
+Install the `prind-tools` helper script.
 ```bash
 cd prind
 
@@ -55,7 +55,7 @@ Unless otherwise specified, all commands mentioned in the documentation should b
 
 ### Build the MCU Code
 Before using Klipper, you'll have to build and flash the microcontroller-code for your printers mainboard.  
-This can be done in a container using the `prind-tools` command and appending the actual command to it.  
+This can be done in a container by calling the build commands via `prind-tools`.  
 Follow the Instructions on finding your printer, building and flashing the microcontroller found in the [Klipper Docs](https://www.klipper3d.org/Installation.html#building-and-flashing-the-micro-controller).  
 
 Adapted from the official Docs, a generic Build would look like this.
@@ -65,7 +65,7 @@ prind-tools "make"
 prind-tools "make flash FLASH_DEVICE=/dev/serial/by-id/<my printer>"
 ```
 
-If your Board can be flashed via SD-Card, you can also use the `flash-sdcard.sh` script provided by klipper like so
+If your Board can be flashed via SD-Card, you can also use the `flash-sdcard.sh` script provided by klipper
 
 ```bash
 prind-tools "scripts/flash-sdcard.sh <device> <board>"
@@ -295,7 +295,7 @@ docker compose cp klipper:/tmp/resonances_x_20220708_124515.csv ./resonances/
 docker compose cp klipper:/tmp/resonances_y_20220708_125150.csv ./resonances/
 ```
 
-To analyze the generated files, call `calibrate_shaper.py` via `prind-tools` like so:
+To analyze the generated files, call `calibrate_shaper.py` via `prind-tools`
 ```
 prind-tools "scripts/calibrate_shaper.py resonances/resonances_x_20220708_124515.csv -o resonances/cal_x.png"
   [...]
