@@ -3,7 +3,7 @@ This Image is built and used by [prind](.).
 # Laserweb4 packaged in Docker
 ## What is Laserweb?
 
-> LaserWeb / CNCWeb is a full CAM & Machine Control Program for Laser/CNC/Plotter/Plasma applications.
+> LaserWeb / CNCWeb is a full CAM & Machine Control Program for Laser/CNC/Plotter/Plasma applications.  
 _via https://laserweb.yurl.ch/_
 
 This image contains the frontend from https://github.com/ssendev/LaserWeb4.  
