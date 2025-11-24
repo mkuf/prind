@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - docker/**
-      - scripts/build/**
 
 jobs:
   changes:
@@ -25,16 +24,12 @@ jobs:
           filters: |
             klipper:
               - docker/klipper/**
-              - scripts/build/**
             klipperscreen:
               - docker/klipperscreen/**
-              - scripts/build/**
             moonraker:
               - docker/moonraker/**
-              - scripts/build/**
             ustreamer:
               - docker/ustreamer/**
-              - scripts/build/**
   build:
     needs: changes
     if: ${{ needs.changes.outputs.apps != '' && toJson(fromJson(needs.changes.outputs.apps)) != '[]' }}
