@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 <!--
 ## [Unreleased]
+### Added
+### Fixed
+### Changed
+### Removed
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.20.0...vX.X.X
+-->
+
+## [v1.20.0] - 2025-11-24
 
 A helper script has been introduced to simplify builds and interacting with klipper scripts.  
 If you're already using prind, simply run the following command and you'll be able to follow the instructions in the README again.  
@@ -23,7 +32,6 @@ EOF
 * docs: new `prind-tools` wrapper script
 * `docker-compose.extra.tools.yaml` used by `prind-tools` script
 * klipper: add a symlink to provide the venv at ${HOME}/klippy-env in the tools image #241
-### Fixed
 ### Changed
 * docs: update build to use `prind-tools`
 * docs: update calibrate shaper to use `prind-tools`
@@ -31,8 +39,7 @@ EOF
 * `docker-compose.extra.make.yaml` and `docker-compose.extra.calibrate-shaper.yaml` have been consolidated into `docker-compose.extra.tools.yaml`
 * klipper: remove redundant copy statements from tools image after #242
 
-**Full Changelog**: https://github.com/mkuf/prind/compare/v1.18.0...vX.X.X
--->
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.19.0...v1.20.0
 
 ## [v1.19.0] - 2025-11-15
 ### Added
