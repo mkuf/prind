@@ -26,7 +26,8 @@
 ## ```
 ## 3. Add your personal config to this file and copy it to the root of the repository,
 ##    overwriting the existing docker-compose.override.yaml
-## 4. start the stack as described in the main readme using mainsail or fluidd as profile
+## 4. Run `docker compose build moonraker`
+## 5. start the stack as described in the main readme using mainsail or fluidd as profile
 
 ## Ustreamer base Service
 x-ustreamer-svc: &ustreamer-svc

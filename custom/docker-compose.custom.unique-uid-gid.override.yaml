@@ -17,6 +17,7 @@
 ## 2. Replace the example UID and GID of '4242' in the 'dockerfile_inline' block of the klipper and moonraker services,
 ##    as well as in the command of the init service with your specific requirements.
 ##    Make sure to use the identical UIDs/GIDs in klipper and moonraker.
+## 3. run `docker compose build klipper` and `docker compose build moonraker`
 ## 3. start the stack as described in the main readme using a profile of your choice.
 
 ## Ustreamer base Service
