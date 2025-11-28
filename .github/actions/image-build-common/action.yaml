@@ -33,7 +33,7 @@ runs:
       uses: docker/setup-buildx-action@v3.11.1
 
     - name: "[python] set up python environment"
-      uses: actions/setup-python@v6.0.0
+      uses: actions/setup-python@v6.1.0
 
     - name: "[prind] install requirements"
       shell: bash
