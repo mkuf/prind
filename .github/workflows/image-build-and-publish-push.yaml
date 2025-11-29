@@ -30,10 +30,8 @@ jobs:
               - docker/moonraker/**
             ustreamer:
               - docker/ustreamer/**
-              - scripts/build/**
             laserweb:
               - docker/laserweb/**
-              - scripts/build/**
   build:
     needs: changes
     if: ${{ needs.changes.outputs.apps != '' && toJson(fromJson(needs.changes.outputs.apps)) != '[]' }}
