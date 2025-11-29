@@ -57,7 +57,10 @@ with open(args.config,"r") as file:
 context = "docker/" + args.app
 dockerfile = context + "/Dockerfile"
 build = {
-  "upstream": None,
+  "upstream": {
+    "url": None,
+    "ref": None
+  },
   "targets": [],
   "versions": {},
   "summary": {
@@ -85,7 +88,12 @@ with open(dockerfile) as file:
     # upstream repository url
     repo = re.findall(r'ARG REPO.*', line)
     if repo:
-      build["upstream"] = repo[0].split('=')[1]
+      build["upstream"]["url"] = repo[0].split('=')[1]
+
+    # upstream version
+    ref = re.findall(r'ARG VERSION.*', line)
+    if ref:
+      build["upstream"]["ref"] = ref[0].split('=')[1]
 
     # build targets
     target = re.findall(r'FROM .* AS .*', line)
@@ -95,9 +103,9 @@ with open(dockerfile) as file:
 
 if args.upstream:
   logger.warning("Upstream Repo has been overwritten to: " + args.upstream )
-  build["upstream"] = args.upstream
+  build["upstream"]["url"] = args.upstream
 else:
-  logger.info("Found upstream repository: " + build["upstream"])
+  logger.info("Found upstream repository: " + build["upstream"]["url"])
 
 if len(build["targets"]) < 1:
   logger.error("No targets found. Nothing to build")
@@ -115,16 +123,29 @@ else:
   # extract info from upstream
   logger.info("Cloning Upstream repository")
   tmp = tempfile.TemporaryDirectory()
-  upstream_repo = git.Repo.clone_from(build["upstream"], tmp.name)
+  upstream_repo = git.Repo.clone_from(build["upstream"]["url"], tmp.name)
 
   logger.info("Generating Versions from Upstream repository")
-  ## latest
-  latest_version = upstream_repo.git.describe("--tags")
+  try:
+    ## latest
+    latest_version = upstream_repo.git.describe("--tags")
+  except:
+    ## if latest does not exist, use VERSION from dockerfile
+    logger.warning("Upstream has no tags, using " + build["upstream"]["ref"] + " as latest")
+    latest_version = build["upstream"]["ref"]
   build["versions"][latest_version] = { "latest": True }
 
   ## tags
-  upstream_repo_sorted_tags = upstream_repo.git.tag("-l", "--sort=v:refname").split('\n')
-  for i in range(1,args.backfill+1):
+  upstream_repo_sorted_tags = upstream_repo.git.tag("-l", "--sort=v:refname").splitlines()
+  upstream_repo_number_of_tags = len(upstream_repo_sorted_tags)
+
+  if upstream_repo_number_of_tags < args.backfill:
+    logger.warning("Requested backfill is higher than the number of upstream tags. Limiting backfill to " + str(upstream_repo_number_of_tags))
+    backfill = upstream_repo_number_of_tags
+  else:
+    backfill = args.backfill
+
+  for i in range(1,backfill+1):
     tag = upstream_repo_sorted_tags[-abs(i)]
     if tag not in build["versions"].keys():
       build["versions"][tag] = { "latest": False }
@@ -171,7 +192,7 @@ for version in build["versions"].keys():
               docker.buildx.build(
                 # Build specific
                 context_path = context,
-                build_args = {"REPO": build["upstream"], "VERSION": version},
+                build_args = {"REPO": build["upstream"]["url"], "VERSION": version},
                 platforms = args.platform,
                 target = target,
                 push = args.push,

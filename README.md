@@ -26,6 +26,7 @@ With a single command, you can start up Klipper and its accompanying application
 |<img src="https://raw.githubusercontent.com/Donkie/Spoolman/master/client/icons/spoolman.svg" width=30px>|[Spoolman](https://github.com/Donkie/Spoolman)|`upstream`|[Additional Profiles](#spoolman)|
 |<img src="https://avatars.githubusercontent.com/u/41749659?s=200&v=4" width=30px>|[µStreamer](https://github.com/pikvm/ustreamer)|prind @ [docker/ustreamer](docker/ustreamer)|[Add your Configuration](#add-your-configuration-to-docker-composeoverrideyaml)<br>[Multiple Webcams](https://github.com/mkuf/prind?tab=readme-ov-file#multiple-webcams)|
 |<img src="https://octoeverywhere.com/img/logo/logo_maskable.svg" width=30px>|[OctoEverywhere](https://octoeverywhere.com)|`upstream`|[Additional Profiles](#octoeverywhere)|
+|<img src="https://raw.githubusercontent.com/ssendev/LaserWeb4/refs/heads/v4.1/src/favicon.ico" width=30px>|[LaserWeb4](https://laserweb.yurl.ch/)|prind @ [docker/laserweb](docker/laserweb)|[Additional Profiles](#laserweb)|
 
 </details>
 
@@ -244,6 +245,17 @@ After the stack has started, get the logs of the octoeverywhere service to retri
 ```
 docker compose logs octoeverywhere
 ```
+
+#### laserweb
+
+[LaserWeb4](https://laserweb.yurl.ch/) can be enabled via the `laserweb` Profile. The image is based on [a fork](https://github.com/ssendev/LaserWeb4) which includes support for connecting to Moonraker.
+
+```
+docker compose --profile fluidd --profile laserweb up -d
+```
+
+After the stack has started, navigate to `http://<yourprinter>/laserweb/`.  
+In the `Comms` tab, select `SERVER: Moonraker`, add your Printers IP Address as `SERVER IP` and click `Connect`
 
 ## Updating
 Images are built daily and tagged with `latest` and the [git description](https://git-scm.com/docs/git-describe#_examples) of the remote repo. 

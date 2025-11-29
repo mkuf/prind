@@ -42,6 +42,11 @@ jobs:
               - .github/workflows/image-build-review.yaml
               - scripts/build/**
               - docker/ustreamer/**
+            laserweb:
+              - .github/actions/**
+              - .github/workflows/image-build-review.yaml
+              - scripts/build/**
+              - docker/laserweb/**
   build:
     needs: changes
     if: ${{ needs.changes.outputs.apps != '' && toJson(fromJson(needs.changes.outputs.apps)) != '[]' }}

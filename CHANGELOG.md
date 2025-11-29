@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
+* **New Service:** LaserWeb4 #239
 ### Fixed
 ### Changed
 ### Removed
