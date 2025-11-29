@@ -135,8 +135,16 @@ else:
   build["versions"][latest_version] = { "latest": True }
 
   ## tags
-  upstream_repo_sorted_tags = upstream_repo.git.tag("-l", "--sort=v:refname").split('\n')
-  for i in range(1,args.backfill+1):
+  upstream_repo_sorted_tags = upstream_repo.git.tag("-l", "--sort=v:refname").splitlines()
+  upstream_repo_number_of_tags = len(upstream_repo_sorted_tags)
+
+  if upstream_repo_number_of_tags < args.backfill:
+    logger.warning("Requested backfill is higher than the number of upstream tags. Limiting backfill to " + str(upstream_repo_number_of_tags))
+    backfill = upstream_repo_number_of_tags
+  else:
+    backfill = args.backfill
+
+  for i in range(1,backfill+1):
     tag = upstream_repo_sorted_tags[-abs(i)]
     if tag not in build["versions"].keys():
       build["versions"][tag] = { "latest": False }
