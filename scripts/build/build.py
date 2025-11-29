@@ -131,6 +131,7 @@ else:
     latest_version = upstream_repo.git.describe("--tags")
   except:
     ## if latest does not exist, use VERSION from dockerfile
+    logger.warning("Upstream has no tags, using " + build["upstream"]["ref"] + " as latest")
     latest_version = build["upstream"]["ref"]
   build["versions"][latest_version] = { "latest": True }
 
