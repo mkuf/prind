@@ -7,13 +7,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 <!--
 ## [Unreleased]
 ### Added
-* **New Service:** LaserWeb4 #239
 ### Fixed
 ### Changed
 ### Removed
 
-**Full Changelog**: https://github.com/mkuf/prind/compare/v1.20.0...vX.X.X
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.21.0...vX.X.X
 -->
+
+## [v1.21.0] - 2025-11-29
+### Added
+* **New Service:** LaserWeb4 #239
+### Changed
+* scripts: build: use extracted VERSION if upstream has no tags
+* scripts: build: limit backfill if upstream has less tags then requested
+
+**Full Changelog**: https://github.com/mkuf/prind/compare/v1.20.0...v1.21.0
 
 ## [v1.20.0] - 2025-11-24
 
