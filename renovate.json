@@ -13,7 +13,7 @@
     {"matchPackageNames": ["python", "debian"], "automerge": false},
     {"matchPackageNames": ["python"], "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/"},
     {"matchPackageNames": ["debian"], "matchManagers": ["dockerfile"], "enabled": false},
-    {"matchPackageNames": ["node.js"], "matchFileNames": ["docker/laserweb/Dockerfile"], "enabled": false}
+    {"matchPackageNames": ["node"], "matchFileNames": ["docker/laserweb/Dockerfile"], "enabled": false}
   ],
   "customManagers": [
     {
