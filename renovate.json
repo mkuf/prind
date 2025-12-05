@@ -12,7 +12,8 @@
     {"matchPackageNames": ["traefik"],"extractVersion": "^v(?<version>.*)$"},
     {"matchPackageNames": ["python", "debian"], "automerge": false},
     {"matchPackageNames": ["python"], "allowedVersions": "/^3\\.12(\\.\\d+)?(-.+)?$/"},
-    {"matchPackageNames": ["debian"], "matchManagers": ["dockerfile"], "enabled": false}
+    {"matchPackageNames": ["debian"], "matchManagers": ["dockerfile"], "enabled": false},
+    {"matchPackageNames": ["node.js"], "matchFileNames": ["docker/laserweb/Dockerfile"], "enabled": false}
   ],
   "customManagers": [
     {
@@ -25,8 +26,8 @@
       "versioningTemplate": "debian",
       "datasourceTemplate": "docker",
       "matchStrings": [
-        "FROM\\s+python:[\\w\\d\\.]+-(?:slim-)?(?<currentValue>[a-z0-9]+)(?:\\s+.*)?",
-        "FROM\\s+debian:(?<currentValue>[a-z0-9]+)(?:-slim)?(?:\\s+.*)?"
+        "FROM.*(python|node):[\\w\\d\\.]+-(?:slim-)?(?<currentValue>[a-z0-9]+)(?:\\s+.*)?",
+        "FROM.*debian:(?<currentValue>[a-z0-9]+)(?:-slim)?(?:\\s+.*)?"
       ]
     }
   ]
