@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:22-bookworm AS build
+FROM --platform=$BUILDPLATFORM node:24-bookworm AS build
 
 ARG REPO=https://github.com/ssendev/LaserWeb4
 ARG VERSION=v4.1
