@@ -8,7 +8,7 @@ This Image is built and used by [prind](.).
 _via https://klipperscreen.readthedocs.io/en/latest/_
 
 ## Usage
-This Image requires XServer on the host and also host network access. You can use [setup-X11.sh](../../scripts/setup-X11.sh) for a basic X11 setup to use with this Image.
+This Image requires XServer on the host and also host network access. You can use [setup-X11.sh](/scripts/setup-X11.sh) for a basic X11 setup to use with this Image.
 
 Create `klipperscreen.conf`, then run the container.
 

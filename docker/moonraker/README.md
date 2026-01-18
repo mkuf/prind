@@ -8,7 +8,7 @@ This Image is built and used by [prind](.).
 _via https://moonraker.readthedocs.io/en/latest/_
 
 ## Usage
-Moonraker requires Klipper to operate. See the Images' [README.md](../klipper/README.md) on how to run the Klipper Image.  
+Moonraker requires Klipper to operate. See the Images' [README.md](/docker/klipper/README.md) on how to run the Klipper Image.  
 Both Containers need to share their `run` Volume in order to be able to communicate via klippers unix socket. Configure Moonraker to use `/opt/printer_data/run/klipper.sock` as klippys uds address.  
 
 Create `moonraker.conf` and `printer.cfg` as well as the directories `run` and `gcode`, then run the containers.

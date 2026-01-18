@@ -1,6 +1,6 @@
 # build.py
 This script is used to build multi platform images provided by prind and upload them to the registry.  
-If you're looking for a way to build images locally, head to the main [README](../../README.md#building-docker-images-locally)
+If you're looking for a way to build images locally, head to the main [README](/README.md#building-docker-images-locally)
 
 ## Local usage
 ### Multi-Platform Requirements

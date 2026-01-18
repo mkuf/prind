@@ -39,7 +39,7 @@ services:
 
 ### With Moonraker
 If you intend to use Klipper together with Moonraker, they need to share a common directory in which the socket may be located.
-Further Info on how to use the Moonraker Image can be found in its [README.md](../moonraker/README.md)
+Further Info on how to use the Moonraker Image can be found in its [README.md](/docker/moonraker/README.md)
 
 Create `moonraker.conf` and `printer.cfg` as well as the directories `run` and `gcode`, then run the containers.
 
