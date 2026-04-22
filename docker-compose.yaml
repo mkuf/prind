@@ -187,9 +187,9 @@ services:
     labels:
       org.prind.service: spoolman
       traefik.enable: true
-      traefik.http.services.octoprint.loadbalancer.server.port: 8000
-      traefik.http.routers.octoprint.rule: PathPrefix(`/spoolman`)
-      traefik.http.routers.octoprint.entrypoints: web
+      traefik.http.services.spoolman.loadbalancer.server.port: 8000
+      traefik.http.routers.spoolman.rule: PathPrefix(`/spoolman`)
+      traefik.http.routers.spoolman.entrypoints: web
 
   octoeverywhere:
     image: octoeverywhere/octoeverywhere:latest
