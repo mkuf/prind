@@ -17,7 +17,7 @@ RUN git clone ${REPO} moonraker \
  && rm -rf .git
 
 RUN python -m venv venv \
- && venv/bin/pip install -r moonraker/scripts/moonraker-requirements.txt
+ && venv/bin/pip install -r moonraker/scripts/moonraker-requirements.txt -r moonraker/scripts/moonraker-speedups.txt
 
 ## Runtime Image
 FROM python:3.12-slim-trixie AS run
