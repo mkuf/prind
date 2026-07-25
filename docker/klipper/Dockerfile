@@ -2,7 +2,7 @@
 ##
 FROM python:3.12-trixie AS build
 
-ENV CXXFLAGS="-Wno-error"
+ENV CXXFLAGS="-O2 -Wno-error"
 
 RUN apt update \
  && apt install -y cmake \
