@@ -122,6 +122,9 @@ RUN groupadd simulavr --gid 1000 \
  && useradd simulavr --uid 1000 --gid simulavr \
  && usermod simulavr --append --groups dialout
 
+# Enable this if you're experiencing klippy timeouts when using simulavr and rebuild the image
+#
+#ENV CXXFLAGS="-O2"
 RUN git clone git://git.savannah.nongnu.org/simulavr.git \
  && cd simulavr \
  && git checkout release-1.1.0 \

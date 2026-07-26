@@ -420,6 +420,15 @@ In case Moonraker is not situated on the same Host as Mainsail, you'll have to e
 Debugging the Stack without printer hardware is challenging, as klipper requires a mcu to operate.  
 For this purpose, you can build a service that emulates a mcu with simulavr, as suggested by the [Klipper Docs](https://github.com/Klipper3d/klipper/blob/master/docs/Debugging.md).  
 
+> :warning:  
+> Simulavr is built in debug mode by default and requires good single core performance of your host CPU.  
+> If you're encountering timeouts in the klippy logs, you can try to set a compiler flag to optimize the build  
+>
+> In `docker/klipper/Dockerfile` uncomment the following instruction and rebuild the image  
+>
+> `ENV CXXFLAGS="-O2"`
+>
+
 The simulavr Image is part of the Dockerfile for Klipper but is not pushed to any registry, so it needs to be built when needed.  
 
 Locate the `docker-compose.extra.simulavr.yaml` in the repository and set the `VERSION` Build-Arg to any Git Reference from [Klipper3d/klipper](https://github.com/Klipper3d) that you would like the mcu code to be compatible with. 

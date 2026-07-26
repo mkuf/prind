@@ -8,8 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added
 * moonraker: install optional speedups #288
+* docs: note on timeouts when using simulavr #284
 ### Fixed
 ### Changed
+* klipper: overwrite cxxflags only for installation prind-tools requirements #284
 ### Removed
 
 **Full Changelog**: https://github.com/mkuf/prind/compare/v1.21.0...vX.X.X
