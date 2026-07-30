@@ -420,7 +420,7 @@ In case Moonraker is not situated on the same Host as Mainsail, you'll have to e
 Debugging the Stack without printer hardware is challenging, as klipper requires a mcu to operate.  
 For this purpose, you can build a service that emulates a mcu with simulavr, as suggested by the [Klipper Docs](https://github.com/Klipper3d/klipper/blob/master/docs/Debugging.md).  
 
-> :warning:  
+> [!WARNING]
 > Simulavr is built in debug mode by default and requires good single core performance of your host CPU.  
 > If you're encountering timeouts in the klippy logs, you can try to set a compiler flag to optimize the build  
 >
